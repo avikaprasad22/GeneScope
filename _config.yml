@@ -1,9 +1,9 @@
 title: Business Efficiency
-description: "AI Business Efficiency is a leading platform dedicated to optimizing workflows and enhancing decision-making through AI-driven insights. We empower businesses with automation, analytics, and innovative AI solutions.""
-owner_name: Avika Prasad
+description: "Social Media for Del Norte High School"
+owner_name: Gabriela Connelly
 github_username: avikaprasad22
-github_repo: "business_efficiency" 
-baseurl: "/business_efficiency"
+github_repo: "Business_Efficiency"
+baseurl: "/Business_Efficiency"
 future: true
 remote_theme: jekyll/minima
 minima:
