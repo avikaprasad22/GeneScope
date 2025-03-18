@@ -1,164 +1,163 @@
 ---
 layout: post
-title: Bookworms
+title: Business
 search_exclude: true
 hide: true
 menu: nav/home.html
 show_reading_time: false
 ---
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Business Efficiency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Loading Screen */
+        .loader {
+            border-top-color: #1E3A8A;
+            animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Gradient Animation */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 10s ease infinite;
+        }
+        /* Typewriter effect */
+        .typewriter {
+            font-size: 6rem;
+            font-weight: 900;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            word-spacing: 1em;
+            line-height: 1.2;
+        }
+        .typewriter .text {
+            display: inline-block;
+            opacity: 0;
+        }
+        .second-line {
+            display: block;
+        }
+    </style>
+</head>
 
-<video width="1000" height="400" autoplay loop muted>
-    <source src="{{site.baseurl}}/navigation/sprint4-bookworms/images/The Bookworms.mp4" type="video/mp4">
-</video>
-
-<center>
-<h3> View some top picks! 👇🏼 </h3>
-</center>
-<br>
-
-<style>
-    .bookshelf {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            max-width: 800px;
-            padding: 20px;
-            background: #e6be9a;
-            border: 2px solid #aaa;
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .book {
-            position: relative;
-            width: 100px;
-            height: 150px;
-            perspective: 1000px; /* For 3D effect */
-            text-align: center;
-            cursor: pointer;
-    }
-
-    .book img {
-            width: 100%;
-            height: 100%;
-            border-radius: 5px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .book:hover img {
-            transform: scale(1.2) rotate(5deg);
-            box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .book a {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: transparent;
-    }
-
-</style>
-
-<center>
- <div class="bookshelf" >
-        <!-- Book 1 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Little-Bantam-Classics-Louisa-Alcott/dp/0553212753" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/littlewomen.jpg" alt="Little Women">
-            </a>
-        </div>
-        <!-- Book 2 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Salt-Sea-Ruta-Sepetys/dp/0142423629" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/salttothesea.jpg" alt="Salt to the Sea">
-            </a>
-        </div>
-        <!-- Book 3 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Silent-Patient-Alex-Michaelides/dp/125030170X/ref=sr_1_1" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/the_silent_patient.jpg" alt="The Silent Patient">
-            </a>
-        </div>
-        <!-- Add more books as needed -->
-        <!-- Book 4 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Educated-Memoir-Tara-Westover/dp/0399590528" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/educated.jpg" alt="Educated">
-            </a>
-        </div>
-        <!-- Book 5 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Harry-Potter-Sorcerers-Stone-Book/dp/1338878921" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/sorcerers_stone.jpg" alt="Harry Potter: The Sorcerer's Stone">
-            </a>
-        </div>
-         <!-- Book 6 -->
-        <div class="book">
-            <a href="https://www.amazon.com/Good-Girls-Guide-Murder/dp/1984896369" target="_blank">
-                <img src="{{site.baseurl}}/navigation/sprint4-bookworms/images/girl_murder.jpg" alt="A good girl's guide to murder">
-            </a>
+<body class="bg-black text-white relative">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-blue-200 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="loader ease-linear rounded-full border-8 border-t-8 border-blue-500 h-32 w-32 mb-4"></div>
+            <h2 class="text-4xl font-semibold text-blue-900">Loading...</h2>
         </div>
     </div>
-<br>
-
-<style>
-   .container {
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: space-around;
-       gap: 10px;
-       padding: 5px;
-       max-width: 1200px;
-       margin: 0 auto;
-       color: black;
-   }
-   /* Sections for each feature */
-   .section {
-       background-color: #e6be9a;
-       border-radius: 10px;
-       padding: 20px;
-       width: 800px;
-       text-align: center;
-       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-   }
-
-   button {
-    padding: 5px 10px;
-    font-size: 15px;
-    margin: 5px 2.5px;
-    border: 1px solid;
-    color: white;
-    background-color: #a57e5a;
-    /*border-color: #500A0A;*/
-    border-radius: 4px;
-    cursor: pointer;
-   }
-
-   button:hover {
-    background-color: #500A0A/*#72db8e*/;
-    transition: 0.3s;  
-   }
-
-</style>
-
-
-  <div class="container">
-      <div class="section">
-          <h2>Profile</h2>
-          <p>Add to your profile!</p>
-          <button onclick="location.href='{{site.baseurl}}/login'">Login</button>
-          <button onclick="location.href='{{site.baseurl}}/profile'">Edit</button>
-      </div>
-      <!--<div class="section">
-          <h2>Genre Chatroom</h2>
-          <p>Explore genres!</p>
-          <button onclick="location.href='{{site.baseurl}}/genre_chatroom'" >Enter 💬📚</button>
-      </div>
-      <div class="section">
-          <h2>About Us</h2>
-          <button onclick="location.href='{{site.baseurl}}/bookworms_about'">Click Here</button>
-      </div>-->
-</div>
+    <!-- Background Animation -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-500 w-full h-full opacity-50 animate-gradient"></div>
+    </div>
+    <!-- Welcome Section with Typewriter Effect -->
+    <section id="welcome" class="h-screen flex items-center justify-center text-center bg-black text-blue-200">
+        <h1 class="typewriter"></h1>
+    </section>
+    <!-- About Us Section -->
+    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-blue-100 text-black">
+        <h2 class="text-7xl font-extrabold text-blue-600 fade-in mb-6">About Us</h2>
+        <p class="text-3xl text-green-900 max-w-5xl fade-in">
+            AI Business Efficiency is a leading platform dedicated to optimizing workflows and enhancing decision-making through AI-driven insights. We empower businesses with automation, analytics, and innovative AI solutions.
+        </p>
+    </section>
+    <!-- Our Mission Section -->
+    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center bg-green-100 text-black">
+        <h3 class="text-6xl font-bold mt-8 text-green-900 fade-in">Our Mission</h3>
+        <p class="text-3xl text-green-700 mt-4 max-w-5xl fade-in">
+            Our mission is to drive business success through AI, streamlining processes, boosting productivity, and enabling data-driven decision-making. We bring AI-powered solutions to businesses of all sizes.
+        </p>
+    </section>
+    <!-- AI Solutions Section -->
+    <section id="ai-solutions" class="py-20 bg-yellow-100">
+        <h2 class="text-7xl font-bold text-center text-yellow-900 mb-10 fade-in">Our AI Solutions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Automation</h3>
+                    <p class="text-xl text-yellow-800">Optimize workflows and reduce manual tasks with AI-driven automation tools.</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Predictive Analytics</h3>
+                    <p class="text-xl text-yellow-800">Leverage AI-powered insights to anticipate trends and make informed decisions.</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">AI Consultation</h3>
+                    <p class="text-xl text-yellow-800">Get expert guidance on integrating AI into your business for maximum efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            window.addEventListener('load', function() {
+                loadingScreen.style.display = 'none';
+            });
+            // Typewriter effect for the welcome message
+            const text = "Welcome to\nAI Business\nEfficiency";
+            const typewriterElement = document.querySelector(".typewriter");
+            let index = 0;
+            function type() {
+                if (index < text.length) {
+                    const span = document.createElement('span');
+                    span.textContent = text.charAt(index);
+                    span.classList.add('text');
+                    typewriterElement.appendChild(span);
+                    setTimeout(() => {
+                        span.style.opacity = 1;
+                    }, 50 * index);
+                    index++;
+                    setTimeout(type, 80);
+                }
+            }
+            type();
+            // Fade in effect
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            window.addEventListener('scroll', function() {
+                fadeInElements.forEach(function(element) {
+                    if (element.getBoundingClientRect().top < window.innerHeight) {
+                        element.classList.add('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
