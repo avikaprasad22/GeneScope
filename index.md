@@ -6,6 +6,8 @@ hide: true
 menu: nav/home.html
 show_reading_time: false
 ---
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,6 +70,13 @@ show_reading_time: false
         .second-line {
             display: block;
         }
+        /* Slogan Styling */
+        .slogan {
+            font-size: 2rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transition: opacity 1s ease-out; /* Fade in transition */
+        }
     </style>
 </head>
 
@@ -79,13 +88,11 @@ show_reading_time: false
             <h2 class="text-4xl font-semibold text-blue-900">Loading...</h2>
         </div>
     </div>
-    <!-- Background Animation -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-500 w-full h-full opacity-50 animate-gradient"></div>
-    </div>
     <!-- Welcome Section with Typewriter Effect -->
-    <section id="welcome" class="h-screen flex items-center justify-center text-center bg-black text-blue-200">
+    <section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-black text-blue-200 ">
         <h1 class="typewriter"></h1>
+        <!-- Slogan added here, initially hidden -->
+        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(77, 207, 168); text-shadow: 0 0 2px rgb(77, 207, 168), 0 0 2px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168)">Empowering Businesses with AI - Powered by the Poway Chamber of Commerce</h2>
     </section>
     <!-- About Us Section -->
     <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-blue-100 text-black">
@@ -126,14 +133,15 @@ show_reading_time: false
         </div>
     </section>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const loadingScreen = document.getElementById('loading-screen');
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 loadingScreen.style.display = 'none';
             });
             // Typewriter effect for the welcome message
             const text = "Welcome to\nAI Business\nEfficiency";
             const typewriterElement = document.querySelector(".typewriter");
+            const sloganElement = document.getElementById("slogan");
             let index = 0;
             function type() {
                 if (index < text.length) {
@@ -146,13 +154,16 @@ show_reading_time: false
                     }, 50 * index);
                     index++;
                     setTimeout(type, 80);
+                } else {
+                    // Once typing is finished, show the slogan
+                    sloganElement.style.opacity = 1; // Make slogan visible
                 }
             }
             type();
-            // Fade in effect
+            // Fade in effect for other elements
             const fadeInElements = document.querySelectorAll('.fade-in');
-            window.addEventListener('scroll', function() {
-                fadeInElements.forEach(function(element) {
+            window.addEventListener('scroll', function () {
+                fadeInElements.forEach(function (element) {
                     if (element.getBoundingClientRect().top < window.innerHeight) {
                         element.classList.add('visible');
                     }
@@ -161,3 +172,5 @@ show_reading_time: false
         });
     </script>
 </body>
+
+</html>
