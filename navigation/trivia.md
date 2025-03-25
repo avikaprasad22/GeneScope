@@ -3,16 +3,15 @@ layout: page
 title: DNA Trivia
 permalink: /trivia/
 ---
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
             display: flex;
             justify-content: center;
@@ -20,59 +19,59 @@ permalink: /trivia/
             height: 100vh;
             margin: 0;
         }
-
         .container {
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            max-width: 700px;
             width: 100%;
             text-align: center;
         }
-
         .question {
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
         }
-
         .options button {
             display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: 90%;
+            margin: 15px auto;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ccc;
+            border-radius: 8px;
             cursor: pointer;
             background-color: #f1f1f1;
+            transition: all 0.3s ease;
         }
-
         .options button:hover {
             background-color: #ddd;
+            transform: scale(1.05);
         }
-
         .score {
-            font-size: 1.5em;
+            font-size: 1.8em;
+            font-weight: 600;
             margin-top: 20px;
+            color: #333;
         }
-
         .result {
-            font-size: 1.2em;
-            margin-top: 10px;
+            font-size: 1.4em;
+            margin-top: 15px;
+            font-weight: bold;
             color: green;
         }
-
         .btn {
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 12px 25px;
+            font-size: 1.2em;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s ease;
         }
-
         .btn:hover {
             background-color: #0056b3;
         }
@@ -95,13 +94,10 @@ permalink: /trivia/
         <div class="result" id="result"></div>
         <button class="btn" onclick="nextQuestion()">Next Question</button>
     </div>
-
     <script>
         let currentQuestion = null;
         let userScore = 0;
-        let username = "John Doe";  // Replace with actual username or prompt for input
-
-        // Fetch a random trivia question
+        let username = "John Doe";
         function fetchQuestion() {
             fetch("http://localhost:5000/api/trivia/question")
                 .then(response => response.json())
@@ -118,8 +114,6 @@ permalink: /trivia/
                     document.getElementById("question").textContent = "Error fetching question.";
                 });
         }
-
-        // Display the current question and options
         function displayQuestion() {
             document.getElementById("question").textContent = currentQuestion.question;
             document.getElementById("optionA").textContent = `A: ${currentQuestion.options.A}`;
@@ -127,18 +121,14 @@ permalink: /trivia/
             document.getElementById("optionC").textContent = `C: ${currentQuestion.options.C}`;
             document.getElementById("optionD").textContent = `D: ${currentQuestion.options.D}`;
         }
-
-        // Submit the selected answer
         function submitAnswer(selectedOption) {
             const selectedAnswer = currentQuestion.options[selectedOption];
             const questionId = currentQuestion.id;
-
             const payload = {
                 name: username,
                 question_id: questionId,
                 selected_answer: selectedAnswer
             };
-
             fetch("http://localhost:5000/api/trivia/answer", {
                 method: "POST",
                 headers: {
@@ -160,16 +150,11 @@ permalink: /trivia/
                     console.error("Error submitting answer:", error);
                 });
         }
-
-        // Move to the next question
         function nextQuestion() {
             fetchQuestion();
             document.getElementById("result").textContent = "";
         }
-
-        // Start the game by fetching the first question
         fetchQuestion();
     </script>
 </body>
 
-</html>
