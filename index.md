@@ -11,7 +11,7 @@ show_reading_time: false
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Business Efficiency</title>
+    <title>Illumina Interactive Biotech Education Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Loading Screen */
@@ -77,6 +77,11 @@ show_reading_time: false
             opacity: 0;
             transition: opacity 1s ease-out; /* Fade in transition */
         }
+        /* Welcome Section BG IMG */
+        #welcome {
+            background: url(images/dnabanner.png) no-repeat center center;
+            background-size: cover;
+        }
     </style>
 </head>
 
@@ -89,45 +94,45 @@ show_reading_time: false
         </div>
     </div>
     <!-- Welcome Section with Typewriter Effect -->
-    <section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-black text-blue-200 ">
+    <section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-black text-white-200 ">
         <h1 class="typewriter"></h1>
         <!-- Slogan added here, initially hidden -->
-        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(77, 207, 168); text-shadow: 0 0 2px rgb(77, 207, 168), 0 0 2px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168)">Empowering Businesses with AI - Powered by the Poway Chamber of Commerce</h2>
+        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(255, 255, 255); text-shadow: 0 0 2px rgb(162, 220, 202), 0 0 2px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168)">Illumina Biotech: Igniting Curiosity, Advancing Science</h2>
     </section>
     <!-- About Us Section -->
-    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-blue-100 text-black">
-        <h2 class="text-7xl font-extrabold text-blue-600 fade-in mb-6">About Us</h2>
-        <p class="text-3xl text-green-900 max-w-5xl fade-in">
-            AI Business Efficiency is a leading platform dedicated to optimizing workflows and enhancing decision-making through AI-driven insights. We empower businesses with automation, analytics, and innovative AI solutions.
+    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-orange-100 text-black">
+        <h2 class="text-7xl font-extrabold text-orange-600 fade-in mb-6">About Us</h2>
+        <p class="text-3xl text-orange-900 max-w-5xl fade-in">
+            The Illumina Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way. 
         </p>
     </section>
     <!-- Our Mission Section -->
-    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center bg-green-100 text-black">
-        <h3 class="text-6xl font-bold mt-8 text-green-900 fade-in">Our Mission</h3>
-        <p class="text-3xl text-green-700 mt-4 max-w-5xl fade-in">
-            Our mission is to drive business success through AI, streamlining processes, boosting productivity, and enabling data-driven decision-making. We bring AI-powered solutions to businesses of all sizes.
+    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center bg-purple-100 text-black">
+        <h3 class="text-6xl font-bold mt-8 text-purple-900 fade-in">Our Mission</h3>
+        <p class="text-3xl text-purple-700 mt-4 max-w-5xl fade-in">
+            Our mission aims to spark curiosity, inspire future scientists, and make biotech education accessible to all. .
         </p>
     </section>
     <!-- AI Solutions Section -->
-    <section id="ai-solutions" class="py-20 bg-yellow-100">
-        <h2 class="text-7xl font-bold text-center text-yellow-900 mb-10 fade-in">Our AI Solutions</h2>
+    <section id="ai-solutions" class="py-20 bg-blue-100">
+        <h2 class="text-7xl font-bold text-center text-blue-900 mb-10 fade-in">Interactive Activites</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Automation</h3>
-                    <p class="text-xl text-yellow-800">Optimize workflows and reduce manual tasks with AI-driven automation tools.</p>
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Virtual Lab Stimulation</h3>
+                    <p class="text-xl text-blue-800">Explore DNA sequencing processes.</p>
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Predictive Analytics</h3>
-                    <p class="text-xl text-yellow-800">Leverage AI-powered insights to anticipate trends and make informed decisions.</p>
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
+                    <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">AI Consultation</h3>
-                    <p class="text-xl text-yellow-800">Get expert guidance on integrating AI into your business for maximum efficiency.</p>
+                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Puzzle Game</h3>
+                    <p class="text-xl text-blue-800">Illustrates the impact of personalized medicine.</p>
                 </div>
             </div>
         </div>
@@ -139,7 +144,7 @@ show_reading_time: false
                 loadingScreen.style.display = 'none';
             });
             // Typewriter effect for the welcome message
-            const text = "Welcome to\nAI Business\nEfficiency";
+            const text = "Welcome  to  Illumina  Education  Game";
             const typewriterElement = document.querySelector(".typewriter");
             const sloganElement = document.getElementById("slogan");
             let index = 0;
