@@ -14,6 +14,7 @@ pygame.display.set_caption("DNA Animation")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
+LIGHT_GRAY = (220, 220, 220)
 
 # DNA Base Colors
 COLORS = {
@@ -25,24 +26,25 @@ COLORS = {
 
 # DNA Data
 DNA_TYPES = {
-    "human": "ATGCGTACGTTGACCTAGGCTAACCGTTCAGC",
-    "virus": "TTAAGCGGCTGACCGAATTCCGGTAGCTTAGG",
-    "bacteria": "GCTTAGGCCAATCGTTAAGGCCGATCCTAGGT",
-    "strawberry": "ATGGTGAGCTCAGTTGGTGACCTGAGGCTTCA"
+    "Human": "ATGCGTACGTTGACCTAGGCTAACCGTTCAGC",
+    "Virus": "TTAAGCGGCTGACCGAATTCCGGTAGCTTAGG",
+    "Bacteria": "GCTTAGGCCAATCGTTAAGGCCGATCCTAGGT",
+    "Strawberry": "ATGGTGAGCTCAGTTGGTGACCTGAGGCTTCA"
 }
 
 # UI Elements
 font = pygame.font.Font(None, 24)
+buttons = {
+    "Human": pygame.Rect(50, 50, 120, 40),
+    "Virus": pygame.Rect(50, 100, 120, 40),
+    "Bacteria": pygame.Rect(50, 150, 120, 40),
+    "Strawberry": pygame.Rect(50, 200, 120, 40)
+}
 examine_button = pygame.Rect(WIDTH - 120, 20, 100, 40)
 selected_dna = None
 zoomed_in = False
 hover_text = ""
 
-# Function to generate DNA sequence
-def generate_dna_sequence(type_name):
-    return list(DNA_TYPES.get(type_name, ""))
-
-# Function to draw button
 def draw_button(text, rect, color):
     pygame.draw.rect(screen, color, rect)
     label = font.render(text, True, BLACK)
@@ -54,6 +56,10 @@ dna_sequence = []
 while running:
     screen.fill(WHITE)
     mouse_x, mouse_y = pygame.mouse.get_pos()
+    
+    # Draw selection buttons
+    for name, rect in buttons.items():
+        draw_button(name, rect, LIGHT_GRAY if selected_dna == name else GRAY)
     
     # Draw DNA strands if selected
     if selected_dna:
@@ -91,6 +97,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            for name, rect in buttons.items():
+                if rect.collidepoint(event.pos):
+                    selected_dna = name
+                    dna_sequence = list(DNA_TYPES[name])
+                    zoomed_in = False
             if examine_button.collidepoint(event.pos) and selected_dna:
                 zoomed_in = not zoomed_in
             
