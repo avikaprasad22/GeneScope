@@ -1,6 +1,6 @@
 ---
 layout: page 
-title: DNA Trivia
+title: DNA Trivia Game
 permalink: /trivia/
 ---
 
@@ -21,55 +21,62 @@ permalink: /trivia/
         }
         .container {
             background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            max-width: 700px;
+            padding: 40px;
+            border-radius: 15px;
+            border: 4px solid #007bff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
             width: 100%;
             text-align: center;
         }
         .question {
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: 600;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .options button {
-            display: block;
-            width: 90%;
-            margin: 15px auto;
-            padding: 15px;
-            font-size: 1.2em;
-            border: 2px solid #ccc;
-            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            margin: 12px 0;
+            padding: 18px;
+            font-size: 1.3em;
+            border: 3px solid #007bff;
+            border-radius: 12px;
             cursor: pointer;
-            background-color: #f1f1f1;
+            background-color: #fff;
             transition: all 0.3s ease;
         }
         .options button:hover {
-            background-color: #ddd;
+            background-color: #007bff;
+            color: white;
             transform: scale(1.05);
         }
         .score {
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 25px;
             color: #333;
         }
         .result {
-            font-size: 1.4em;
-            margin-top: 15px;
+            font-size: 1.5em;
+            margin-top: 20px;
             font-weight: bold;
             color: green;
         }
         .btn {
-            padding: 12px 25px;
-            font-size: 1.2em;
+            padding: 14px 30px;
+            font-size: 1.3em;
             background-color: #007bff;
             color: white;
-            border: none;
-            border-radius: 8px;
+            border: 3px solid #007bff;
+            border-radius: 12px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 20px;
             transition: background 0.3s ease;
         }
         .btn:hover {
@@ -157,4 +164,3 @@ permalink: /trivia/
         fetchQuestion();
     </script>
 </body>
-
