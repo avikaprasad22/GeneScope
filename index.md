@@ -60,7 +60,7 @@ show_reading_time: false
             overflow: hidden;
             white-space: nowrap;
             margin: 0 auto;
-            word-spacing: 1em;
+            word-spacing: 0.2em; /* Adjusted word-spacing */
             line-height: 1.2;
         }
         .typewriter .text {
@@ -144,14 +144,14 @@ show_reading_time: false
                 loadingScreen.style.display = 'none';
             });
             // Typewriter effect for the welcome message
-            const text = "Welcome  to  Illumina  Education  Game";
+            const text = "Welcome to Illumina Education Game";
             const typewriterElement = document.querySelector(".typewriter");
             const sloganElement = document.getElementById("slogan");
             let index = 0;
             function type() {
                 if (index < text.length) {
                     const span = document.createElement('span');
-                    span.textContent = text.charAt(index);
+                    span.textContent = text.charAt(index) === ' ' ? '\u00A0' : text.charAt(index); // Use non-breaking space for spaces
                     span.classList.add('text');
                     typewriterElement.appendChild(span);
                     setTimeout(() => {
@@ -177,5 +177,4 @@ show_reading_time: false
         });
     </script>
 </body>
-
 </html>
