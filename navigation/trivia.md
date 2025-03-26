@@ -1,166 +1,196 @@
 ---
 layout: page 
-title: DNA Trivia Game
+title: Trivia
 permalink: /trivia/
 ---
 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia Game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            border: 4px solid #007bff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-        .question {
-            font-size: 1.8em;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .options button {
-            width: 100%;
-            max-width: 500px;
-            margin: 12px 0;
-            padding: 18px;
-            font-size: 1.3em;
-            border: 3px solid #007bff;
-            border-radius: 12px;
-            cursor: pointer;
-            background-color: #fff;
-            transition: all 0.3s ease;
-        }
-        .options button:hover {
-            background-color: #007bff;
-            color: white;
-            transform: scale(1.05);
-        }
-        .score {
-            font-size: 2em;
-            font-weight: 600;
-            margin-top: 25px;
-            color: #333;
-        }
-        .result {
-            font-size: 1.5em;
-            margin-top: 20px;
-            font-weight: bold;
-            color: green;
-        }
-        .btn {
-            padding: 14px 30px;
-            font-size: 1.3em;
-            background-color: #007bff;
-            color: white;
-            border: 3px solid #007bff;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Trivia Challenge</h1>
-        <div class="question-container">
-            <div class="question" id="question"></div>
-            <div class="options">
-                <button id="optionA" onclick="submitAnswer('A')">A</button>
-                <button id="optionB" onclick="submitAnswer('B')">B</button>
-                <button id="optionC" onclick="submitAnswer('C')">C</button>
-                <button id="optionD" onclick="submitAnswer('D')">D</button>
-            </div>
-        </div>
-        <div class="score" id="score"></div>
-        <div class="result" id="result"></div>
-        <button class="btn" onclick="nextQuestion()">Next Question</button>
-    </div>
-    <script>
+    <script type="module">
+        import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+        let username, difficulty;
         let currentQuestion = null;
-        let userScore = 0;
-        let username = "John Doe";
+        let questionCount = 0;
+        let totalQuestions = 5;  // Fixed number of questions per game
+        let score = 0;
+        let answered = false;  // Track if the user has already answered the current question
+        function startGame() {
+            username = document.getElementById("username").value.trim();
+            difficulty = document.getElementById("difficulty").value;
+            if (!username) {
+                alert("Please enter your name!");
+                return;
+            }
+            document.getElementById("startScreen").classList.add("hidden");
+            document.getElementById("gameScreen").classList.remove("hidden");
+            fetchQuestion();
+        }
         function fetchQuestion() {
-            fetch("http://localhost:5000/api/trivia/question")
+            if (questionCount >= totalQuestions) {
+                endGame();
+                return;
+            }
+            fetch(`${pythonURI}/api/trivia/question`, fetchOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        document.getElementById("question").textContent = "No questions available.";
-                    } else {
+                        document.getElementById("questionText").textContent = "No questions available.";
+                    } else if (data.difficulty === difficulty) {  
                         currentQuestion = data;
+                        answered = false;  // Reset answered flag for the new question
                         displayQuestion();
+                    } else {
+                        fetchQuestion(); // Get another question if difficulty doesn't match
                     }
                 })
-                .catch(error => {
-                    console.error("Error fetching question:", error);
-                    document.getElementById("question").textContent = "Error fetching question.";
-                });
+                .catch(error => console.error("Error fetching question:", error));
         }
         function displayQuestion() {
-            document.getElementById("question").textContent = currentQuestion.question;
+            document.getElementById("questionText").textContent = currentQuestion.question;
             document.getElementById("optionA").textContent = `A: ${currentQuestion.options.A}`;
             document.getElementById("optionB").textContent = `B: ${currentQuestion.options.B}`;
             document.getElementById("optionC").textContent = `C: ${currentQuestion.options.C}`;
             document.getElementById("optionD").textContent = `D: ${currentQuestion.options.D}`;
+            document.querySelectorAll(".answer-button").forEach(button => button.disabled = false);
         }
-        function submitAnswer(selectedOption) {
-            const selectedAnswer = currentQuestion.options[selectedOption];
-            const questionId = currentQuestion.id;
-            const payload = {
-                name: username,
-                question_id: questionId,
-                selected_answer: selectedAnswer
-            };
-            fetch("http://localhost:5000/api/trivia/answer", {
+        function submitAnswer(option) {
+            if (answered) return;  // Prevent multiple attempts
+            answered = true;
+            const selectedAnswer = currentQuestion.options[option];
+            fetch(`${pythonURI}/api/trivia/answer`, {
+                ...fetchOptions,
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.correct) {
-                        userScore += 10;
-                        document.getElementById("result").textContent = "Correct!";
-                    } else {
-                        document.getElementById("result").textContent = "Incorrect. The correct answer was: " + currentQuestion.correct_answer;
-                    }
-                    document.getElementById("score").textContent = "Score: " + userScore;
+                body: JSON.stringify({
+                    name: username,
+                    question_id: currentQuestion.id,
+                    selected_answer: selectedAnswer
                 })
-                .catch(error => {
-                    console.error("Error submitting answer:", error);
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.correct) {
+                    score += 10;
+                    document.getElementById("feedback").textContent = "Correct!";
+                } else {
+                    document.getElementById("feedback").textContent = `Incorrect! The correct answer was: ${currentQuestion.correct_answer}`;
+                }
+                document.getElementById("score").textContent = score;
+                document.querySelectorAll(".answer-button").forEach(button => button.disabled = true);
+            })
+            .catch(error => console.error("Error submitting answer:", error));
+            questionCount++;
         }
         function nextQuestion() {
+            document.getElementById("feedback").textContent = "";
             fetchQuestion();
-            document.getElementById("result").textContent = "";
         }
-        fetchQuestion();
+        function endGame() {
+            document.getElementById("gameScreen").classList.add("hidden");
+            document.getElementById("resultScreen").classList.remove("hidden");
+            document.getElementById("finalScore").textContent = score;
+            fetchLeaderboard();
+        }
+        function fetchLeaderboard() {
+            fetch(`${pythonURI}/api/trivia/leaderboard`, fetchOptions)
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboardList = document.getElementById("leaderboard");
+                    leaderboardList.innerHTML = "";
+                    data.forEach(entry => {
+                        let li = document.createElement("li");
+                        li.textContent = `${entry.name}: ${entry.total_score}`;
+                        leaderboardList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error("Error fetching leaderboard:", error));
+        }
+        function restartGame() {
+            location.reload();
+        }
+        window.startGame = startGame;
+        window.submitAnswer = submitAnswer;
+        window.nextQuestion = nextQuestion;
+        window.restartGame = restartGame;
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #3498db;
+            color: white;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .leaderboard {
+            text-align: left;
+        }
+        #feedback {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="startScreen" class="container">
+        <h2>Welcome to Trivia Challenge!</h2>
+        <label for="username">Enter Your Name:</label>
+        <input type="text" id="username" placeholder="Your Name">
+        <br><br>
+        <label for="difficulty">Choose Difficulty:</label>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <br><br>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="gameScreen" class="container hidden">
+        <h2 id="questionText"></h2>
+        <button class="answer-button" onclick="submitAnswer('A')" id="optionA"></button>
+        <button class="answer-button" onclick="submitAnswer('B')" id="optionB"></button>
+        <button class="answer-button" onclick="submitAnswer('C')" id="optionC"></button>
+        <button class="answer-button" onclick="submitAnswer('D')" id="optionD"></button>
+        <p id="feedback"></p>
+        <p>Score: <span id="score">0</span></p>
+        <button onclick="nextQuestion()">Next Question</button>
+    </div>
+    <div id="resultScreen" class="container hidden">
+        <h2>Game Over!</h2>
+        <p>Your Final Score: <span id="finalScore"></span></p>
+        <h3>Leaderboard</h3>
+        <ol id="leaderboard" class="leaderboard"></ol>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
 </body>
+</html>
