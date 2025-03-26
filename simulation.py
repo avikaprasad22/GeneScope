@@ -6,7 +6,7 @@ import random
 pygame.init()
 
 # Set up the game window
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 800, 10000
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("DNA Animation")
 
