@@ -44,6 +44,7 @@ examine_button = pygame.Rect(WIDTH - 120, 20, 100, 40)
 selected_dna = None
 zoomed_in = False
 hover_text = ""
+angle_offset = 0
 
 def draw_button(text, rect, color):
     pygame.draw.rect(screen, color, rect)
@@ -53,6 +54,7 @@ def draw_button(text, rect, color):
 # Main loop
 running = True
 dna_sequence = []
+clock = pygame.time.Clock()
 while running:
     screen.fill(WHITE)
     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -76,12 +78,16 @@ while running:
                     hover_text = f"{base}: {['Adenine', 'Thymine', 'Cytosine', 'Guanine'][['A', 'T', 'C', 'G'].index(base)]}"
         else:
             for i, base in enumerate(dna_sequence[:16]):
+                angle = i * 0.4 + angle_offset
                 y = 100 + i * 40
-                x1 = WIDTH // 2 + 100 * math.sin(i * 0.4)
-                x2 = WIDTH // 2 - 100 * math.sin(i * 0.4)
+                x1 = WIDTH // 2 + 100 * math.sin(angle)
+                x2 = WIDTH // 2 - 100 * math.sin(angle)
                 pygame.draw.line(screen, BLACK, (x1, y), (x2, y), 2)
                 pygame.draw.circle(screen, COLORS[base], (x1, y), 8)
                 pygame.draw.circle(screen, COLORS[base], (x2, y), 8)
+    
+    # Update animation
+    angle_offset += 0.05
     
     # Draw "Examine" button if DNA is selected
     if selected_dna:
@@ -106,4 +112,5 @@ while running:
                 zoomed_in = not zoomed_in
             
     pygame.display.flip()
+    clock.tick(30)
 pygame.quit()
