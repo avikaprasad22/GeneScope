@@ -22,7 +22,6 @@ menu: nav/home.html
   <div>
     <button class="bg-blue-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg transition duration-300 hover:bg-blue-500"
       onclick="openPopup('teamPopup')">Meet Our Team</button>
-
     <div id="teamPopup" class="fixed inset-0 hidden bg-black/60 flex items-center justify-center"
       onclick="closePopup(event, 'teamPopup')">
       <div class="bg-white text-black p-8 rounded-lg w-96 relative shadow-xl">
@@ -30,10 +29,12 @@ menu: nav/home.html
           onclick="closePopup(event, 'teamPopup')">&times;</button>
         <h2 class="text-3xl font-bold text-blue-900 mb-6">👨‍💻 Our Team</h2>
         <ul class="text-left space-y-4 text-gray-700">
-          <li><strong>John Doe</strong> - CEO & AI Specialist</li>
-          <li><strong>Jane Smith</strong> - Head of Cybersecurity</li>
-          <li><strong>Alice Johnson</strong> - Blockchain Architect</li>
-          <li><strong>Bob Brown</strong> - Lead Software Engineer</li>
+          <li><strong>Avika</strong> - Scrum Master</li>
+          <li><strong>Nora</strong> - Assistant Scrum Master</li>
+          <li><strong>Soni</strong> - x</li>
+          <li><strong>Katherine</strong> - x</li>
+          <li><strong>Gabi</strong> - x</li>
+          <li><strong>Zoe</strong> - x</li>
         </ul>
       </div>
     </div>
@@ -43,8 +44,7 @@ menu: nav/home.html
   <div>
     <button class="bg-blue-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg transition duration-300 hover:bg-blue-500"
       onclick="openPopup('historyPopup')">Our Journey</button>
-
-    <div id="historyPopup" class="fixed inset-0 hidden bg-black/60 flex items-center justify-center"
+     <div id="historyPopup" class="fixed inset-0 hidden bg-black/60 flex items-center justify-center"
       onclick="closePopup(event, 'historyPopup')">
       <div class="bg-white text-black p-8 rounded-lg w-96 relative shadow-xl">
         <button class="absolute top-3 right-3 text-gray-600 text-2xl font-bold"
@@ -59,7 +59,6 @@ menu: nav/home.html
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Contact Us Section -->
