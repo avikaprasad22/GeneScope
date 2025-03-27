@@ -133,6 +133,7 @@ show_reading_time: false
                 <div class="p-6">
                     <h3 class="text-3xl font-bold mb-2 text-blue-900">Puzzle Game</h3>
                     <p class="text-xl text-blue-800">Illustrates the impact of personalized medicine.</p>
+                    <!-- <img src="https://images.squarespace-cdn.com/content/v1/57e6f18eb3db2b1dd11a2a02/1525919934875-QZQ7GVBYZZJHMN8JG7BR/homo-DNA.gif" alt="GIF" class="w-32 h-32"> -->
                 </div>
             </div>
         </div>

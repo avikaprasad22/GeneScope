@@ -2,8 +2,8 @@ title: Business Efficiency
 description: "Social Media for Del Norte High School"
 owner_name: Gabriela Connelly
 github_username: avikaprasad22
-github_repo: "business_efficiency"
-baseurl: "/business_efficiency"
+github_repo: "illumina_dna"
+baseurl: "/illumina_dna"
 future: true
 remote_theme: jekyll/minima
 minima:
@@ -17,10 +17,4 @@ plugins:
   - jekyll-remote-theme
 header_pages:
   - navigation/ai.md
-  - navigation/sprint4-bookworms/bookworms.md
-  - navigation/sprint4-bookworms/random_book_recommender.md
-  - navigation/sprint4-bookworms/bookreview.md
-  - navigation/sprint4-bookworms/bookadd.md
-  - navigation/sprint4-bookworms/bookpurchase.md
-  - navigation/sprint4-bookworms/reaction.md
-  - navigation/blog.md  - navigation/blog.md
+  - navigation/blog.md
