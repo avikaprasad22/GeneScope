@@ -11,7 +11,7 @@ show_reading_time: false
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Illumina Interactive Biotech Education Game</title>
+    <title>Illumina Interactive Biotech Education</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Loading Screen */
@@ -76,10 +76,32 @@ show_reading_time: false
             margin-top: 1rem;
             opacity: 0;
             transition: opacity 1s ease-out; /* Fade in transition */
+        }/* Welcome Section BG IMG */
+        #welcome {
+            position: relative; /* Ensure positioning for the overlay */
+            background: url(https://scitechdaily.com/images/DNA-Genetics.gif) no-repeat center center; 
+            background-size: cover;
+        }
+        /* Overlay to dim the background */
+        #welcome::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Adjust opacity (0.5 = 50% dim) */
+            z-index: 1; /* Ensures the overlay is on top */
+        }
+        /* Ensure text and content are above the overlay */
+        #welcome > * {
+            position: relative;
+            z-index: 2;
         }
         /* Welcome Section BG IMG */
         #welcome {
-            background: url(images/dnabanner.png) no-repeat center center;
+            /* background: url(images/dnabanner.png) no-repeat center center; */
+            background: url(https://scitechdaily.com/images/DNA-Genetics.gif) no-repeat center center; 
             background-size: cover;
         }
     </style>
@@ -97,7 +119,7 @@ show_reading_time: false
     <section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-black text-white-200 ">
         <h1 class="typewriter"></h1>
         <!-- Slogan added here, initially hidden -->
-        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(255, 255, 255); text-shadow: 0 0 2px rgb(162, 220, 202), 0 0 2px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168), 0 0 4px rgb(77, 207, 168)">Illumina Biotech: Igniting Curiosity, Advancing Science</h2>
+        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(255, 255, 255); text-shadow: 0 0 2px rgb(162, 188, 220), 0 0 2px rgb(77, 146, 207), 0 0 4px rgb(88, 77, 207), 0 0 4px rgb(77, 207, 168)">Illumina Biotech: Igniting Curiosity, Advancing Science</h2>
     </section>
     <!-- About Us Section -->
     <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-orange-100 text-black">
@@ -123,12 +145,14 @@ show_reading_time: false
                     <p class="text-xl text-blue-800">Explore DNA sequencing processes.</p>
                 </div>
             </div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
-                <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
-                    <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
+            <a href="{{site.baseurl}}/trivia" target="_self"> <!-- Change target to _blank if you want a new tab -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
+                    <div class="p-6">
+                        <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
+                        <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
                     <h3 class="text-3xl font-bold mb-2 text-blue-900">Puzzle Game</h3>
@@ -145,7 +169,7 @@ show_reading_time: false
                 loadingScreen.style.display = 'none';
             });
             // Typewriter effect for the welcome message
-            const text = "Welcome to Illumina Education Game";
+            const text = "Welcome to Illumina Education";
             const typewriterElement = document.querySelector(".typewriter");
             const sloganElement = document.getElementById("slogan");
             let index = 0;
