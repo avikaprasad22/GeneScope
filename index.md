@@ -145,12 +145,14 @@ show_reading_time: false
                     <p class="text-xl text-blue-800">Explore DNA sequencing processes.</p>
                 </div>
             </div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
-                <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
-                    <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
+            <a href="{{site.baseurl}}/trivia" target="_self"> <!-- Change target to _blank if you want a new tab -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
+                    <div class="p-6">
+                        <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
+                        <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
                     <h3 class="text-3xl font-bold mb-2 text-blue-900">Puzzle Game</h3>
