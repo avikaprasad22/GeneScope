@@ -1,13 +1,13 @@
 ---
-layout: page
-title: About Us
+layout: post
+# title: About Us
 permalink: /about/
+show_reading_time: false
 menu: nav/home.html
 ---
 
 <!-- Tailwind CSS CDN (for testing purposes, remove in production and install via npm or yarn) -->
 <script src="https://cdn.tailwindcss.com"></script>
-</style>
 <!-- About Us Section -->
 <div class="text-center text-black bg-gradient-to-b from-blue-100 to-white py-20 px-6">
   <h1 class="text-5xl font-extrabold text-blue-900">🚀 About Us</h1>
@@ -21,7 +21,6 @@ menu: nav/home.html
   <h2 class="text-4xl font-bold text-blue-900">🌍 Our Mission & Vision</h2>
   <p class="mt-6 text-lg text-gray-700">
     Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields.
-    <br>
     <br>
     <br>
     <br>
@@ -50,7 +49,6 @@ menu: nav/home.html
 
 
 <p class="text-center text-white-700 max-w-2xl mx-auto">
-    <br>
     ...
 </p>
 
