@@ -1,6 +1,5 @@
 ---
 layout: page 
-title: Trivia
 permalink: /trivia/
 ---
 
@@ -115,37 +114,47 @@ permalink: /trivia/
         window.nextQuestion = nextQuestion;
         window.restartGame = restartGame;
     </script>
-    <style>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #333;
         }
         .container {
             max-width: 500px;
             margin: auto;
             padding: 20px;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.02);
         }
         .hidden {
             display: none;
         }
         button {
-            padding: 10px;
+            padding: 12px 16px;
             margin: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             background: #3498db;
             color: white;
-            font-size: 16px;
-            transition: background 0.3s ease;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            font-family: 'Montserrat', sans-serif;
         }
         button:hover {
             background: #2980b9;
+            transform: translateY(-2px);
         }
         button:disabled {
             background: #bdc3c7;
@@ -153,10 +162,17 @@ permalink: /trivia/
         }
         .leaderboard {
             text-align: left;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         #feedback {
             font-weight: bold;
             margin-top: 10px;
+            font-size: 1.2em;
+            color: #2c3e50;
+            font-family: 'Montserrat', sans-serif;
         }
     </style>
 </head>
