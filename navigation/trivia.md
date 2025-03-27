@@ -215,3 +215,57 @@ permalink: /trivia/
     </div>
 </body>
 </html>
+<table id="demo" class="table">
+  <thead>
+      <tr>
+          <th>Topics</th>
+          <th>Resources</th>
+      </tr>
+  </thead>
+  <tbody id="topicResult">
+    <!-- javascript generated data -->
+  </tbody>
+</table>
+<script>
+  // prepare HTML result container for new output
+  let topicResultContainer = document.getElementById("topicResult");
+  // prepare URL
+  // set options for cross origin header request
+  let topicOptions = {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'include', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  // fetch the API
+  fetch(topicUrl, topicOptions)
+    // response is a RESTful "promise" on any successful fetch
+    .then(response => {
+      // check for response errors and display
+      if (response.status !== 200) {
+          console.error(response.status);
+          return;
+      }
+      // valid response will contain json data
+      response.json().then(data => {
+          console.log(data);
+          for (const row of data.topic) {
+            // tr and td build out for each row
+            const tr = document.createElement("tr");
+            const name = document.createElement("td");
+            const location = document.createElement("td");
+            // data is specific to the API
+            name.innerHTML = row.name;
+            location.innerHTML = row.location;
+            // this builds each td into tr
+            tr.appendChild(name);
+            tr.appendChild(location);
+            // add HTML to container
+            chineseResultContainer.appendChild(tr);
+          }
+      })
+  })
+</script>
