@@ -114,7 +114,7 @@ permalink: /trivia/
         window.nextQuestion = nextQuestion;
         window.restartGame = restartGame;
     </script>
-<style>
+     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
         body {
             font-family: 'Montserrat', sans-serif;
@@ -122,13 +122,18 @@ permalink: /trivia/
             padding: 20px;
             background: linear-gradient(135deg, #74ebd5, #acb6e5);
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         .container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            background: white;
+            max-width: 5000px;
+            width: 105%;
+            padding: 50px;
             border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease-in-out;
         }
@@ -139,14 +144,14 @@ permalink: /trivia/
             display: none;
         }
         button {
-            padding: 12px 16px;
-            margin: 10px;
+            padding: 16px 24px;
+            margin: 14px;
             cursor: pointer;
             border: none;
             border-radius: 8px;
             background: #3498db;
             color: white;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
@@ -162,15 +167,15 @@ permalink: /trivia/
         }
         .leaderboard {
             text-align: left;
-            padding: 10px;
-            background: #f9f9f9;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         #feedback {
             font-weight: bold;
-            margin-top: 10px;
-            font-size: 1.2em;
+            margin-top: 14px;
+            font-size: 1.6em;
             color: #2c3e50;
             font-family: 'Montserrat', sans-serif;
         }
