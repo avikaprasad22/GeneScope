@@ -12,6 +12,18 @@ show_reading_time: false
     <title>Illumina Interactive Biotech Education</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* For Webkit Browsers (Chrome, Edge, Safari) */
+        ::-webkit-scrollbar {
+            width: 9px; /* Adjust scrollbar width */
+            height: 50%; /* Limit the track length */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #1543a9; /* Change scrollbar color */
+            border-radius: 10px; /* Round edges */
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000; /* Track background */
+        }
         /* Loading Screen */
         .loader {
             border-top-color: #1E3A8A;
@@ -105,13 +117,13 @@ show_reading_time: false
         /* Neon Glow Animation */
         @keyframes neonGlow {
             0% {
-                box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+                box-shadow: 0 0 5px #66FFFF, 0 0 10px #66FFFF, 0 0 20px #66FFFF, 0 0 40px #66FFFF;
             }
             50% {
-                box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00;
+                box-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 40px #FFFFFF, 0 0 80px #326ebf;
             }
             100% {
-                box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+                box-shadow: 0 0 5px #66FFFF, 0 0 10px #FFFFFF, 0 0 20px #66FFFF, 0 0 40px #66FFFF;
             }
         }
         .neon-glow {
@@ -172,6 +184,7 @@ show_reading_time: false
                     <div class="p-6">
                         <h3 class="text-3xl font-bold mb-2 text-black">Trivia Challenge</h3>
                         <p class="text-xl text-black">Test your knowledge on genetic research breakthroughs.</p>
+                        <img src="https://scitechdaily.com/images/DNA-Technology-Concept.gif" alt="Geneticist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
                 </div>
             </a>
@@ -179,32 +192,6 @@ show_reading_time: false
                 <div class="p-6">
                     <h3 class="text-3xl font-bold mb-2 text-black">Puzzle Game</h3>
                     <p class="text-xl text-black">Illustrates the impact of personalized medicine.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="choose-character" class="py-20 bg-gray-900 text-white text-center">
-        <h2 class="text-6xl font-extrabold mb-10">Learn About the Technologies</h2>
-        <div class="flex flex-wrap justify-center gap-8">
-            <!-- Character Card 1 -->
-            <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
-                <img src="https://media4.giphy.com/media/RB1gL2aMEsItG/giphy.gif?cid=6c09b952pmri47f54h2k16ft5y1m1qkrh96ru10d58isvwqf&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Scientist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Trivia Game
-                </div>
-            </div>
-            <!-- Character Card 2 -->
-            <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
-                <img src="https://scitechdaily.com/images/DNA-Technology-Concept.gif" alt="Geneticist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    DNA Simulation
-                </div>
-            </div>
-            <!-- Character Card 3 -->
-            <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
-                <img src="https://media.tenor.com/TcSYAlWSHC0AAAAM/bioinformatics-market.gif" alt="Bioinformatician" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    ML Risk Analysis
                 </div>
             </div>
         </div>

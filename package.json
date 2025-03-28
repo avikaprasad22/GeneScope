@@ -20,5 +20,12 @@
   "homepage": "https://github.com/gabrielac07/bookworms#readme",
   "dependencies": {
     "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "live-server": "^1.2.2",
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.0.17"
   }
 }
