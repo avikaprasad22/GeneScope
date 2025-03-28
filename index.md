@@ -6,8 +6,6 @@ hide: true
 menu: nav/home.html
 show_reading_time: false
 ---
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,42 +120,40 @@ show_reading_time: false
         <h2 id="slogan" class="slogan text-4xl" style="color:rgb(255, 255, 255); text-shadow: 0 0 2px rgb(162, 188, 220), 0 0 2px rgb(77, 146, 207), 0 0 4px rgb(88, 77, 207), 0 0 4px rgb(77, 207, 168)">Illumina Biotech: Igniting Curiosity, Advancing Science</h2>
     </section>
     <!-- About Us Section -->
-    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-orange-100 text-black">
-        <h2 class="text-7xl font-extrabold text-orange-600 fade-in mb-6">About Us</h2>
-        <p class="text-3xl text-orange-900 max-w-5xl fade-in">
+    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-black text-white">
+        <h2 class="text-7xl font-extrabold text-white-600 fade-in mb-6">About Us</h2>
+        <p class="text-3xl text-white-900 max-w-5xl fade-in">
             The Illumina Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way. 
         </p>
     </section>
     <!-- Our Mission Section -->
-    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center bg-purple-100 text-black">
-        <h3 class="text-6xl font-bold mt-8 text-purple-900 fade-in">Our Mission</h3>
-        <p class="text-3xl text-purple-700 mt-4 max-w-5xl fade-in">
+    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center py-20 bg-gray-900 text-white">
+        <h3 class="text-6xl font-bold mt-8 text-white-900 fade-in">Our Mission</h3>
+        <p class="text-3xl text-white-700 mt-4 max-w-5xl fade-in">
             Our mission aims to spark curiosity, inspire future scientists, and make biotech education accessible to all. .
         </p>
-    </section>
-    <!-- AI Solutions Section -->
-    <section id="ai-solutions" class="py-20 bg-blue-100">
-        <h2 class="text-7xl font-bold text-center text-blue-900 mb-10 fade-in">Interactive Activites</h2>
+    </section><!-- AI Solutions Section -->
+    <section id="ai-solutions" class="py-20 bg-black">
+        <h2 class="text-7xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Virtual Lab Stimulation</h3>
-                    <p class="text-xl text-blue-800">Explore DNA sequencing processes.</p>
+                    <h3 class="text-3xl font-bold mb-2 text-black">Virtual Lab Simulation</h3>
+                    <p class="text-xl text-black">Explore DNA sequencing processes.</p>
                 </div>
             </div>
-            <a href="{{site.baseurl}}/trivia" target="_self"> <!-- Change target to _blank if you want a new tab -->
+            <a href="{{site.baseurl}}/trivia" target="_self">
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                     <div class="p-6">
-                        <h3 class="text-3xl font-bold mb-2 text-blue-900">Trivia Challenge</h3>
-                        <p class="text-xl text-blue-800">Test your knowledge on genetic research breakthroughs. </p>
+                        <h3 class="text-3xl font-bold mb-2 text-black">Trivia Challenge</h3>
+                        <p class="text-xl text-black">Test your knowledge on genetic research breakthroughs.</p>
                     </div>
                 </div>
             </a>
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-blue-900">Puzzle Game</h3>
-                    <p class="text-xl text-blue-800">Illustrates the impact of personalized medicine.</p>
-                    <!-- <img src="https://images.squarespace-cdn.com/content/v1/57e6f18eb3db2b1dd11a2a02/1525919934875-QZQ7GVBYZZJHMN8JG7BR/homo-DNA.gif" alt="GIF" class="w-32 h-32"> -->
+                    <h3 class="text-3xl font-bold mb-2 text-black">Puzzle Game</h3>
+                    <p class="text-xl text-black">Illustrates the impact of personalized medicine.</p>
                 </div>
             </div>
         </div>
@@ -167,7 +163,7 @@ show_reading_time: false
     <div class="flex flex-wrap justify-center gap-8">
         <!-- Character Card 1 -->
         <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
-            <img src="images/character1.png" alt="Scientist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="https://media4.giphy.com/media/RB1gL2aMEsItG/giphy.gif?cid=6c09b952pmri47f54h2k16ft5y1m1qkrh96ru10d58isvwqf&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Scientist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
             <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 Trivia Game
             </div>
@@ -181,7 +177,7 @@ show_reading_time: false
         </div>
         <!-- Character Card 3 -->
         <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
-            <img src="images/character3.png" alt="Bioinformatician" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="https://media.tenor.com/TcSYAlWSHC0AAAAM/bioinformatics-market.gif" alt="Bioinformatician" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
             <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 ML Risk Analysis
             </div>
@@ -230,8 +226,7 @@ show_reading_time: false
 </body>
 </html>
 <html>
-<!DOCTYPE html>
-<html lang="en">
+<!-- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -267,4 +262,4 @@ show_reading_time: false
     </div>
 
 </body>
-</html>
+</html> -->
