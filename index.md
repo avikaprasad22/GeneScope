@@ -162,6 +162,32 @@ show_reading_time: false
             </div>
         </div>
     </section>
+    <section id="choose-character" class="py-20 bg-gray-900 text-white text-center">
+    <h2 class="text-6xl font-extrabold mb-10">Learn About the Technolgies</h2>
+    <div class="flex flex-wrap justify-center gap-8">
+        <!-- Character Card 1 -->
+        <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
+            <img src="images/character1.png" alt="Scientist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Trivia Game
+            </div>
+        </div>
+        <!-- Character Card 2 -->
+        <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
+            <img src="https://scitechdaily.com/images/DNA-Technology-Concept.gif" alt="Geneticist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                DNA Simulation
+            </div>
+        </div>
+        <!-- Character Card 3 -->
+        <div class="relative group bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-110 hover:shadow-2xl cursor-pointer w-60 h-80">
+            <img src="images/character3.png" alt="Bioinformatician" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-0 w-full bg-black bg-opacity-70 p-4 text-lg font-bold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                ML Risk Analysis
+            </div>
+        </div>
+    </div>
+</section>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const loadingScreen = document.getElementById('loading-screen');
@@ -201,5 +227,44 @@ show_reading_time: false
             });
         });
     </script>
+</body>
+</html>
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Helix Neon Glow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+            }
+            100% {
+                box-shadow: 0 0 40px #0ff, 0 0 80px #f0f;
+            }
+        }
+        .spin {
+            animation: spin 6s linear infinite;
+        }
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite alternate;
+        }
+    </style>
+</head>
+<body class="bg-black flex justify-center items-center h-screen m-0 overflow-hidden">
+    <div class="relative w-64 h-64">
+        <div class="absolute inset-0 flex justify-center items-center spin">
+            <div class="absolute w-1 h-full bg-gradient-to-b from-cyan-400 to-pink-400 rounded-full pulse"></div>
+            <div class="absolute w-1 h-full bg-gradient-to-b from-pink-400 to-cyan-400 rounded-full pulse"></div>
+        </div>
+    </div>
+
 </body>
 </html>
