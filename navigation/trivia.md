@@ -114,10 +114,6 @@ permalink: /trivia/
         window.nextQuestion = nextQuestion;
         window.restartGame = restartGame;
     </script>
-    ---
-layout: page 
-permalink: /trivia/
----
 
 <html lang="en">
 <head>
