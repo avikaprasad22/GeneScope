@@ -107,6 +107,123 @@ permalink: /trivia/
                 .catch(error => console.error("Error fetching leaderboard:", error));
         }
         function restartGame() {
+            resource.reload();
+        }
+        window.startGame = startGame;
+        window.submitAnswer = submitAnswer;
+        window.nextQuestion = nextQuestion;
+        window.restartGame = restartGame;
+    </script>
+    ---
+layout: page 
+permalink: /trivia/
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Game</title>
+    <script type="module">
+        import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+        let username, difficulty;
+        let currentQuestion = null;
+        let questionCount = 0;
+        let totalQuestions = 5;  // Fixed number of questions per game
+        let score = 0;
+        let answered = false;  // Track if the user has already answered the current question
+        function startGame() {
+            username = document.getElementById("username").value.trim();
+            difficulty = document.getElementById("difficulty").value;
+            if (!username) {
+                alert("Please enter your name!");
+                return;
+            }
+            document.getElementById("startScreen").classList.add("hidden");
+            document.getElementById("gameScreen").classList.remove("hidden");
+            fetchQuestion();
+        }
+        function fetchQuestion() {
+            if (questionCount >= totalQuestions) {
+                endGame();
+                return;
+            }
+            fetch(`${pythonURI}/api/trivia/question`, fetchOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById("questionText").textContent = "No questions available.";
+                    } else if (data.difficulty === difficulty) {  
+                        currentQuestion = data;
+                        answered = false;  // Reset answered flag for the new question
+                        displayQuestion();
+                    } else {
+                        fetchQuestion(); // Get another question if difficulty doesn't match
+                    }
+                })
+                .catch(error => console.error("Error fetching question:", error));
+        }
+        function displayQuestion() {
+            document.getElementById("questionText").textContent = currentQuestion.question;
+            document.getElementById("optionA").textContent = `A: ${currentQuestion.options.A}`;
+            document.getElementById("optionB").textContent = `B: ${currentQuestion.options.B}`;
+            document.getElementById("optionC").textContent = `C: ${currentQuestion.options.C}`;
+            document.getElementById("optionD").textContent = `D: ${currentQuestion.options.D}`;
+            document.querySelectorAll(".answer-button").forEach(button => button.disabled = false);
+        }
+        function submitAnswer(option) {
+            if (answered) return;  // Prevent multiple attempts
+            answered = true;
+            const selectedAnswer = currentQuestion.options[option];
+            fetch(`${pythonURI}/api/trivia/answer`, {
+                ...fetchOptions,
+                method: "POST",
+                body: JSON.stringify({
+                    name: username,
+                    question_id: currentQuestion.id,
+                    selected_answer: selectedAnswer
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.correct) {
+                    score += 10;
+                    document.getElementById("feedback").textContent = "Correct!";
+                } else {
+                    document.getElementById("feedback").textContent = `Incorrect! The correct answer was: ${currentQuestion.correct_answer}`;
+                }
+                document.getElementById("score").textContent = score;
+                document.querySelectorAll(".answer-button").forEach(button => button.disabled = true);
+            })
+            .catch(error => console.error("Error submitting answer:", error));
+            questionCount++;
+        }
+        function nextQuestion() {
+            document.getElementById("feedback").textContent = "";
+            fetchQuestion();
+        }
+        function endGame() {
+            document.getElementById("gameScreen").classList.add("hidden");
+            document.getElementById("resultScreen").classList.remove("hidden");
+            document.getElementById("finalScore").textContent = score;
+            document.getElementById("topicsTable").classList.remove("hidden");
+            fetchLeaderboard();
+        }
+        function fetchLeaderboard() {
+            fetch(`${pythonURI}/api/trivia/leaderboard`, fetchOptions)
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboardList = document.getElementById("leaderboard");
+                    leaderboardList.innerHTML = "";
+                    data.forEach(entry => {
+                        let li = document.createElement("li");
+                        li.textContent = `${entry.name}: ${entry.total_score}`;
+                        leaderboardList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error("Error fetching leaderboard:", error));
+        }
+        function restartGame() {
             location.reload();
         }
         window.startGame = startGame;
@@ -114,6 +231,53 @@ permalink: /trivia/
         window.nextQuestion = nextQuestion;
         window.restartGame = restartGame;
     </script>
+</head>
+<body>
+    <div id="topicsTable" class="container hidden">
+        <table id="demo" class="table">
+            <thead>
+                <tr>
+                    <th>Topics</th>
+                    <th>Resources</th>
+                </tr>
+            </thead>
+            <tbody id="topicsResult">
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let topicsResultContainer = document.getElementById("topicsResult");
+        let topicsOptions = {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+        fetch(topicsUrl, topicsOptions)
+            .then(response => {
+                if (response.status !== 200) {
+                    console.error(response.status);
+                    return;
+                }
+                response.json().then(data => {
+                    console.log(data);
+                    for (const row of data.topic) {
+                        const tr = document.createElement("tr");
+                        const name = document.createElement("td");
+                        const resource = document.createElement("td");
+                        name.innerHTML = row.name;
+                        resource.innerHTML = row.resource;
+                        tr.appendChild(name);
+                        tr.appendChild(resource);
+                        topicsResultContainer.appendChild(tr);
+                    }
+                })
+            })
+    </script>
+</body>
      <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
         body {
@@ -213,59 +377,4 @@ permalink: /trivia/
         <ol id="leaderboard" class="leaderboard"></ol>
         <button onclick="restartGame()">Play Again</button>
     </div>
-</body>
-</html>
-<table id="demo" class="table">
-  <thead>
-      <tr>
-          <th>Topics</th>
-          <th>Resources</th>
-      </tr>
-  </thead>
-  <tbody id="topicResult">
-    <!-- javascript generated data -->
-  </tbody>
-</table>
-<script>
-  // prepare HTML result container for new output
-  let topicResultContainer = document.getElementById("topicResult");
-  // prepare URL
-  // set options for cross origin header request
-  let topicOptions = {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'include', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  // fetch the API
-  fetch(topicUrl, topicOptions)
-    // response is a RESTful "promise" on any successful fetch
-    .then(response => {
-      // check for response errors and display
-      if (response.status !== 200) {
-          console.error(response.status);
-          return;
-      }
-      // valid response will contain json data
-      response.json().then(data => {
-          console.log(data);
-          for (const row of data.topic) {
-            // tr and td build out for each row
-            const tr = document.createElement("tr");
-            const name = document.createElement("td");
-            const location = document.createElement("td");
-            // data is specific to the API
-            name.innerHTML = row.name;
-            location.innerHTML = row.location;
-            // this builds each td into tr
-            tr.appendChild(name);
-            tr.appendChild(location);
-            // add HTML to container
-            chineseResultContainer.appendChild(tr);
-          }
-      })
-  })
-</script>
+
