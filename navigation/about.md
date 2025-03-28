@@ -63,10 +63,10 @@ menu: nav/home.html
     <ul class="text-left space-y-4 text-gray-700">
       <li><strong>Avika</strong> - Scrum Master</li>
       <li><strong>Nora</strong> - Assistant Scrum Master</li>
-      <li><strong>Soni</strong> - Lead Developer</li>
-      <li><strong>Katherine</strong> - UX Designer</li>
-      <li><strong>Gabi</strong> - Research Specialist</li>
-      <li><strong>Zoe</strong> - Content Strategist</li>
+      <li><strong>Soni</strong> - DNA Sequencing Simulation</li>
+      <li><strong>Katherine</strong> - UI Design and Implementation</li>
+      <li><strong>Gabi</strong> - Trivia Question System</li>
+      <li><strong>Zoe</strong> - Trivia Question System</li>
     </ul>
   </div>
 </div>
@@ -78,10 +78,9 @@ menu: nav/home.html
       onclick="closePopup(event, 'historyPopup')">&times;</button>
     <h2 class="text-3xl font-bold text-blue-900 mb-6">📜 Our History</h2>
     <ul class="text-left space-y-4 text-gray-700">
-      <li><strong>2015</strong> - Conceptualized the biotech education platform</li>
-      <li><strong>2018</strong> - Launched first interactive game prototype</li>
-      <li><strong>2021</strong> - Partnered with top research institutions</li>
-      <li><strong>2024</strong> - Expanded globally with 50,000+ users</li>
+      <li><strong>March 2025</strong> - Conceptualized the biotech education platform</li>
+      <li><strong>April 2025</strong> - Launched first interactive game prototype</li>
+      <li><strong>May 2025</strong> - xx</li>
     </ul>
   </div>
 </div>
@@ -93,9 +92,9 @@ menu: nav/home.html
       onclick="closePopup(event, 'contactPopup')">&times;</button>
     <h2 class="text-3xl font-bold text-blue-900 mb-6">📩 Get in Touch</h2>
     <p class="text-lg text-gray-700">
-      Email: <a href="mailto:contact@yourcompany.com" class="text-blue-600 underline">contact@yourcompany.com</a>
+      Email: <a href="mailto:contact@yourcompany.com" class="text-blue-600 underline">katherine.yx.chen@gmail.com</a>
     </p>
-    <p class="text-lg text-gray-700">Phone: +1 (123) 456-7890</p>
+    <p class="text-lg text-gray-700">Phone: +1 (858) 456-7890</p>
     <p class="mt-4 text-gray-700">We are excited to collaborate with you!</p>
   </div>
 </div>
