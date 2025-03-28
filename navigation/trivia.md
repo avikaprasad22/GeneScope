@@ -227,14 +227,12 @@ permalink: /trivia/
         window.nextQuestion = nextQuestion;
         window.restartGame = restartGame;
     </script>
-</head>
-<body>
     <div id="topicsTable" class="container hidden">
         <table id="demo" class="table">
             <thead>
                 <tr>
-                    <th>Topics</th>
-                    <th>Resources</th>
+                    <th>Topics to study: </th>
+                    <th>Resources:</th>
                 </tr>
             </thead>
             <tbody id="topicsResult">
@@ -273,7 +271,6 @@ permalink: /trivia/
                 })
             })
     </script>
-</body>
      <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
         body {
