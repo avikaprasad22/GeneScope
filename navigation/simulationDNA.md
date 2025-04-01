@@ -1,3 +1,4 @@
+
 ---
 layout: post
 # title: DNA Animation
@@ -28,7 +29,7 @@ menu: nav/home.html
     <button onclick="changeSequence('virus')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Virus</button>
     <button onclick="changeSequence('bacteria')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Bacteria</button>
     <button onclick="changeSequence('strawberry')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Strawberry</button>
-    <button onclick="toggleFreeze()" class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
+    <button id="freezeButton" onclick="toggleFreeze()" class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
 </div>
 
 <!-- Canvas for Animation -->
@@ -42,6 +43,13 @@ menu: nav/home.html
     const HEIGHT = window.innerHeight;
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
+
+    let isFrozen = false;
+    
+    function toggleFreeze() {
+        isFrozen = !isFrozen;
+        document.getElementById('freezeButton').textContent = isFrozen ? 'Unfreeze' : 'Freeze';
+    }
 
     // Define colors
     const WHITE = 'white';
@@ -74,11 +82,6 @@ menu: nav/home.html
     function changeSequence(sequence) {
         currentSequence = sequences[sequence];
         angleOffset = 0; // Reset rotation for new sequence
-    }
-
-    // Toggle freeze state
-    function toggleFreeze() {
-        isFrozen = !isFrozen;
     }
 
     // Draw base pairs
