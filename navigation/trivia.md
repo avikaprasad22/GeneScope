@@ -1,6 +1,8 @@
 ---
-layout: page 
+layout: post 
 permalink: /trivia/
+menu: nav/home.html
+show_reading_time: false
 ---
 
 <html lang="en">
@@ -276,7 +278,7 @@ permalink: /trivia/
         body {
             font-family: 'Montserrat', sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 0px;
             background: linear-gradient(135deg, #74ebd5, #acb6e5);
             color: #333;
             display: flex;
@@ -288,7 +290,7 @@ permalink: /trivia/
         .container {
             max-width: 5000px;
             width: 105%;
-            padding: 50px;
+            padding: 0px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -331,7 +333,7 @@ permalink: /trivia/
         }
         #feedback {
             font-weight: bold;
-            margin-top: 14px;
+            margin-top: px;
             font-size: 1.6em;
             color: #2c3e50;
             font-family: 'Montserrat', sans-serif;
@@ -370,4 +372,3 @@ permalink: /trivia/
         <ol id="leaderboard" class="leaderboard"></ol>
         <button onclick="restartGame()">Play Again</button>
     </div>
-
