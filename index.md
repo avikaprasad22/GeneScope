@@ -188,12 +188,15 @@ show_reading_time: false
                     </div>
                 </div>
             </a>
+            <a href="{{site.baseurl}}/genes" target="_self">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105 ai-card">
                 <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-black">Puzzle Game</h3>
-                    <p class="text-xl text-black">Illustrates the impact of personalized medicine.</p>
+                    <h3 class="text-3xl font-bold mb-2 text-black">Gene Mutation Guessing Game</h3>
+                    <p class="text-xl text-black">Learn about the effects of diffrent gene mutations on the body</p>
+                    <img src="https://scitechdaily.com/images/DNA-Technology-Concept.gif" alt="Geneticist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
                 </div>
             </div>
+            </a>
         </div>
     </section>
     <script>
