@@ -1,7 +1,6 @@
 ---
 layout: post 
 permalink: /trivia/
-menu: nav/home.html
 show_reading_time: false
 ---
 
