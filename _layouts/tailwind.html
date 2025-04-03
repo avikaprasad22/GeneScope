@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .neon-glow { text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff; }
+        .fade-in { opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .fade-in.visible { opacity: 1; }
+        .ai-card:hover { transform: scale(1.05); transition: transform 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <nav class="bg-gray-900 p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="/" class="text-xl font-bold">Illumina Biotech</a>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="text-white">Home</a></li>
+                <li><a href="#about" class="text-white">About</a></li>
+                <li><a href="#mission" class="text-white">Mission</a></li>
+                <li><a href="#ai-solutions" class="text-white">Activities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        {{ content }}
+    </main>
+
+    <footer class="bg-gray-900 text-center py-4">
+        <p class="text-gray-400">© 2025 Illumina Biotech</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fade-in effect for elements
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            window.addEventListener('scroll', function () {
+                fadeInElements.forEach(function (element) {
+                    if (element.getBoundingClientRect().top < window.innerHeight) {
+                        element.classList.add('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
