@@ -1,239 +1,82 @@
 ---
-layout: post
-title: Business
+layout: tailwind
+title: Illumina Biotech
 search_exclude: true
 hide: true
-menu: nav/home.html
 show_reading_time: false
 ---
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Illumina Interactive Biotech Education</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* For Webkit Browsers (Chrome, Edge, Safari) */
-        ::-webkit-scrollbar {
-            width: 9px; /* Adjust scrollbar width */
-            height: 50%; /* Limit the track length */
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: #1543a9; /* Change scrollbar color */
-            border-radius: 10px; /* Round edges */
-        }
-        ::-webkit-scrollbar-track {
-            background: #000000; /* Track background */
-        }
-        /* Loading Screen */
-        .loader {
-            border-top-color: #1E3A8A;
-            animation: spin 1s infinite linear;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        /* Fade-in animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Gradient Animation */
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        .animate-gradient {
-            background-size: 200% 200%;
-            animation: gradient 10s ease infinite;
-        }
-        /* Typewriter effect */
-        .typewriter {
-            font-size: 6rem;
-            font-weight: 900;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            word-spacing: 0.2em; /* Adjusted word-spacing */
-            line-height: 1.2;
-        }
-        .typewriter .text {
-            display: inline-block;
-            opacity: 0;
-        }
-        .second-line {
-            display: block;
-        }
-        /* Slogan Styling */
-        .slogan {
-            font-size: 2rem;
-            margin-top: 1rem;
-            opacity: 0;
-            transition: opacity 1s ease-out; /* Fade in transition */
-        }
-        /* Welcome Section BG IMG */
-        #welcome {
-            position: relative; /* Ensure positioning for the overlay */
-            background: url(https://scitechdaily.com/images/DNA-Genetics.gif) no-repeat center center; 
-            background-size: cover;
-        }
-        /* Overlay to dim the background */
-        #welcome::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Adjust opacity (0.5 = 50% dim) */
-            z-index: 1; /* Ensures the overlay is on top */
-        }
-        /* Ensure text and content are above the overlay */
-        #welcome > * {
-            position: relative;
-            z-index: 2;
-        }
-        /* Welcome Section BG IMG */
-        #welcome {
-            background: url(https://scitechdaily.com/images/DNA-Genetics.gif) no-repeat center center; 
-            background-size: cover;
-        }
-        /* Neon Glow Animation */
-        @keyframes neonGlow {
-            0% {
-                box-shadow: 0 0 5px #66FFFF, 0 0 10px #66FFFF, 0 0 20px #66FFFF, 0 0 40px #66FFFF;
-            }
-            50% {
-                box-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 40px #FFFFFF, 0 0 80px #326ebf;
-            }
-            100% {
-                box-shadow: 0 0 5px #66FFFF, 0 0 10px #FFFFFF, 0 0 20px #66FFFF, 0 0 40px #66FFFF;
-            }
-        }
-        .neon-glow {
-            animation: neonGlow 2s ease-in-out infinite alternate;
-            color: #fff;
-        }
-        /* AI Solutions Cards */
-        .ai-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .ai-card:hover {
-            transform: scale(1.05);
-            animation: neonGlow 1.5s ease-in-out infinite alternate;
-            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
-        }
-    </style>
-</head>
 
-<body class="bg-black text-white relative">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 bg-blue-200 flex items-center justify-center z-50">
-        <div class="text-center">
-            <div class="loader ease-linear rounded-full border-8 border-t-8 border-blue-500 h-32 w-32 mb-4"></div>
-            <h2 class="text-4xl font-semibold text-blue-900">Loading...</h2>
-        </div>
+<!-- Header -->
+<header class="z-10 sticky justify-items-center w-full top-0 grid grid-cols-5 bg-white justify-center p-4 drop-shadow">
+    <div class="col-span-2 flex gap-x-12 mt-3 justify-self-end" id="link-bar-1">
+        <a href="{{site.baseurl}}/trivia" class="text-sm/6 font-semibold text-gray-900">Trivia</a>
+        <a href="{{site.baseurl}}/dnasimulation" class="text-sm/6 font-semibold text-gray-900">DNA Simulation</a>
     </div>
-    <!-- Welcome Section with Typewriter Effect -->
-    <section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-black text-white-200 ">
-        <h1 class="typewriter"></h1>
-        <h2 id="slogan" class="slogan text-4xl" style="color:rgb(255, 255, 255); text-shadow: 0 0 2px rgb(162, 188, 220), 0 0 2px rgb(77, 146, 207), 0 0 4px rgb(88, 77, 207), 0 0 4px rgb(77, 207, 168)">Illumina Biotech: Igniting Curiosity, Advancing Science</h2>
-    </section>
-    <!-- About Us Section -->
-    <section id="about" class="h-screen flex flex-col items-center justify-center text-center bg-black text-white">
-        <h2 class="text-7xl font-extrabold text-white-600 fade-in mb-6">About Us</h2>
-        <p class="text-3xl text-white-900 max-w-5xl fade-in">
-            The Illumina Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way. 
-        </p>
-    </section>
-    <!-- Our Mission Section -->
-    <section id="mission" class="h-screen flex flex-col items-center justify-center text-center py-20 bg-gray-900 text-white">
-        <h3 class="text-6xl font-bold mt-8 text-white-900 fade-in">Our Mission</h3>
-        <p class="text-3xl text-white-700 mt-4 max-w-5xl fade-in">
-            Our mission aims to spark curiosity, inspire future scientists, and make biotech education accessible to all.
-        </p>
-    </section>
-    <!-- AI Solutions Section -->
-    <section id="ai-solutions" class="py-20 bg-black">
-        <h2 class="text-7xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105 ai-card">
-                <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-black">Virtual Lab Simulation</h3>
-                    <p class="text-xl text-black">Explore DNA sequencing processes.</p>
-                </div>
-            </div>
-            <a href="{{site.baseurl}}/trivia" target="_self">
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105 ai-card">
-                    <div class="p-6">
-                        <h3 class="text-3xl font-bold mb-2 text-black">Trivia Challenge</h3>
-                        <p class="text-xl text-black">Test your knowledge on genetic research breakthroughs.</p>
-                        <img src="https://scitechdaily.com/images/DNA-Technology-Concept.gif" alt="Geneticist" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                </div>
-            </a>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105 ai-card">
-                <div class="p-6">
-                    <h3 class="text-3xl font-bold mb-2 text-black">Puzzle Game</h3>
-                    <p class="text-xl text-black">Illustrates the impact of personalized medicine.</p>
-                </div>
-            </div>
+    <div class="p-2" id="home-btn">
+        <a href="{{site.baseurl}}/" class="text-sm/6 font-bold text-rose-600">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0,0,256,256">
+                <g fill="#2563EB" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10">
+                    <g transform="scale(10.66667,10.66667)">
+                        <path d="M12,2c-0.26712,0.00003 -0.52312,0.10694 -0.71094,0.29688l-10.08594,8.80078c-0.12774,0.09426 -0.20313,0.24359 -0.20312,0.40234c0,0.27614 0.22386,0.5 0.5,0.5h2.5v8c0,0.552 0.448,1 1,1h4c0.552,0 1,-0.448 1,-1v-6h4v6c0,0.552 0.448,1 1,1h4c0.552,0 1,-0.448 1,-1v-8h2.5c0.27614,0 0.5,-0.22386 0.5,-0.5c0.00001,-0.15876 -0.07538,-0.30808 -0.20312,-0.40234l-10.08008,-8.79492c-0.00194,-0.00196 -0.0039,-0.00391 -0.00586,-0.00586c-0.18782,-0.18994 -0.44382,-0.29684 -0.71094,-0.29687z"></path>
+                    </g>
+                </g>
+            </svg>
+        </a>
+    </div>
+    <div class="col-span-2 flex gap-x-12 mt-3 justify-self-start" id="link-bar-2">
+        <a href="{{site.baseurl}}/about" class="text-sm/6 font-semibold text-gray-900">About Us</a>
+        <a href="{{site.baseurl}}/search/" class="text-sm/6 font-semibold text-gray-900">Search</a>
+        <!-- Authentication Links -->
+        <a id="signup-login" href="{{ site.baseurl }}/login" class="text-blue-600 font-extrabold tracking-tight">Sign Up | Login</a>
+        <a hidden id="profile" href="{{site.baseurl}}/bookworms_profile" class="text-rose-600 font-extrabold tracking-tight">Profile</a>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section id="welcome" class="h-screen flex flex-col items-center justify-center text-center bg-cover bg-center relative" style="background-image: url('https://scitechdaily.com/images/DNA-Genetics.gif');">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative z-10">
+        <h1 class="text-6xl font-bold text-white neon-glow">Welcome to Illumina Education</h1>
+        <h2 class="text-2xl mt-4 text-white opacity-80">Igniting Curiosity, Advancing Science</h2>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about" class="py-20 text-center bg-gray-900">
+    <h2 class="text-5xl font-bold text-white fade-in">About Us</h2>
+    <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
+        The Illumina Biotech Education Game is designed to immerse students in the world of biotechnology.
+        Through interactive gameplay, students explore DNA, genetics, and scientific advancements.
+    </p>
+</section>
+
+<!-- Our Mission Section -->
+<section id="mission" class="py-20 text-center bg-black">
+    <h3 class="text-5xl font-bold text-white fade-in">Our Mission</h3>
+    <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
+        Our mission is to make biotech education fun, engaging, and accessible to all.
+    </p>
+</section>
+
+<!-- Interactive Activities Section -->
+<section id="ai-solutions" class="py-20 bg-gray-900">
+    <h2 class="text-5xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-6xl">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
+            <h3 class="text-3xl font-bold mb-2 text-black">Virtual Lab Simulation</h3>
+            <p class="text-xl text-gray-700">Explore DNA sequencing processes.</p>
         </div>
-    </section>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const loadingScreen = document.getElementById('loading-screen');
-            window.addEventListener('load', function () {
-                loadingScreen.style.display = 'none';
-            });
-            // Typewriter effect for the welcome message
-            const text = "Welcome to Illumina Education";
-            const typewriterElement = document.querySelector(".typewriter");
-            const sloganElement = document.getElementById("slogan");
-            let index = 0;
-            function type() {
-                if (index < text.length) {
-                    const span = document.createElement('span');
-                    span.textContent = text.charAt(index) === ' ' ? '\u00A0' : text.charAt(index); // Use non-breaking space for spaces
-                    span.classList.add('text');
-                    typewriterElement.appendChild(span);
-                    setTimeout(() => {
-                        span.style.opacity = 1;
-                    }, 50 * index);
-                    index++;
-                    setTimeout(type, 80);
-                } else {
-                    // Once typing is finished, show the slogan
-                    sloganElement.style.opacity = 1; // Make slogan visible
-                }
-            }
-            type();
-            // Fade in effect for other elements
-            const fadeInElements = document.querySelectorAll('.fade-in');
-            window.addEventListener('scroll', function () {
-                fadeInElements.forEach(function (element) {
-                    if (element.getBoundingClientRect().top < window.innerHeight) {
-                        element.classList.add('visible');
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+        <a href="{{ site.baseurl }}/trivia">
+            <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
+                <h3 class="text-3xl font-bold mb-2 text-black">Trivia Challenge</h3>
+                <p class="text-xl text-gray-700">Test your knowledge on genetic research breakthroughs.</p>
+            </div>
+        </a>
+        <a href="{{ site.baseurl }}/genes">
+            <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
+                <h3 class="text-3xl font-bold mb-2 text-black">Gene Mutation Guessing Game</h3>
+                <p class="text-xl text-gray-700">Learn about the effects of different gene mutations on the body.</p>
+            </div>
+        </a>
+    </div>
+</section>
