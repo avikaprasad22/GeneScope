@@ -1,6 +1,6 @@
 ---
 layout: tailwind
-title: Illumina Biotech
+title: Illumina Interactive Biotech Education
 search_exclude: true
 hide: true
 show_reading_time: false
@@ -22,8 +22,7 @@ menu: nav/home.html
 <section id="about" class="py-20 text-center bg-gray-900">
     <h2 class="text-5xl font-bold text-white fade-in">About Us</h2>
     <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
-        The Illumina Biotech Education Game is designed to immerse students in the world of biotechnology.
-        Through interactive gameplay, students explore DNA, genetics, and scientific advancements.
+        The Illumina Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way.
     </p>
 </section>
 
@@ -31,7 +30,7 @@ menu: nav/home.html
 <section id="mission" class="py-20 text-center bg-black">
     <h3 class="text-5xl font-bold text-white fade-in">Our Mission</h3>
     <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
-        Our mission is to make biotech education fun, engaging, and accessible to all.
+        Our mission aims to spark curiosity, inspire future scientists, and make biotech education accessible to all.
     </p>
 </section>
 

@@ -3,5 +3,5 @@ layout: search
 title: Search
 search_exclude: true
 permalink: /search/
-menu: nav/home.html
+menu: _includes/theme/minima/header.html
 ---
