@@ -1,11 +1,14 @@
 ---
-layout: post
+layout: tailwind
 title: Profile Settings
 permalink: /profile
 menu: nav/home.html
 search_exclude: true
 show_reading_time: false
 ---
+<style>
+
+</style>
 <div class="profile-container">
  <div class="card">
    <form id="profileForm">
