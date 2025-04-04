@@ -5,8 +5,6 @@ permalink: /trivia/
 show_reading_time: false
 ---
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,12 +31,10 @@ show_reading_time: false
     <script type="module">
         // filepath: /home/gabrielac/nighthawk/illumina_dna/navigation/trivia.md
         import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
-
         let username = "";
         let score = 0;
         let timer;
         let timeLeft = 60; // Game duration in seconds
-
         function startGame() {
             let nameInput = document.getElementById("username").value.trim();
             if (!nameInput) {
@@ -52,7 +48,6 @@ show_reading_time: false
             startTimer();
             fetchQuestion(); // Fetch the first question
         }
-
         function startTimer() {
             clearInterval(timer);
             timer = setInterval(() => {
@@ -64,7 +59,6 @@ show_reading_time: false
                 }
             }, 1000);
         }
-
         function fetchQuestion() {
             let difficulty = document.getElementById("difficulty").value;
             fetch(`${pythonURI}/api/get_question?difficulty=${difficulty}`, fetchOptions)
@@ -74,7 +68,6 @@ show_reading_time: false
                 })
                 .catch(() => showMessage("Error loading question. Please try again.", "error"));
         }
-
         function displayQuestion(data) {
             let container = document.getElementById("question-container");
             container.innerHTML = `
@@ -90,7 +83,6 @@ show_reading_time: false
                 container.appendChild(button);
             });
         }
-
         function checkAnswer(selected, correct) {
             if (selected === correct) {
                 score += 10;
@@ -102,12 +94,10 @@ show_reading_time: false
                 if (timeLeft > 0) fetchQuestion(); // Fetch next question
             }, 500);
         }
-
         function endGame() {
             showMessage(`Game over! Final Score: ${score}`, "info");
             submitScore();
         }
-
         function submitScore() {
             fetch(`${pythonURI}/api/submit_scores`, {
                 method: "POST",
@@ -116,7 +106,6 @@ show_reading_time: false
             }).then(response => response.json())
               .then(() => loadLeaderboard());
         }
-
         function loadLeaderboard() {
             fetch(`${pythonURI}/api/get_scores`, fetchOptions)
                 .then(response => response.json())
@@ -130,19 +119,16 @@ show_reading_time: false
                     });
                 });
         }
-
         function showMessage(message, type) {
             let messageBox = document.getElementById("message-box");
             messageBox.textContent = message;
             messageBox.className = type;
             setTimeout(() => messageBox.textContent = "", 2000);
         }
-
         document.getElementById("start-btn").addEventListener("click", startGame);
         loadLeaderboard();
     </script>
 </body>
-</html>
 
 <style>
 /* filepath: /home/gabrielac/nighthawk/illumina_dna/navigation/trivia.md */
@@ -207,7 +193,7 @@ input, select {
     background-color: #28a745;
     color: white;
     border-radius: 6px;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
 .answer-btn:hover {
