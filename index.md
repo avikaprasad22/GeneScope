@@ -60,7 +60,7 @@ menu: nav/home.html
 <!-- Typewriter Effect Script -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const text = "Illumina Biotech";
+    const text = "Illumina Interactive Biotech Education";
     let index = 0;
     const speed = 100; // typing speed in milliseconds
     const typewriter = document.getElementById("typewriter");
