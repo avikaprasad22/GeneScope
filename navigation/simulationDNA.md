@@ -1,9 +1,8 @@
 ---
-layout: post
+layout: tailwind
 # title: DNA Animation
 permalink: /dnasimulation/
 show_reading_time: false
-menu: nav/home.html
 ---
 
 <html lang="en">

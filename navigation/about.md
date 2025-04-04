@@ -1,8 +1,9 @@
 ---
-layout: post
+layout: tailwind
 # title: About Us
 permalink: /about/
-show_reading_time: false
+show_reading_time: false 
+menu: nav/home.html
 ---
 <style>
   body {

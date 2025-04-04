@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: tailwind
 title: Trivia Game
 permalink: /trivia/
 show_reading_time: false
