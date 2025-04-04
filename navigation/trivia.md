@@ -3,14 +3,15 @@ layout: tailwind
 title: Trivia Game
 permalink: /trivia/
 show_reading_time: false
+menu: nav/home.html
 ---
-
+<!-- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia Game</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-</head>
+</head> -->
 <body>
     <h1>Biology Trivia Game 🎉</h1>
     <p>Test your knowledge of biotechnology! Answer as many questions as you can before time runs out.</p>
