@@ -145,7 +145,6 @@ show_reading_time: false
 </html>
 
 <style>
-/* filepath: /home/gabrielac/nighthawk/illumina_dna/navigation/trivia.md */
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
