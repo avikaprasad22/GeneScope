@@ -1,7 +1,7 @@
 ---
-layout: search
+layout: tsearch
 title: Search
 search_exclude: true
 permalink: /search/
-menu: _includes/theme/minima/header.html
+menu: nav/home.html
 ---
