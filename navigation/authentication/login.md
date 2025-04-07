@@ -183,7 +183,7 @@ menu: nav/home.html
         <hr>
         <form id="pythonForm" onsubmit="loginBoth(); return false;">
             <div class="form-group">
-                <input type="text" class="form-input" id="uid" placeholder="GitHub ID" required>
+                <input type="text" class="form-input" id="uid" placeholder="Username" required>
                 <ion-icon name="id-card-outline"></ion-icon>
             </div>
             <div class="form-group">
@@ -213,10 +213,10 @@ menu: nav/home.html
                 <input type="password" class="form-input" id="signupPassword" placeholder="Password" required>
             </div>
             <p>
-                <label>
+                <!-- <label>
                     <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
                     Kasm Server Needed
-                </label>
+                </label> -->
             </p>
             <p>
                 <button type="submit" class="glow-on-hover-search submit-button">Sign Up</button>
@@ -296,7 +296,7 @@ menu: nav/home.html
                     dob: "11-01-2024", // Static date, can be modified
                     name: document.getElementById("uid").value,
                     password: document.getElementById("password").value,
-                    kasmServerNeeded: false,
+                    // kasmServerNeeded: false,
                 });
                 const signupOptions = {
                     ...fetchOptions,
@@ -367,7 +367,7 @@ menu: nav/home.html
         uid: document.getElementById("signupUid").value,
         name: document.getElementById("name").value,
         password: document.getElementById("signupPassword").value,
-        kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+        // kasmServerNeeded: document.getElementById("kasmNeeded").checked,
     };
      const signupDataJava = {
         email: document.getElementById("signupUid").value + "@gmail.com",
@@ -375,7 +375,7 @@ menu: nav/home.html
         dob: "11-01-2024", // You can dynamically get this
         name: document.getElementById("name").value,
         password: document.getElementById("signupPassword").value,
-        kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+        // kasmServerNeeded: document.getElementById("kasmNeeded").checked,
     };
     // First, make the request to the Python backend
     const pythonSignupOptions = {
