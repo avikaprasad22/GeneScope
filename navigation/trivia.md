@@ -1,12 +1,11 @@
 ---
-layout: page
+layout: tailwind
 title: Trivia Game
 permalink: /trivia/
 show_reading_time: false
+menu: nav/home.html
 ---
-
-<!DOCTYPE html>
-<html lang="en">
+<!-- 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

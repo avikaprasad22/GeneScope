@@ -1,53 +1,9 @@
 {%- include head.html -%}
 
 <body>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <main class="page-content" aria-label="Content">
-    <div class="wrapper bg-white">{{ content }}</div>
-  </main> -->
+
   {%- include theme/minima/header.html -%}
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-      /* Simple background animation */
-      body {
-          background: linear-gradient(45deg, #6ee7b7, #3b82f6, #9333ea, #facc15);
-          background-size: 400% 400%;
-          animation: gradientAnimation 10s ease infinite;
-      }
 
-      /* Keyframes for smooth gradient transition */
-      @keyframes gradientAnimation {
-          0% {
-              background-position: 0% 50%;
-          }
-          50% {
-              background-position: 100% 50%;
-          }
-          100% {
-              background-position: 0% 50%;
-          }
-      }
-  </style>
-
-  <script>
-    // JavaScript to handle fade-in effect on scroll
-    const fadeInElements = document.querySelectorAll(".fade-in");
-
-    const handleScroll = () => {
-        fadeInElements.forEach((el) => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
-                el.classList.add("visible");
-            } else {
-                el.classList.remove("visible");
-            }
-        });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("load", handleScroll); // Trigger on page load
-  </script>
-  
   <main class="page-content" aria-label="Content">
     <div class="wrapper">
       {{ content }}
@@ -56,4 +12,4 @@
 
   {%- include theme/minima/footer.html -%}
 
-</html>
+</body>
