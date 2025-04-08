@@ -179,7 +179,7 @@ menu: nav/home.html
 <div class="login-container">
     <!-- Python Login Form -->
     <div class="login-card">
-        <h1 id="pythonTitle">User Login (Python/Flask)</h1>
+        <h1 id="pythonTitle">User Login</h1>
         <hr>
         <form id="pythonForm" onsubmit="loginBoth(); return false;">
             <div class="form-group">
