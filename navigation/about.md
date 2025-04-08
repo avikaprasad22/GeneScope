@@ -123,7 +123,7 @@ menu: nav/home.html
       <li><strong>Soni</strong> - DNA Sequencing Simulation</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Trivia Question System</li>
+      <li><strong>Zoe</strong> - Career Aspiration Quiz</li>
     </ul>
   </div>
 </div>
