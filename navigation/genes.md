@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: tailwind 
 permalink: /genes/
 menu: nav/home.html
 author: Nora Ahadian
