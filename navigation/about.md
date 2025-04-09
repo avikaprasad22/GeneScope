@@ -70,6 +70,7 @@ menu: nav/home.html
 
   .popup-content {
     background: white;
+    color: black; 
     padding: 20px;
     border-radius: 10px;
     width: 350px;
@@ -123,7 +124,7 @@ menu: nav/home.html
       <li><strong>Soni</strong> - DNA Sequencing Simulation</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Career Aspiration Quiz</li>
+      <li><strong>Zoe</strong> - Trivia Question System</li>
     </ul>
   </div>
 </div>
