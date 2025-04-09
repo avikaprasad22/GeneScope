@@ -1,6 +1,9 @@
 {%- include head.html -%}
-
-<body>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script> 
+<body class="bg-black text-white">
 
   {%- include theme/minima/header.html -%}
 
@@ -10,6 +13,23 @@
     </div>
   </main>
 
-  {%- include theme/minima/footer.html -%}
+  <!-- {%- include theme/minima/footer.html -%} -->
 
+  <footer class="bg-gray-900 text-center py-4 mt-10 fixed bottom-0 w-full">
+    <p class="text-gray-400">© 2025 Illumina Biotech</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fade-in effect for elements
+        const fadeInElements = document.querySelectorAll('.fade-in');
+        window.addEventListener('scroll', function () {
+            fadeInElements.forEach(function (element) {
+                if (element.getBoundingClientRect().top < window.innerHeight) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+    });
+</script>
 </body>
