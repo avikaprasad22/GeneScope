@@ -1,32 +1,51 @@
 ---
 layout: base
-permalink: /career_aspirations/
+permalink: /career/
 ---
 
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Biotechnology Career Quiz</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-    .quiz-section {
-      margin-top: 20px;
-    }
-  </style>
-</head>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #4a6d87; /* Dull dark blue */
+    padding: 10px;
+    text-align: left;
+  }
+  th {
+    background-color:rgb(17, 51, 123); /* Light blue */
+  }
+  .quiz-section {
+    margin-top: 20px;
+  }
+  #career-result {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #4a6d87; /* Dull dark blue */
+    border-radius: 10px;
+    background-color:rgb(21, 20, 102); /* Light blue */
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  .spinner {
+    margin-top: 10px;
+    border: 4px solidrgb(0, 0, 0);
+    border-top: 4px solid #4a6d87; /* Dull dark blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
 <body>
   <h1>Biotechnology Career Quiz</h1>
 
@@ -49,71 +68,109 @@ permalink: /career_aspirations/
       <input type="radio" name="q4" value="5"> Yes<br>
       <input type="radio" name="q4" value="0"> No<br><br>
 
+      <label for="q5">5. Are you curious about how living organisms function at the molecular level?</label><br>
+      <input type="radio" name="q5" value="5"> Yes<br>
+      <input type="radio" name="q5" value="0"> No<br><br>
+
       <button type="button" onclick="calculateScore()">Submit Quiz</button>
     </form>
   </div>
 
-  <div id="career-result" style="display:none; margin-top: 20px;">
+  <div id="career-result">
     <h2>Your Suggested Career in Biotechnology:</h2>
     <p id="career-result-text"></p>
+    <div id="spinner" class="spinner" style="display: none;"></div>
   </div>
 
-  <script>
-    async function calculateScore() {
-      let score = 0;
-      const form = document.getElementById("quiz-form");
-      const radios = form.querySelectorAll('input[type="radio"]:checked');
+<script>
+  let displayedCareers = new Set();  // Set to store unique career names that have been displayed
+  let allCareers = []; // Array to store all available filtered careers
+  let currentIndex = 0; // Track how many careers have been shown
 
-      radios.forEach(radio => {
-        score += parseInt(radio.value);
-      });
+  async function calculateScore() {
+    let score = 0;
+    const form = document.getElementById("quiz-form");
+    const radios = form.querySelectorAll('input[type="radio"]:checked');
 
-      // Now, based on the score, fetch career data from the backend (subject scores)
-      const careerData = await fetchCareersByScore(score);
+    radios.forEach(radio => {
+      score += parseInt(radio.value);
+    });
 
-      // Show the result
-      document.getElementById("career-result-text").textContent = careerData;
-      document.getElementById("career-result").style.display = "block";
-    }
+    const biologyScore = Math.round((score / 25) * 100);
 
-    async function fetchCareersByScore(score) {
-      // Set a range based on quiz score (can adjust based on your preference)
-      const biologyScoreRange = getBiologyScoreRange(score);
-      
-      try {
-        // Send request to backend with score range to fetch matching careers
-        const response = await fetch(`http://127.0.0.1:8504/api/get_careers?biology_score_min=${biologyScoreRange.min}&biology_score_max=${biologyScoreRange.max}`);
-        const result = await response.json();
+    const resultDiv = document.getElementById("career-result");
+    const resultText = document.getElementById("career-result-text");
+    const spinner = document.getElementById("spinner");
 
-        if (result && result.careers) {
-          // Process the careers and suggest the most frequent ones
-          const careerCounts = {};
-          result.careers.forEach(student => {
-            const career = student.career_aspiration;
-            careerCounts[career] = (careerCounts[career] || 0) + 1;
-          });
+    resultDiv.style.display = "block";
+    resultText.innerHTML = `<strong>Your quiz score:</strong> ${score} out of 25<br><strong>Estimated Biology Score:</strong> ${biologyScore}/100<br><br>Finding the best match...`;
+    spinner.style.display = "inline-block";
 
-          // Sort careers by most frequent
-          const sortedCareers = Object.entries(careerCounts)
-            .sort(([, countA], [, countB]) => countB - countA)
-            .slice(0, 3);
+    const careerData = await fetchCareersByBiologyScore(biologyScore);
 
-          return `Based on your score, the top 3 career suggestions are: ${sortedCareers.map(([career]) => career).join(', ')}`;
-        } else {
-          return "No matching career data found.";
-        }
-      } catch (error) {
-        console.error("Error fetching career data:", error);
-        return "Error fetching career data.";
+    spinner.style.display = "none";
+    resultText.innerHTML += `<br><br>${careerData}`;
+  }
+
+  async function fetchCareersByBiologyScore(score) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8504/api/get_careers?biology_score=${score}`);
+      const result = await response.json();
+
+      if (result && result.careers && result.careers.length > 0) {
+        // Filter out "Unknown" and already displayed careers
+        const careers = result.careers.filter(career => {
+          const careerName = career.career_aspiration.toLowerCase();
+          if (
+            careerName !== "unknown" &&
+            !displayedCareers.has(careerName)
+          ) {
+            displayedCareers.add(careerName);
+            return true;
+          }
+          return false;
+        });
+
+        allCareers = careers;
+        currentIndex = 0; // Reset for new quiz submission
+        return showCareers();
+      } else {
+        return "No matching career data found.";
       }
+    } catch (error) {
+      console.error("Error fetching career data:", error);
+      return "Error fetching career data.";
+    }
+  }
+
+  function showCareers() {
+    const careersToShow = allCareers.slice(currentIndex, currentIndex + 5);
+    currentIndex += careersToShow.length;
+
+    const careersText = careersToShow.map(career => `${career.career_aspiration}`).join('<br>');
+    let resultHTML = `🎯 Based on your score, you might become:<br><strong>${careersText}</strong>`;
+
+    if (currentIndex < allCareers.length) {
+      resultHTML += `<br><br><button onclick="showMoreCareers()">Show More</button>`;
     }
 
-    function getBiologyScoreRange(score) {
-      // Example of defining ranges based on quiz score (can be adjusted)
-      if (score >= 15) return { min: 80, max: 100 };
-      if (score >= 10) return { min: 60, max: 79 };
-      return { min: 0, max: 59 };
+    return resultHTML;
+  }
+
+  function showMoreCareers() {
+    const careersToShow = allCareers.slice(currentIndex, currentIndex + 5);
+    currentIndex += careersToShow.length;
+
+    const careersText = careersToShow.map(career => `${career.career_aspiration}`).join('<br>');
+    const resultText = document.getElementById("career-result-text");
+
+    resultText.innerHTML += `<br><br><strong>${careersText}</strong>`;
+
+    if (currentIndex >= allCareers.length) {
+      const showMoreButton = document.querySelector("button");
+      if (showMoreButton) showMoreButton.style.display = "none";
     }
-  </script>
+  }
+</script>
 </body>
-</html>
+
