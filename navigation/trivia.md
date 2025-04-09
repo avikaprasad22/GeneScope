@@ -5,12 +5,8 @@ permalink: /trivia/
 show_reading_time: false
 menu: nav/home.html
 ---
-<!-- 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivia Game</title>
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css" />
   <style>
     body {
         font-family: 'Arial', sans-serif;
@@ -20,12 +16,10 @@ menu: nav/home.html
         background-color: #f4f4f4;
         color: #333;
     }
-
     h1 {
         font-size: 28px;
         color: #0077cc;
     }
-
     button {
         padding: 12px 20px;
         margin: 15px;
@@ -37,18 +31,15 @@ menu: nav/home.html
         border-radius: 8px;
         transition: background 0.3s;
     }
-
     button:hover {
         background-color: #005fa3;
     }
-
     input, select {
         padding: 10px;
         font-size: 16px;
         margin: 10px;
         width: 200px;
     }
-
     #question-container {
         margin-top: 20px;
         background: white;
@@ -58,13 +49,11 @@ menu: nav/home.html
         display: inline-block;
         max-width: 600px;
     }
-
     .question-box p {
         font-size: 20px;
         font-weight: bold;
         color: #000;
     }
-
     .answer-btn {
         display: block;
         width: 90%;
@@ -76,17 +65,14 @@ menu: nav/home.html
         border-radius: 6px;
         transition: background 0.3s;
     }
-
     .answer-btn:hover {
         background-color: #218838;
     }
-
     ul {
         list-style-type: none;
         font-size: 16px;
         padding: 0;
     }
-
     ul li {
         background: white;
         margin: 5px auto;
@@ -97,37 +83,30 @@ menu: nav/home.html
         color: #000;
         font-weight: bold;
     }
-
     #message-box {
         font-size: 18px;
         font-weight: bold;
         margin-top: 10px;
         padding: 10px;
     }
-
     .success {
         color: green;
     }
-
     .error {
         color: red;
     }
-
     .info {
         color: #0077cc;
     }
-
     #timer {
         font-size: 22px;
         font-weight: bold;
         color: #d9534f;
     }
-
     #loader {
         display: none;
         margin: 30px auto;
     }
-
     .spinner {
         border: 8px solid #f3f3f3;
         border-top: 8px solid #0077cc;
@@ -137,12 +116,10 @@ menu: nav/home.html
         animation: spin 1s linear infinite;
         margin: 0 auto;
     }
-
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
     .loading-text {
         margin-top: 10px;
         font-size: 18px;
