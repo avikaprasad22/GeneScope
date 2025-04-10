@@ -18,10 +18,10 @@ show_reading_time: false
     min-width: 300px;
   }
 
-  .A { color: #e74c3c; }   /* Red */
-  .T { color: #2980b9; }   /* Blue */
-  .C { color: #27ae60; }   /* Green */
-  .G { color: #f39c12; }   /* Orange */
+  .A { color: #e74c3c; }
+  .T { color: #2980b9; }
+  .C { color: #27ae60; }
+  .G { color: #f39c12; }
   .underscore { color: #bbb; }
 
   form {
@@ -45,10 +45,14 @@ show_reading_time: false
     background-color: #45a049;
   }
 
-  #result {
+  #result, #reveal-section {
     margin-top: 20px;
     font-weight: bold;
     font-size: 18px;
+  }
+
+  .hidden {
+    display: none;
   }
 </style>
 
@@ -74,40 +78,65 @@ show_reading_time: false
 
 <p id="result"></p>
 
+<div id="reveal-section" class="hidden">
+  <button onclick="revealGene()">Reveal the Gene</button>
+  <button onclick="tryAgain()">Try Again</button>
+  <p id="gene-info" class="hidden"></p>
+</div>
+
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504/api";
   let correctMutation = null;
+  let currentGene = "";
+  let currentCondition = "";
+  let currentSequence = "";
+  let currentMutation = "";
 
-  const renderSequence = (sequence) => {
-    const box = document.getElementById("dna-sequence");
-    box.innerHTML = "";
-    for (let char of sequence) {
-      const span = document.createElement("span");
-      if ("ATCG".includes(char)) {
-        span.className = char;
-        span.textContent = char;
-      } else {
-        span.className = "underscore";
-        span.textContent = "_";
-      }
-      box.appendChild(span);
-    }
-  };
+  async function loadNewSequence() {
+    const status = document.getElementById("sequence-status");
+    const sequenceBox = document.getElementById("dna-sequence");
+    const result = document.getElementById("result");
+    const geneInfo = document.getElementById("gene-info");
+    const revealSection = document.getElementById("reveal-section");
 
-  window.onload = async function () {
     try {
+      status.textContent = "🧬 Loading sequence...";
+      sequenceBox.innerHTML = '<span class="underscore">_</span>'.repeat(6);
+      result.textContent = "";
+      geneInfo.textContent = "";
+      geneInfo.classList.add("hidden");
+      revealSection.classList.add("hidden");
+
       const res = await fetch(`${BACKEND_URL}/get-sequence`);
-      if (!res.ok) throw new Error("Network error");
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
-      document.getElementById("sequence-status").textContent = "Sequence loaded:";
-      renderSequence(data.sequence);
+
       correctMutation = data.mutation;
+      currentGene = data.gene;
+      currentCondition = data.condition;
+      currentSequence = data.sequence;
+      currentMutation = data.mutation;
+
+      status.textContent = `🔍 Spot the Mutation Below`;
+      sequenceBox.innerHTML = "";
+      for (const base of data.sequence) {
+        const span = document.createElement("span");
+        span.textContent = base;
+        if ("ATCG".includes(base)) {
+          span.className = base;
+        } else {
+          span.className = "underscore";
+        }
+        sequenceBox.appendChild(span);
+      }
+
     } catch (error) {
-      console.error("Failed to load sequence:", error);
-      document.getElementById("sequence-status").textContent = "❌ Error loading sequence.";
-      renderSequence("______");
+      console.error("[ERROR] Failed to fetch sequence:", error);
+      status.textContent = "❌ Error loading sequence.";
     }
-  };
+  }
+
+  window.onload = loadNewSequence;
 
   document.getElementById("mutation-form").onsubmit = async function (e) {
     e.preventDefault();
@@ -117,13 +146,34 @@ show_reading_time: false
       const res = await fetch(`${BACKEND_URL}/check-mutation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ guess, correct: correctMutation })
+        body: JSON.stringify({
+          guess: guess,
+          correct: correctMutation,
+          gene: currentGene,
+          condition: currentCondition,
+          mutation: currentMutation,
+          sequence: currentSequence
+        })
       });
+
       const result = await res.json();
       document.getElementById("result").textContent = result.message;
+      document.getElementById("reveal-section").classList.remove("hidden");
+
     } catch (error) {
       console.error("Error submitting guess:", error);
       document.getElementById("result").textContent = "❌ Error submitting guess.";
     }
   };
+
+  function revealGene() {
+    const geneInfo = document.getElementById("gene-info");
+    geneInfo.textContent = `🧬 Gene: ${currentGene} — 🧾 Condition: ${currentCondition}`;
+    geneInfo.classList.remove("hidden");
+  }
+
+  function tryAgain() {
+    loadNewSequence();
+    document.querySelector("#mutation-form").reset();
+  }
 </script>
