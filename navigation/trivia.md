@@ -5,6 +5,7 @@ permalink: /trivia/
 show_reading_time: false
 menu: nav/home.html
 ---
+<html>
 <head>
   <title>Trivia Game</title>
   <style>
@@ -219,7 +220,6 @@ menu: nav/home.html
             endGame();
             return;
         }
-
         displayQuestion(allQuestions[currentQuestionIndex]);
         currentQuestionIndex++;
     }
@@ -247,7 +247,6 @@ menu: nav/home.html
         } else {
             showMessage(`❌ Wrong! Correct answer: ${correct}`, "error");
         }
-
         setTimeout(() => {
             if (timeLeft > 0) fetchQuestion();
         }, 500);
@@ -262,12 +261,14 @@ menu: nav/home.html
     }
 
     function submitScore() {
-        fetch(`${pythonURI}/api/submit_scores`, {
+        const options = {
+            ...fetchOptions,
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username: username, score: score })
-        }).then(res => res.json())
-          .then(() => loadLeaderboard());
+        };
+        fetch(`${pythonURI}/api/submit_scores`, options)
+            .then(res => res.json())
+            .then(() => loadLeaderboard());
     }
 
     function loadLeaderboard() {
