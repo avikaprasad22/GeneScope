@@ -1,13 +1,13 @@
 ---
 layout: tailwind
-# title: DNA Animation
+title: DNA Animation
 permalink: /dnasimulation/
 show_reading_time: false
 ---
 
 <head>
   <meta charset="UTF-8">
-  <title>DNA Animation</title>
+  <title>DNA Simulation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -18,15 +18,25 @@ show_reading_time: false
     }
   </style>
 </head>
+
 <body class="bg-black text-white">
 
-<!-- Buttons -->
-<div class="absolute bottom-10 left-10 z-10 flex flex-col gap-4">
-  <button onclick="changeSequence('human')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Human</button>
-  <button onclick="changeSequence('virus')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Virus</button>
-  <button onclick="changeSequence('bacteria')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Bacteria</button>
-  <button onclick="changeSequence('strawberry')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Strawberry</button>
-  <button id="freezeButton" onclick="toggleFreeze()" class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
+<!-- Form -->
+<div class="absolute top-5 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+  <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
+  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
+         class="mb-2 p-2 rounded w-full text-black" />
+  <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+         class="mb-2 p-2 rounded w-full text-black" />
+  <button onclick="fetchSequence()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
+  <p id="errorMessage" class="text-red-400 mt-2"></p>
+</div>
+
+<!-- Freeze Button -->
+<div class="absolute bottom-10 left-10 z-10">
+  <button id="freezeButton" onclick="toggleFreeze()"
+          class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
 </div>
 
 <!-- Canvas -->
@@ -45,7 +55,6 @@ show_reading_time: false
   const baseSpacing = 40;
   const amplitude = 100;
   const speed = 0.02;
-
   const complements = { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' };
   const baseColors = {
     'A': '#99ff99',
@@ -54,23 +63,11 @@ show_reading_time: false
     'G': '#ff6666'
   };
 
-  const sequences = {
-    'human': "ATGCGTACGTTGACCTAGGCTAACCGTTCAGC",
-    'virus': "TTAAGCGGCTGACCGAATTCCGGTAGCTTAGG",
-    'bacteria': "GCTTAGGCCAATCGTTAAGGCCGATCCTAGGT",
-    'strawberry': "ATGGTGAGCTCAGTTGGTGACCTGAGGCTTCA"
-  };
-
-  let currentSequence = sequences['human'];
+  let currentSequence = 'ATCG'.repeat(50); // Default 200 bases
 
   function toggleFreeze() {
     isFrozen = !isFrozen;
     document.getElementById('freezeButton').textContent = isFrozen ? 'Unfreeze' : 'Freeze';
-  }
-
-  function changeSequence(sequence) {
-    currentSequence = sequences[sequence];
-    angleOffset = 0;
   }
 
   function drawBasePairLine(x1, y, x2, y2) {
@@ -94,45 +91,17 @@ show_reading_time: false
         const x2 = centerX - amplitude * Math.sin(angle);
 
         const base1 = currentSequence[i];
-        const base2 = complements[base1];
+        const base2 = complements[base1] || 'A';
 
-        // White connecting line
         drawBasePairLine(x1, y, x2, y);
-
-        // Colored nucleotide dots
         ctx.beginPath();
         ctx.arc(x1, y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = baseColors[base1];
+        ctx.fillStyle = baseColors[base1] || 'gray';
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(x2, y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = baseColors[base2];
-        ctx.fill();
-      }
-    } else {
-      const ladderX = centerX;
-      for (let i = 0; i < currentSequence.length; i++) {
-        const y = 100 + i * baseSpacing;
-        const base1 = currentSequence[i];
-        const base2 = complements[base1];
-
-        // White bar
-        ctx.fillStyle = 'white';
-        ctx.fillRect(ladderX - 50, y - 4, 100, 8);
-
-        // White rung
-        drawBasePairLine(ladderX - 50, y, ladderX + 50, y);
-
-        // Colored dots
-        ctx.beginPath();
-        ctx.arc(ladderX - 55, y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = baseColors[base1];
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(ladderX + 55, y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = baseColors[base2];
+        ctx.fillStyle = baseColors[base2] || 'gray';
         ctx.fill();
       }
     }
@@ -141,7 +110,40 @@ show_reading_time: false
     requestAnimationFrame(animateDNA);
   }
 
+  async function fetchSequence() {
+    const organism = document.getElementById('organismInput').value.trim();
+    const gene = document.getElementById('geneInput').value.trim();
+    const errorEl = document.getElementById('errorMessage');
+    errorEl.textContent = "";
+
+    if (!organism || !gene) {
+      errorEl.textContent = "Please enter both organism and gene symbol.";
+      return;
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8504/sequence', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ organism, gene })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unknown error");
+      }
+
+      currentSequence = result.sequence.slice(0, 200); // Limit to 200 bases
+      angleOffset = 0;
+    } catch (err) {
+      errorEl.textContent = `Error: ${err.message}`;
+    }
+  }
+
   animateDNA();
 </script>
 </body>
-</html>
