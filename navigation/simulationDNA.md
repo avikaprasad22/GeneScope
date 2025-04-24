@@ -16,6 +16,27 @@ show_reading_time: false
       padding: 0;
       overflow: hidden;
     }
+
+    .tooltip-box {
+      position: absolute;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      z-index: 50;
+      white-space: nowrap;
+      transform: translate(-50%, -120%);
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      background-color: rgba(0, 0, 0, 0.85);
+      transition: all 0.2s ease;
+    }
+
+    .codon-info {
+      max-width: 320px;
+      border-left: 4px solid white;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
   </style>
 </head>
 
@@ -42,6 +63,16 @@ show_reading_time: false
 <!-- Canvas -->
 <canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
 
+<!-- Tooltip Overlay -->
+<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
+<div id="customTooltip" class="tooltip-box hidden"></div>
+
+<!-- Side Info Box -->
+<div id="codonInfoBox" class="absolute top-[150px] right-5 bg-gray-900 bg-opacity-90 text-white p-5 rounded-xl shadow-xl z-30 codon-info hidden">
+  <h3 class="text-lg font-bold mb-2" id="codonTitle">Codon Info</h3>
+  <p id="codonDescription" class="text-sm leading-relaxed"></p>
+</div>
+
 <script>
   const canvas = document.getElementById('dnaCanvas');
   const ctx = canvas.getContext('2d');
@@ -63,7 +94,27 @@ show_reading_time: false
     'G': '#ff6666'
   };
 
+  const baseDescriptions = {
+    'A': 'Adenine (Green)',
+    'T': 'Thymine (Blue)',
+    'C': 'Cytosine (Yellow)',
+    'G': 'Guanine (Red)'
+  };
+
+  const fullDescriptions = {
+    'A': 'DNA is composed of four nitrogenous bases: adenine, guanine, thymine, and cytosine, each with distinct structures and functions. Adenine (A) is a purine base characterized by a double-ring structure consisting of fused imidazole and pyrimidine rings. It pairs with thymine through two hydrogen bonds, contributing to the stability of the DNA double helix. Beyond its role in DNA, adenine is also found in essential biomolecules like ATP (adenosine triphosphate), NAD, and FAD, playing key roles in cellular energy transfer and enzymatic activity.',
+    'T': 'thymine (T) is a pyrimidine base with a single six-membered ring and a methyl group at the fifth carbon. Thymine pairs with adenine via two hydrogen bonds and is unique to DNA, being replaced by uracil in RNA. The presence of the methyl group enhances DNA stability by protecting it from enzymatic degradation, making DNA more chemically stable than RNA.',
+    'C': 'Cytosine is another pyrimidine, with an amino group at carbon 4 and a carbonyl group at carbon 2. It pairs with guanine through three hydrogen bonds, contributing to DNA’s structural strength. Cytosine is also notable for its role in epigenetic regulation, as it can be chemically modified through methylation to form 5-methylcytosine, which affects gene expression without altering the DNA sequence.',
+    'G': 'Guanine (G) is the second purine base in DNA and shares a similar double-ring structure with adenine but differs in its functional groups. It forms three hydrogen bonds with cytosine, resulting in a stronger and more thermally stable base pair. Guanine is also involved in cellular signaling through its role in GTP (guanosine triphosphate) and influences gene regulation and DNA structural integrity.'
+  };
+
   let currentSequence = 'ATCG'.repeat(50); // Default 200 bases
+
+  const tooltipContainer = document.getElementById('tooltipContainer');
+  const customTooltip = document.getElementById('customTooltip');
+  const codonBox = document.getElementById('codonInfoBox');
+  const codonTitle = document.getElementById('codonTitle');
+  const codonDescription = document.getElementById('codonDescription');
 
   function toggleFreeze() {
     isFrozen = !isFrozen;
@@ -77,6 +128,54 @@ show_reading_time: false
     ctx.moveTo(x1, y);
     ctx.lineTo(x2, y2);
     ctx.stroke();
+  }
+
+  function updateTooltips() {
+    tooltipContainer.innerHTML = '';
+    const centerX = WIDTH / 2;
+
+    for (let i = 0; i < currentSequence.length; i++) {
+      const angle = i * 0.4 + angleOffset;
+      const y = 100 + i * baseSpacing;
+      const x1 = centerX + amplitude * Math.sin(angle);
+      const x2 = centerX - amplitude * Math.sin(angle);
+
+      const base1 = currentSequence[i];
+      const base2 = complements[base1] || 'A';
+
+      [[x1, base1], [x2, base2]].forEach(([x, base]) => {
+        const dot = document.createElement('div');
+        dot.style.position = 'absolute';
+        dot.style.left = `${x - 10}px`;
+        dot.style.top = `${y - 10}px`;
+        dot.style.width = '20px';
+        dot.style.height = '20px';
+        dot.style.borderRadius = '50%';
+        dot.style.pointerEvents = 'auto';
+        dot.style.backgroundColor = 'rgba(255, 255, 255, 0.01)';
+        dot.addEventListener('mouseenter', () => {
+          const color = baseColors[base] || 'white';
+
+          customTooltip.textContent = baseDescriptions[base] || base;
+          customTooltip.style.left = `${x}px`;
+          customTooltip.style.top = `${y}px`;
+          customTooltip.style.boxShadow = `0 0 12px ${color}`;
+          customTooltip.classList.remove('hidden');
+
+          codonTitle.textContent = baseDescriptions[base];
+          codonDescription.textContent = fullDescriptions[base];
+          codonBox.style.borderColor = color;
+          codonBox.style.boxShadow = `0 0 20px ${color}`;
+          codonBox.classList.remove('hidden');
+        });
+
+        dot.addEventListener('mouseleave', () => {
+          customTooltip.classList.add('hidden');
+        });
+
+        tooltipContainer.appendChild(dot);
+      });
+    }
   }
 
   function animateDNA() {
@@ -94,6 +193,7 @@ show_reading_time: false
         const base2 = complements[base1] || 'A';
 
         drawBasePairLine(x1, y, x2, y);
+
         ctx.beginPath();
         ctx.arc(x1, y, 8, 0, Math.PI * 2);
         ctx.fillStyle = baseColors[base1] || 'gray';
@@ -104,9 +204,11 @@ show_reading_time: false
         ctx.fillStyle = baseColors[base2] || 'gray';
         ctx.fill();
       }
+
+      updateTooltips();
+      angleOffset += speed;
     }
 
-    angleOffset += speed;
     requestAnimationFrame(animateDNA);
   }
 
@@ -124,9 +226,7 @@ show_reading_time: false
     try {
       const response = await fetch('http://127.0.0.1:8504/sequence', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ organism, gene })
       });
@@ -137,7 +237,7 @@ show_reading_time: false
         throw new Error(result.error || "Unknown error");
       }
 
-      currentSequence = result.sequence.slice(0, 200); // Limit to 200 bases
+      currentSequence = result.sequence.slice(0, 200);
       angleOffset = 0;
     } catch (err) {
       errorEl.textContent = `Error: ${err.message}`;
