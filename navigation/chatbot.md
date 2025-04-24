@@ -8,8 +8,8 @@ show_reading_time: false
 
 <style>
   body {
-    background-color: #ffffff; /* white background */
-    color: #1a202c; /* dark gray text for readability */
+    background-color: #ffffff;
+    color: #1a202c;
   }
 
   form {
@@ -75,14 +75,19 @@ show_reading_time: false
 <div id="result" class="result"></div>
 
 <script>
-  const BACKEND_URL = "http://127.0.0.1:8504"; // Change this to your backend URL
+  const BACKEND_URL = "http://127.0.0.1:8504";
 
   async function startQuiz(event) {
     event.preventDefault();
     const disease = document.getElementById("disease").value.trim();
     if (!disease) return;
 
-    const res = await fetch(`${BACKEND_URL}/get_symptoms?disease=${encodeURIComponent(disease)}`);
+    const res = await fetch(`${BACKEND_URL}/chatbot/get_symptoms?disease=${encodeURIComponent(disease)}`);
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Error fetching symptoms:", text);
+      return;
+    }
     const data = await res.json();
 
     const result = document.getElementById("result");
@@ -118,14 +123,19 @@ show_reading_time: false
       payload[key] = parseInt(value);
     });
 
-    // Add target_disease
     payload["target_disease"] = document.getElementById("disease").value.trim();
 
-    const res = await fetch(`${BACKEND_URL}/predict`, {
+    const res = await fetch(`${BACKEND_URL}/chatbot/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Error predicting:", text);
+      return;
+    }
 
     const data = await res.json();
     const result = document.getElementById("result");
