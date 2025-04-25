@@ -22,7 +22,7 @@ menu: nav/home.html
 <section id="about" class="py-20 text-center bg-gray-900">
     <h2 class="text-5xl font-bold text-white fade-in">About Us</h2>
     <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
-        The Illumina Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way.
+        The GeneScope Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way.
     </p>
 </section>
 

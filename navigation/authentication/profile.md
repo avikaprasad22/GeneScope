@@ -311,7 +311,7 @@ show_reading_time: false
 </style>
 
 <header class="heading">
-    <h1>Illumina DNA</h1>
+    <h1>GeneScope</h1>
     <p>You can control your settings from here!</p>
 </header>
 

@@ -22,7 +22,7 @@ show_reading_time: false
 
 <script>
     // Typing animation for the welcome message
-    const text = "Welcome to Illumina DNA";
+    const text = "Welcome to GeneScope";
     let index = 0;
     const speed = 50; 
 
