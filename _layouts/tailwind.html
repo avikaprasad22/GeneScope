@@ -20,10 +20,6 @@ layout: null
               success: "var(--color-success)",
               warning: "var(--color-warning)",
             },
-            fontFamily: {
-              inter: ["Inter", "sans-serif"],
-              mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"]
-            }
           },
         },
       };
@@ -34,110 +30,38 @@ layout: null
 
     <!-- Custom Styles -->
     <style>
-  :root {
-    --color-dark: #121212;
-    --color-darker: #232e43;
-    --color-accent: #82b2ff;
-    --color-success: #34A853;
-    --color-warning: #FBBC05;
-  }
+      :root {
+        --color-dark: #121212;
+        --color-darker: #232e43;
+        --color-accent: #82b2ff;
+        --color-success: #34A853;
+        --color-warning: #FBBC05;
+      }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--color-darker);
-    color: #f0f4f8;
-    text-shadow: none;
-  }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--color-darker); /* Restore intended background color */
+        color: #f0f4f8; /* Ensure text color is light for readability */
+        text-shadow: none; /* Remove text-shadow globally */
+      }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    text-shadow: none;
-    background: transparent;
-    color: var(--color-accent);
-  }
+      h1, h2, h3, p, label, input, select, button, option {
+        text-shadow: none !important; /* Explicitly remove text-shadow */
+        background: transparent; /* Ensure no unwanted background highlights */
+        color: inherit; /* Ensure text color matches the theme */
+      }
 
-  h1 {
-    font-size: 2.25rem; /* text-4xl */
-    border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 0.25rem;
-  }
+      select, option {
+        background-color: var(--color-darker); /* Apply grey background to dropdowns */
+        color: #f0f4f8; /* Ensure text is readable */
+        border: 1px solid #3c4c60; /* Add subtle border */
+      }
 
-  h2 {
-    font-size: 1.875rem; /* text-3xl */
-  }
-
-  h3 {
-    font-size: 1.5rem; /* text-2xl */
-  }
-
-  h4 {
-    font-size: 1.25rem; /* text-xl */
-  }
-
-  h5 {
-    font-size: 1.125rem; /* text-lg */
-  }
-
-  h6 {
-    font-size: 1rem; /* text-base */
-  }
-
-  p, label, input, select, button, option {
-    text-shadow: none !important;
-    background: transparent;
-    color: inherit;
-  }
-
-  select, option {
-    background-color: var(--color-darker);
-    color: #f0f4f8;
-    border: 1px solid #3c4c60;
-  }
-
-  ::selection {
-    background: var(--color-accent);
-    color: white;
-  }
-
-  /* Jupyter notebook-style blocks */
-  .jp-InputPrompt, .jp-OutputPrompt {
-    color: #9ca3af;
-    font-weight: bold;
-  }
-
-  .jp-CodeCell {
-    background-color: #1f2937;
-    padding: 1rem;
-    border-left: 4px solid var(--color-accent);
-    border-radius: 0.5rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    overflow-x: auto;
-  }
-
-  .jp-OutputArea {
-    margin-top: 0.5rem;
-    background-color: #111827;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  }
-
-  pre, code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    background-color: #1e293b;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    display: block;
-    overflow-x: auto;
-  }
-
-  @media (min-height: 700px) {
-    main {
-      padding-bottom: 6rem;
-    }
-  }
-</style>
+      ::selection {
+        background: var(--color-accent); /* Customize text selection background */
+        color: white; /* Customize text selection text color */
+      }
+    </style>
   </head>
   <body class="bg-darker text-gray-200">
     <!-- Header -->
@@ -145,7 +69,24 @@ layout: null
       <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-accent"><a href="{{ site.baseurl }}/">Illumina DNA</a></h1>
         <nav class="space-x-6">
-          <a href="{{ site.baseurl }}/career/" class="text-gray-200 hover:text-accent">Career Quiz</a>
+          <div class="relative group inline-block">
+          <button class="text-gray-200 hover:text-accent focus:outline-none">
+            Quizzes
+            <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded-lg shadow-lg">
+            <a href="{{ site.baseurl }}/trivia/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Trivia</a>
+            <a href="{{ site.baseurl }}/genes/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Genes Quiz</a>
+            <a href="{{ site.baseurl }}/risk-quiz/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Risk Quiz</a>
+            <a href="{{ site.baseurl }}/career/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Career Quiz</a>
+          </div>
+          </div>
+          <!-- <a href="{{ site.baseurl }}/trivia/" class="text-gray-200 hover:text-accent">Trivia</a> -->
+          <!-- <a href="{{ site.baseurl }}/genes/" class="text-gray-200 hover:text-accent">Trivia</a> -->
+          <!-- <a href="{{ site.baseurl }}/career" class="text-gray-200 hover:text-accent">Career Quiz</a> -->
+          <a href="{{ site.baseurl }}/simulationDNA" class="text-gray-200 hover:text-accent">DNA Simulation</a>
           <a href="{{ site.baseurl }}/about/" class="text-gray-200 hover:text-accent">About Us</a>
           <a href="{{ site.baseurl }}/search/" class="text-gray-200 hover:text-accent">Search</a>
           <a href="{{ site.baseurl }}/blogs/" class="text-gray-200 hover:text-accent">Documentation</a>
@@ -160,7 +101,7 @@ layout: null
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-center py-4 mt-10 w-full">
+    <footer class="bg-gray-900 text-center py-4 mt-10 fixed bottom-0 w-full">
       <p class="text-gray-400">© 2025 Illumina Biotech</p>
     </footer>
   </body>
