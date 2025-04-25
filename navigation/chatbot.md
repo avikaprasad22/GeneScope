@@ -1,78 +1,31 @@
 ---
 layout: tailwind
 permalink: /risk-quiz/
-menu: nav/home.html
 author: Nora Ahadian
 show_reading_time: false
+menu: nav/home.html
 ---
 
-<style>
-  body {
-    background-color: #ffffff; /* white background */
-    color: #1a202c; /* dark gray text for readability */
-  }
+<!-- Tailwind-based version -->
+<div class="bg-white text-gray-900">
+  <h1 class="text-2xl font-bold">🧬 SymbiBot Disease Risk Quiz</h1>
+  <p class="mt-2">Type a disease to begin. You’ll be asked about related symptoms, and then we’ll predict your risk.</p>
 
-  form {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  <form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
+    <input type="text" id="disease" placeholder="e.g., diabetes" required
+      class="p-2 border border-gray-300 rounded text-gray-900 text-base" />
+    <button type="submit"
+      class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Start Quiz</button>
+  </form>
 
-  input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    border-radius: 4px;
-    color: #1a202c;
-  }
+  <form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="flex flex-col gap-4 mt-4">
+    <div id="symptom-questions" class="mt-4"></div>
+    <button type="submit"
+      class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Submit Answers</button>
+  </form>
 
-  button {
-    padding: 10px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  button:hover {
-    background-color: #45a049;
-  }
-
-  .question-block {
-    margin-top: 15px;
-  }
-
-  .result, .warning {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 18px;
-    color: #1a202c;
-  }
-
-  .warning {
-    color: #b91c1c;
-  }
-</style>
-
-
-# 🧬 SymbiBot Disease Risk Quiz
-
-<p>Type a disease to begin. You’ll be asked about related symptoms, and then we’ll predict your risk.</p>
-
-<form id="disease-form" onsubmit="startQuiz(event)">
-  <input type="text" id="disease" placeholder="e.g., diabetes" required />
-  <button type="submit">Start Quiz</button>
-</form>
-
-<form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)">
-  <div id="symptom-questions" class="question-block"></div>
-  <button type="submit">Submit Answers</button>
-</form>
-
-<div id="result" class="result"></div>
+  <div id="result" class="mt-6 font-bold text-lg text-gray-900"></div>
+</div>
 
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504"; // Change this to your backend URL
@@ -99,9 +52,15 @@ show_reading_time: false
       const label = symptom.replace(/_/g, ' ');
       questionsDiv.innerHTML += `
         <div>
-          <label>${label}</label><br>
-          <input type="radio" name="${symptom}" value="1" required> Yes
-          <input type="radio" name="${symptom}" value="0"> No
+          <label class="block font-medium">${label}</label>
+          <div class="flex gap-4 mt-1">
+            <label class="flex items-center gap-1">
+              <input type="radio" name="${symptom}" value="1" required class="accent-green-600" /> Yes
+            </label>
+            <label class="flex items-center gap-1">
+              <input type="radio" name="${symptom}" value="0" class="accent-green-600" /> No
+            </label>
+          </div>
         </div>
       `;
     });
@@ -118,7 +77,6 @@ show_reading_time: false
       payload[key] = parseInt(value);
     });
 
-    // Add target_disease
     payload["target_disease"] = document.getElementById("disease").value.trim();
 
     const res = await fetch(`${BACKEND_URL}/predict`, {
@@ -133,7 +91,7 @@ show_reading_time: false
 
     if (data.risk > 50) {
       const warning = document.createElement('div');
-      warning.className = 'warning';
+      warning.className = 'text-red-700 font-bold mt-2';
       warning.textContent = "⚠️ High risk! Please consult a healthcare professional.";
       result.appendChild(warning);
     }

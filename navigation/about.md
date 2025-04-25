@@ -5,6 +5,7 @@ permalink: /about/
 show_reading_time: false 
 menu: nav/home.html
 ---
+
 <style>
   body {
     font-family: Arial, sans-serif;
