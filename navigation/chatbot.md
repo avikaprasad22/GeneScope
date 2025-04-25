@@ -6,23 +6,20 @@ show_reading_time: false
 menu: nav/home.html
 ---
 
+<form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
+  <input type="text" id="disease" placeholder="e.g., diabetes" required
+    class="p-2 border border-gray-300 rounded text-gray-900 text-base" />
+  <button type="submit"
+    class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Start Quiz</button>
+</form>
 
+<form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="flex flex-col gap-4 mt-4">
+  <div id="symptom-questions" class="mt-4"></div>
+  <button type="submit"
+    class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Submit Answers</button>
+</form>
 
-  <form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
-    <input type="text" id="disease" placeholder="e.g., diabetes" required
-      class="p-2 border border-gray-300 rounded text-gray-900 text-base" />
-    <button type="submit"
-      class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Start Quiz</button>
-  </form>
-
-  <form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="flex flex-col gap-4 mt-4">
-    <div id="symptom-questions" class="mt-4"></div>
-    <button type="submit"
-      class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Submit Answers</button>
-  </form>
-
-  <div id="result" class="mt-6 font-bold text-lg text-gray-900"></div>
-</div>
+<div id="result" class="mt-6 font-bold text-lg text-gray-900"></div>
 
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504";
