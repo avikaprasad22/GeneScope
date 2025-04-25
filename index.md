@@ -38,9 +38,9 @@ menu: nav/home.html
 <section id="ai-solutions" class="py-20 bg-gray-900">
     <h2 class="text-5xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-6xl">
-        <a href="{{ site.baseurl }}/simulationDNA">
+        <a href="{{ site.baseurl }}/risk-quiz/">
             <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
-                <h3 class="text-3xl font-bold mb-2 text-black">Virtual Lab Simulation</h3>
+                <h3 class="text-3xl font-bold mb-2 text-black">Risk Quiz Analysis</h3>
                 <p class="text-xl text-gray-700">Explore DNA sequencing processes.</p>
             </div>
         </a>
