@@ -5,50 +5,6 @@ permalink: /history
 menu: nav/home.html
 search_exclude: true
 ---
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    .data {
-        display: flex;
-        align-items: flex-start;
-        max-width: 800px;
-        width: 100%;
-        background-color: #2c3e50;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .left-side {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-right: 20px;
-    }
-    .details {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .post-item {
-        background-color: #34495e;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        color: #ecf0f1;
-    }
-    .post-item h3 {
-        margin: 0 0 5px 0;
-    }
-    .post-item p {
-        margin: 0;
-    }
-</style>
 
 <!-- Analytics Page -->
 <div class="container">

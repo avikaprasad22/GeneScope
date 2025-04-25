@@ -1,6 +1,6 @@
 title: Illumina DNA
 description: "Social Media for Del Norte High School"
-owner_name: Gabriela Connelly
+owner_name: Avika Prasad
 github_username: avikaprasad22
 github_repo: "illumina_dna"
 baseurl: "/illumina_dna"
@@ -15,6 +15,14 @@ minima:
 # remote_theme: pages-themes/time-machine@v0.2.0
 plugins:
   - jekyll-remote-theme
+layouts_dir: _layouts
 header_pages:
-  - navigation/ai.md
+  - navigation/about.md
+  - navigation/search.md
   - navigation/blog.md
+
+defaults:
+  - scope:
+      path: "" # Applies to all files
+    values:
+      layout: tailwind

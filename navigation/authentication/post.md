@@ -5,45 +5,6 @@ permalink: /post
 menu: nav/home.html
 search_exclude: true
 ---
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        max-width: 800px;
-        width: 100%;
-        background-color: #2C3E50;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        color: #ECF0F1;
-    }
-    .form-container label {
-        margin-bottom: 5px;
-    }
-    .form-container input, .form-container textarea, .form-container select {
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        width: 100%;
-    }
-    .form-container button {
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        background-color: #34495E;
-        color: #ECF0F1;
-        cursor: pointer;
-    }
-</style>
 
 <div class="container">
     <div class="form-container">
