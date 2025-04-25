@@ -4,19 +4,6 @@ layout: tailwind
 permalink: /dnasimulation/
 show_reading_time: false
 ---
-<div class="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-    <!-- Header and Buttons -->
-    <div class="absolute bottom-10 left-10 z-10 flex flex-col gap-4">
-        <button onclick="changeSequence('human')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Human</button>
-        <button onclick="changeSequence('virus')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Virus</button>
-        <button onclick="changeSequence('bacteria')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Bacteria</button>
-        <button onclick="changeSequence('strawberry')" class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition duration-300">Strawberry</button>
-        <button id="freezeButton" onclick="toggleFreeze()" class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
-    </div>
-
-
-<!-- Canvas for Animation -->
-<canvas id="dnaCanvas" ></canvas>
 </div>
 
 

@@ -6,10 +6,7 @@ show_reading_time: false
 menu: nav/home.html
 ---
 
-<!-- Tailwind-based version -->
-<div class="bg-white text-gray-900">
-  <h1 class="text-2xl font-bold">🧬 SymbiBot Disease Risk Quiz</h1>
-  <p class="mt-2">Type a disease to begin. You’ll be asked about related symptoms, and then we’ll predict your risk.</p>
+
 
   <form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
     <input type="text" id="disease" placeholder="e.g., diabetes" required
@@ -28,14 +25,19 @@ menu: nav/home.html
 </div>
 
 <script>
-  const BACKEND_URL = "http://127.0.0.1:8504"; // Change this to your backend URL
+  const BACKEND_URL = "http://127.0.0.1:8504";
 
   async function startQuiz(event) {
     event.preventDefault();
     const disease = document.getElementById("disease").value.trim();
     if (!disease) return;
 
-    const res = await fetch(`${BACKEND_URL}/get_symptoms?disease=${encodeURIComponent(disease)}`);
+    const res = await fetch(`${BACKEND_URL}/chatbot/get_symptoms?disease=${encodeURIComponent(disease)}`);
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Error fetching symptoms:", text);
+      return;
+    }
     const data = await res.json();
 
     const result = document.getElementById("result");
@@ -79,11 +81,17 @@ menu: nav/home.html
 
     payload["target_disease"] = document.getElementById("disease").value.trim();
 
-    const res = await fetch(`${BACKEND_URL}/predict`, {
+    const res = await fetch(`${BACKEND_URL}/chatbot/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Error predicting:", text);
+      return;
+    }
 
     const data = await res.json();
     const result = document.getElementById("result");
