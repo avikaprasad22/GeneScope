@@ -5,305 +5,178 @@ permalink: /trivia/
 show_reading_time: false
 menu: nav/home.html
 ---
-<html>
-<head>
-  <title>Trivia Game</title>
-  <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-        font-size: 18px;
-        line-height: 1.6;
-        background-color: #f4f4f4;
-        color: #333;
-    }
-    h1 {
-        font-size: 28px;
-        color: #0077cc;
-    }
-    button {
-        padding: 12px 20px;
-        margin: 15px;
-        cursor: pointer;
-        font-size: 18px;
-        border: none;
-        background-color: #0077cc;
-        color: white;
-        border-radius: 8px;
-        transition: background 0.3s;
-    }
-    button:hover {
-        background-color: #005fa3;
-    }
-    input, select {
-        padding: 10px;
-        font-size: 16px;
-        margin: 10px;
-        width: 200px;
-    }
-    #question-container {
-        margin-top: 20px;
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        display: inline-block;
-        max-width: 600px;
-    }
-    .question-box p {
-        font-size: 20px;
-        font-weight: bold;
-        color: #000;
-    }
-    .answer-btn {
-        display: block;
-        width: 90%;
-        margin: 8px auto;
-        padding: 10px;
-        font-size: 16px;
-        background-color: #28a745;
-        color: white;
-        border-radius: 6px;
-        transition: background 0.3s;
-    }
-    .answer-btn:hover {
-        background-color: #218838;
-    }
-    ul {
-        list-style-type: none;
-        font-size: 16px;
-        padding: 0;
-    }
-    ul li {
-        background: white;
-        margin: 5px auto;
-        padding: 10px;
-        max-width: 300px;
-        border-radius: 6px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        color: #000;
-        font-weight: bold;
-    }
-    #message-box {
-        font-size: 18px;
-        font-weight: bold;
-        margin-top: 10px;
-        padding: 10px;
-    }
-    .success {
-        color: green;
-    }
-    .error {
-        color: red;
-    }
-    .info {
-        color: #0077cc;
-    }
-    #timer {
-        font-size: 22px;
-        font-weight: bold;
-        color: #d9534f;
-    }
-    #loader {
-        display: none;
-        margin: 30px auto;
-    }
-    .spinner {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #0077cc;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    .loading-text {
-        margin-top: 10px;
-        font-size: 18px;
-        color: #0077cc;
-    }
-  </style>
-</head>
-<body>
-  <h1>Biology Trivia Game 🎉</h1>
-  <p>Test your knowledge of biotechnology! Answer as many questions as you can before time runs out.</p>
 
-  <label for="username"><strong>Enter your name:</strong></label>
-  <input type="text" id="username" placeholder="Your name..." required />
+<div class="trivia-container space-y-6 p-6 bg-pink-100 rounded-2xl shadow-2xl max-w-2xl mx-auto font-[Comic Sans MS,cursive,sans-serif]">
+  <h2 class="text-3xl font-extrabold text-pink-800 text-center">🧬 Genetics Trivia Challenge 🧠</h2>
 
-  <label for="difficulty"><strong>Choose Difficulty:</strong></label>
-  <select id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium" selected>Medium</option>
-    <option value="hard">Hard</option>
-  </select>
+  <button id="startGameButton"
+          class="bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-md transition duration-300">
+     Start 30‑Second Challenge
+  </button>
 
-  <button id="start-btn">Start Game</button>
-  <button id="restart-btn" style="display: none;">Play Again</button>
+  <div id="gameContainer" class="hidden space-y-4">
+    <h3 id="questionText" class="text-xl font-semibold text-purple-900 text-center"></h3>
+    <div id="answersContainer" class="grid grid-cols-2 gap-4"></div>
 
-  <h2>Time Left: <span id="timer">60</span> seconds</h2>
-  <div id="message-box"></div>
-  <div id="question-container"></div>
-
-  <div id="loader">
-    <div class="spinner"></div>
-    <div class="loading-text">Loading questions...</div>
+    <div class="flex justify-between px-2">
+      <p class="text-purple-800">⏳ Time Left: <span id="timer" class="font-bold text-red-600">30</span>s</p>
+      <p class="text-purple-800">🌟 Score: <span id="score" class="font-bold text-green-600">0</span></p>
+    </div>
   </div>
 
-  <h2>Leaderboard 🏆</h2>
-  <ul id="leaderboard"></ul>
+  <button id="playAgainButton"
+          class="hidden bg-green-400 text-white px-6 py-3 rounded-full hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 shadow-md transition duration-300">
+     Play Again
+  </button>
 
-  <script type="module">
-    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+  <div id="leaderboardContainer" class="space-y-2 max-h-64 overflow-y-auto bg-white p-4 rounded-xl shadow-inner">
+    <h3 class="text-xl font-semibold text-purple-900 text-center">🏆 Leaderboard</h3>
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-pink-200">
+          <th class="border px-3 py-2 text-purple-900">Username</th>
+          <th class="border px-3 py-2 text-purple-900">Score</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody" class="text-purple-800"></tbody>
+    </table>
+  </div>
 
-    let username = "";
-    let score = 0;
-    let timer;
-    let timeLeft = 60;
-    let currentQuestionIndex = 0;
-    let allQuestions = [];
+  <p id="message" class="text-red-500 text-center pt-2"></p>
+</div>
 
-    function startGame() {
-        let nameInput = document.getElementById("username").value.trim();
-        if (!nameInput) {
-            showMessage("Please enter your name to start.", "error");
-            return;
-        }
 
-        username = nameInput;
-        score = 0;
-        timeLeft = 60;
-        currentQuestionIndex = 0;
-        allQuestions = [];
+<script type="module">
+  import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-        document.getElementById("start-btn").style.display = "none";
-        document.getElementById("restart-btn").style.display = "none";
-        document.getElementById("username").disabled = true;
-        document.getElementById("difficulty").disabled = true;
-        document.getElementById("timer").textContent = timeLeft;
-        document.getElementById("loader").style.display = "block";
-        document.getElementById("question-container").innerHTML = "";
+  let currentQuestions = [];
 
-        fetch(`${pythonURI}/api/get_questions`, fetchOptions)
-            .then(res => res.json())
-            .then(data => {
-                allQuestions = data;
-                document.getElementById("loader").style.display = "none";
-                startTimer();
-                fetchQuestion();
-            })
-            .catch(() => {
-                showMessage("Failed to load questions. Try again.", "error");
-                document.getElementById("loader").style.display = "none";
-                document.getElementById("start-btn").style.display = "inline-block";
-            });
-    }
+  async function getUserId() {
+    const res = await fetch(pythonURI + '/api/id', fetchOptions);
+    return (await res.json()).id;
+  }
 
-    function startTimer() {
-        clearInterval(timer);
-        timer = setInterval(() => {
-            timeLeft--;
-            document.getElementById("timer").textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                endGame();
-            }
-        }, 1000);
-    }
+  async function fetchGameQuestions() {
+    const res = await fetch(pythonURI + '/api/get_questions', fetchOptions);
+    if (!res.ok) throw new Error('Failed to load questions');
+    return await res.json();
+  }
 
-    function fetchQuestion() {
-        if (currentQuestionIndex >= allQuestions.length) {
-            endGame();
-            return;
-        }
-        displayQuestion(allQuestions[currentQuestionIndex]);
-        currentQuestionIndex++;
-    }
+  async function updateLeaderboard() {
+    const topRes = await fetch(pythonURI + '/api/scoreboard/top', fetchOptions);
+    const top = await topRes.json();
+    const tbody = document.getElementById('leaderboardBody');
+    tbody.innerHTML = '';
+    top.forEach(e => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="border px-2 py-1">${e.username}</td>
+        <td class="border px-2 py-1">${e.score}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
 
-    function displayQuestion(data) {
-        let container = document.getElementById("question-container");
-        container.innerHTML = `
-            <div class="question-box">
-                <p><strong>${data.question}</strong></p>
-            </div>
-        `;
-        data.options.forEach(option => {
-            let button = document.createElement("button");
-            button.textContent = option;
-            button.className = "answer-btn";
-            button.onclick = () => checkAnswer(option, data.correct_answer);
-            container.appendChild(button);
-        });
-    }
+  function startChallenge(questions) {
+    let idx = 0, score = 0;
+    const duration = 30;
+    let timeLeft = duration, timerId;
+    const startBtn = document.getElementById('startGameButton');
+    const gameCtn = document.getElementById('gameContainer');
+    const qText    = document.getElementById('questionText');
+    const ansCtn   = document.getElementById('answersContainer');
+    const timerEl  = document.getElementById('timer');
+    const scoreEl  = document.getElementById('score');
+    const playAgainBtn = document.getElementById('playAgainButton');
 
-    function checkAnswer(selected, correct) {
-        if (selected === correct) {
-            score += 10;
-            showMessage("✅ Correct!", "success");
-        } else {
-            showMessage(`❌ Wrong! Correct answer: ${correct}`, "error");
-        }
-        setTimeout(() => {
-            if (timeLeft > 0) fetchQuestion();
-        }, 500);
-    }
+    // Reset UI
+    scoreEl.textContent = '0';
+    timerEl.textContent = duration;
+    startBtn.classList.add('hidden');
+    playAgainBtn.classList.add('hidden');
+    gameCtn.classList.remove('hidden');
 
-    function endGame() {
-        showMessage(`🎉 Congratulations, ${username}! You scored ${score} points!`, "info");
-        submitScore();
-        document.getElementById("restart-btn").style.display = "inline-block";
-        document.getElementById("username").disabled = false;
-        document.getElementById("difficulty").disabled = false;
-    }
+function showQuestion() {
+  if (idx >= questions.length) idx = 0;
+  const q = questions[idx++];
+  qText.textContent = q.question;
+  ansCtn.innerHTML = '';
 
-    function submitScore() {
-        const options = {
-            ...fetchOptions,
-            method: "POST",
-            body: JSON.stringify({ username: username, score: score })
-        };
-        fetch(`${pythonURI}/api/submit_scores`, options)
-            .then(res => res.json())
-            .then(() => loadLeaderboard());
-    }
+  const opts = [...q.options].sort(() => Math.random() - 0.5);
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all';
+    btn.textContent = opt;
 
-    function loadLeaderboard() {
-        fetch(`${pythonURI}/api/get_scores`, fetchOptions)
-            .then(res => res.json())
-            .then(data => {
-                let leaderboard = document.getElementById("leaderboard");
-                leaderboard.innerHTML = "";
-                data.forEach(entry => {
-                    let li = document.createElement("li");
-                    li.textContent = `${entry.username}: ${entry.score} pts`;
-                    leaderboard.appendChild(li);
-                });
-            });
-    }
+    btn.addEventListener('click', () => {
+      ansCtn.querySelectorAll('button').forEach(b => b.disabled = true);
 
-    function showMessage(message, type) {
-        let messageBox = document.getElementById("message-box");
-        messageBox.textContent = message;
-        messageBox.className = type;
-        setTimeout(() => messageBox.textContent = "", 2000);
-    }
+      if (opt === q.correct_answer) {
+        btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
+        btn.classList.add('bg-green-500', 'animate-pulse');
+        score++;
+        scoreEl.textContent = score;
+      } else {
+        btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
+        btn.classList.add('bg-red-500', 'animate-pulse');
+      }
 
-    document.getElementById("start-btn").addEventListener("click", startGame);
-    document.getElementById("restart-btn").addEventListener("click", () => {
-        document.getElementById("restart-btn").style.display = "none";
-        document.getElementById("start-btn").style.display = "inline-block";
-        document.getElementById("username").disabled = false;
-        document.getElementById("difficulty").disabled = false;
-        document.getElementById("question-container").innerHTML = "";
-        document.getElementById("message-box").textContent = "";
-        document.getElementById("timer").textContent = "60";
+      setTimeout(() => {
+        btn.classList.remove('animate-pulse');
+        updateLeaderboard();
+        showQuestion();
+      }, 800);
     });
 
-    loadLeaderboard();
-  </script>
-</body>
-</html>
+    ansCtn.appendChild(btn);
+  });
+}
+
+    function tick() {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        endChallenge();
+      }
+    }
+
+    async function endChallenge() {
+      ansCtn.querySelectorAll('button').forEach(b => b.disabled = true);
+      const userId = await getUserId();
+      await fetch(pythonURI + '/api/scoreboard/', {
+        ...fetchOptions,
+        method: 'POST',
+        body: JSON.stringify({ score, userId })
+      });
+      updateLeaderboard();
+      playAgainBtn.classList.remove('hidden');
+    }
+
+    showQuestion();
+    timerId = setInterval(tick, 1000);
+  }
+
+  document.getElementById('startGameButton').addEventListener('click', async () => {
+    document.getElementById('message').textContent = '';
+    try {
+      currentQuestions = await fetchGameQuestions();
+      startChallenge(currentQuestions);
+    } catch (e) {
+      document.getElementById('message').textContent = e.message;
+    }
+  });
+
+  document.getElementById('playAgainButton').addEventListener('click', async () => {
+    document.getElementById('message').textContent = '';
+    document.getElementById('playAgainButton').classList.add('hidden');
+    try {
+      currentQuestions = await fetchGameQuestions();
+      startChallenge(currentQuestions);
+    } catch (e) {
+      document.getElementById('message').textContent = e.message;
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", updateLeaderboard);
+</script>
