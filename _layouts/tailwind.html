@@ -69,18 +69,19 @@ layout: null
       <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-accent"><a href="{{ site.baseurl }}/">GeneScope</a></h1>
         <nav class="space-x-6">
-          <div class="relative group inline-block">
-          <button class="text-gray-200 hover:text-accent focus:outline-none">
-            Quizzes
-            <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded-lg shadow-lg">
-            <a href="{{ site.baseurl }}/trivia/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Trivia</a>
-            <a href="{{ site.baseurl }}/genes/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Genes Quiz</a>
-            <a href="{{ site.baseurl }}/risk-quiz/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Risk Quiz</a>
-            <a href="{{ site.baseurl }}/career/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Career Quiz</a>
+          <div class="relative group inline-block"><div class="relative group inline-block">
+            <button class="text-gray-200 hover:text-accent focus:outline-none">
+              Quizzes
+              <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded-lg shadow-lg z-50">
+              <a href="{{ site.baseurl }}/trivia/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Trivia</a>
+              <a href="{{ site.baseurl }}/genes/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Genes Quiz</a>
+              <a href="{{ site.baseurl }}/risk-quiz/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Risk Quiz</a>
+              <a href="{{ site.baseurl }}/career/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Career Quiz</a>
+            </div>
           </div>
           </div>
           <!-- <a href="{{ site.baseurl }}/trivia/" class="text-gray-200 hover:text-accent">Trivia</a> -->
