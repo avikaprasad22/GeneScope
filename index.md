@@ -1,7 +1,7 @@
 ---
 layout: tailwind
 title: Welcome to GeneScope
-search_exclude: true
+search_exclude: false
 hide: true
 show_reading_time: false
 menu: nav/home.html
