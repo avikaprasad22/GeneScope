@@ -16,7 +16,6 @@ show_reading_time: false
       padding: 0;
       overflow: hidden;
     }
-
     .tooltip-box {
       position: absolute;
       color: white;
@@ -31,7 +30,6 @@ show_reading_time: false
       background-color: rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
     }
-
     .codon-info {
       max-width: 320px;
       border-left: 4px solid white;
