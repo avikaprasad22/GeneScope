@@ -1,39 +1,95 @@
-{%- include theme/minima/header.html -%}
+---
+layout: null
+---
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title | escape }}</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .neon-glow { text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff; }
-        .fade-in { opacity: 0; transition: opacity 1.5s ease-in-out; }
-        .fade-in.visible { opacity: 1; }
-        .ai-card:hover { transform: scale(1.05); transition: transform 0.3s ease-in-out; }
-    </style>
-</head>
-<body class="bg-black text-white">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dark: "var(--color-dark)",
+              darker: "var(--color-darker)",
+              accent: "var(--color-accent)",
+              success: "var(--color-success)",
+              warning: "var(--color-warning)",
+            },
+          },
+        },
+      };
+    </script>
 
-    <main>
-        {{ content }}
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Custom Styles -->
+    <style>
+      :root {
+        --color-dark: #121212;
+        --color-darker: #232e43;
+        --color-accent: #82b2ff;
+        --color-success: #34A853;
+        --color-warning: #FBBC05;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--color-darker); /* Restore intended background color */
+        color: #f0f4f8; /* Ensure text color is light for readability */
+        text-shadow: none; /* Remove text-shadow globally */
+      }
+
+      h1, h2, h3, p, label, input, select, button, option {
+        text-shadow: none !important; /* Explicitly remove text-shadow */
+        background: transparent; /* Ensure no unwanted background highlights */
+        color: inherit; /* Ensure text color matches the theme */
+      }
+
+      select, option {
+        background-color: var(--color-darker); /* Apply grey background to dropdowns */
+        color: #f0f4f8; /* Ensure text is readable */
+        border: 1px solid #3c4c60; /* Add subtle border */
+      }
+
+      ::selection {
+        background: var(--color-accent); /* Customize text selection background */
+        color: white; /* Customize text selection text color */
+      }
+    </style>
+  </head>
+  <body class="bg-darker text-gray-200">
+    <!-- Header -->
+    <header class="bg-gray-900 shadow-md py-6">
+      <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-accent"><a href="{{ site.baseurl }}/">Illumina DNA</a></h1>
+        <nav class="space-x-6">
+          <!-- <a href="{{ site.baseurl }}/trivia/" class="text-gray-200 hover:text-accent">Trivia</a> -->
+          <!-- <a href="{{ site.baseurl }}/genes/" class="text-gray-200 hover:text-accent">Trivia</a> -->
+          <a href="{{ site.baseurl }}/career" class="text-gray-200 hover:text-accent">Career Quiz</a>
+          <!-- <a href="{{ site.baseurl }}/simulationDNA" class="text-gray-200 hover:text-accent">DNA Simulation</a> -->
+          <a href="{{ site.baseurl }}/about" class="text-gray-200 hover:text-accent">About Us</a>
+          <a href="{{ site.baseurl }}/search" class="text-gray-200 hover:text-accent">Search</a>
+          <a href="{{ site.baseurl }}/chatbot" class="text-gray-200 hover:text-accent">Chatbot</a>
+          <a href="{{ site.baseurl }}/blog" class="text-gray-200 hover:text-accent">Documentation</a>
+          <a id="signup-login" href="{{ site.baseurl }}/login" class="text-gray-300 font-extrabold tracking-tight hover:text-accent">Sign Up | Login</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-10 space-y-12">
+      {{ content }}
     </main>
 
+    <!-- Footer -->
     <footer class="bg-gray-900 text-center py-4 mt-10 fixed bottom-0 w-full">
-        <p class="text-gray-400">© 2025 Illumina Biotech</p>
+      <p class="text-gray-400">© 2025 Illumina Biotech</p>
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Fade-in effect for elements
-            const fadeInElements = document.querySelectorAll('.fade-in');
-            window.addEventListener('scroll', function () {
-                fadeInElements.forEach(function (element) {
-                    if (element.getBoundingClientRect().top < window.innerHeight) {
-                        element.classList.add('visible');
-                    }
-                });
-            });
-        });
-    </script>
-</body>
+  </body>
 </html>

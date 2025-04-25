@@ -1,6 +1,6 @@
 ---
 layout: tailwind
-title: Illumina Interactive Biotech Education
+title: Welcome to GeneScope
 search_exclude: true
 hide: true
 show_reading_time: false
@@ -62,7 +62,7 @@ menu: nav/home.html
 <!-- Typewriter Effect Script -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const text = "Illumina Interactive Biotech Education";
+    const text = "Welcome to GeneScope";
     let index = 0;
     const speed = 100; // typing speed in milliseconds
     const typewriter = document.getElementById("typewriter");

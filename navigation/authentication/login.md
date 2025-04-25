@@ -4,241 +4,83 @@ title: Login
 permalink: /login
 search_exclude: true
 show_reading_time: false 
-menu: nav/home.html
 ---
-
-
-<style>
-    .submit-button {
-        width: 100%;
-        padding: 1rem;
-        color: black;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        padding: 1rem;
-    }
-
-    .login-container {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        /* allows the cards to wrap onto the next line if the screen is too small */
-    }
-
-    .login-card {
-        margin-top: 0;
-        /* remove the top margin */
-        width: 45%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
-    }
-
-    .login-card h1 {
-        margin-bottom: 20px;
-    }
-
-    .signup-card {
-        margin-top: 0;
-        /* remove the top margin */
-        width: 45%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
-    }
-
-    .signup-card h1 {
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group ion-icon {
-        position: absolute;
-        top: 50%;
-        left: 10px;
-        /* Adjust based on desired spacing */
-        transform: translateY(-50%);
-        font-size: 1.5rem;
-        /* Adjust the size of the icon */
-        color: rgba(255, 255, 255, 0.4);
-        pointer-events: none;
-        /* Ensure the icon does not interfere with input focus */
-    }
-
-    .form-input {
-        width: 100%;
-        padding: 1rem 1rem 1rem 3rem;
-        /* Add left padding to make room for the icon */
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        font-size: 1rem;
-        color: white;
-        transition: all 0.3s ease;
-    }
-
-    .form-input::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.3);
-        background: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
-    }
-
-    .form-input:-webkit-autofill,
-    .form-input:-webkit-autofill:hover,
-    .form-input:-webkit-autofill:focus,
-    .form-input:-webkit-autofill:active {
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: #ffffff;
-        transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px #23232329;
-
-    }
-
-    .glow-on-hover-search {
-        //this makes it actually glow
-        border: none;
-        outline: none;
-        color: #fff;
-        background: #1e1e1e;
-        cursor: pointer;
-        position: relative;
-        z-index: 0;
-        border-radius: 10px;
-    }
-
-    .glow-on-hover-search:before {
-        content: '';
-        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        background-size: 400%;
-        z-index: -1;
-        filter: blur(5px);
-        width: calc(100% + 4px);
-        height: calc(100% + 4px);
-        animation: glowing 20s linear infinite;
-        opacity: 0;
-        transition: opacity .3s ease-in-out;
-        border-radius: 10px;
-    }
-
-    .glow-on-hover-search:hover:before {
-        opacity: 1;
-    }
-
-    .glow-on-hover-search:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #1e1e1e;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-    }
-
-    @keyframes glowing {
-        0% {
-            background-position: 0 0;
-        }
-
-        50% {
-            background-position: 400% 0;
-        }
-
-        100% {
-            background-position: 0 0;
-        }
-    }
-</style>
-<br>
-<div class="login-container">
+<div class="flex flex-col md:flex-row justify-center items-center min-h-screen bg-darker text-gray-200">
     <!-- Python Login Form -->
-    <div class="login-card">
-        <h1 id="pythonTitle">User Login</h1>
-        <hr>
-        <form id="pythonForm" onsubmit="loginBoth(); return false;">
-            <div class="form-group">
-                <input type="text" class="form-input" id="uid" placeholder="Username" required>
-                <ion-icon name="id-card-outline"></ion-icon>
+    <div class="bg-dark p-8 rounded-lg shadow-lg m-6 w-full md:w-1/2">
+        <h1 id="pythonTitle" class="text-2xl font-bold text-accent mb-6">User Login (Python/Flask)</h1>
+        <form id="pythonForm" onsubmit="pythonLogin(); return false;" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium">
+                    GitHub ID:
+                    <input type="text" name="uid" id="uid" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
             </div>
-            <div class="form-group">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" class="form-input" id="password" placeholder="Password" required>
+            <div>
+                <label class="block text-sm font-medium">
+                    Password:
+                    <input type="password" name="password" id="password" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
             </div>
-            <p>
-                <button type="submit" class="glow-on-hover-search submit-button">Login</button>
-            </p>
-            <p id="message" style="color: red;"></p>
+            <div>
+                <button type="submit" class="w-full bg-accent text-white py-3 px-4 rounded-md hover:bg-blue-600">Login</button>
+            </div>
+            <p id="message" class="text-sm text-red-500"></p>
         </form>
+
+        <!-- Facial Recognition Login Button -->
+        <div class="text-center mt-6">
+            <button onclick="recognizeFace()" class="bg-blue-500 text-white py-3 px-6 rounded-md hover:bg-blue-600">
+                Login with Face
+            </button>
+        </div>
+        <p id="faceLoginMessage" class="text-sm text-green-500 text-center mt-4"></p>
     </div>
-    <div class="signup-card">
-        <h1 id="signupTitle">Sign Up</h1>
-        <hr>
-        <form id="signupForm" onsubmit="signup(); return false;">
-            <div class="form-group">
-                <ion-icon name="person-outline"></ion-icon>
-                <input type="text" class="form-input" id="name" placeholder="Name" required>
+
+    <!-- Signup Form -->
+    <div class="bg-dark p-8 rounded-lg shadow-lg m-6 w-full md:w-1/2">
+        <h1 id="signupTitle" class="text-2xl font-bold text-accent mb-6">Sign Up</h1>
+        <form id="signupForm" onsubmit="signup(); return false;" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium">
+                    Name:
+                    <input type="text" name="name" id="name" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-input" id="signupUid" placeholder="GitHub ID" required>
-                <ion-icon name="id-card-outline"></ion-icon>
+            <div>
+                <label class="block text-sm font-medium">
+                    GitHub ID:
+                    <input type="text" name="signupUid" id="signupUid" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
             </div>
-            <div class="form-group">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" class="form-input" id="signupPassword" placeholder="Password" required>
+            <div>
+                <label class="block text-sm font-medium">
+                    Password:
+                    <input type="password" name="signupPassword" id="signupPassword" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
             </div>
-            <p>
-                <!-- <label>
-                    <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
-                    Kasm Server Needed
-                </label> -->
-            </p>
-            <p>
-                <button type="submit" class="glow-on-hover-search submit-button">Sign Up</button>
-            </p>
-            <p id="signupMessage" style="color: green;"></p>
+            <div>
+                <label class="block text-sm font-medium">
+                    Interests:
+                    <input type="text" name="interests" id="interests" placeholder="e.g., Soccer, Pool, Computer Science" required class="mt-1 block w-full p-3 bg-darker border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent">
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-accent text-white py-3 px-4 rounded-md hover:bg-blue-600">Sign Up</button>
+            </div>
+            <p id="signupMessage" class="text-sm text-green-500"></p>
         </form>
     </div>
 </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 <script type="module">
-    import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    // Function to handle both Python and Java login simultaneously
-    window.loginBoth = function () {
-    javaLogin();  // Call Java login
-    pythonLogin();
-};
-    // Function to handle Python login
-    window.pythonLogin = function () {
+    import { login, pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    // Python login with username/password
+    window.pythonLogin = function() {
         const options = {
             URL: `${pythonURI}/api/authenticate`,
-            callback: pythonDatabase,
+            callback: handleLoginResponse,
             message: "message",
             method: "POST",
             cache: "no-cache",
@@ -249,192 +91,116 @@ menu: nav/home.html
         };
         login(options);
     }
-    // Function to handle Java login
-    window.javaLogin = function () {
-    const loginURL = `${javaURI}/authenticate`;
-    const databaseURL = `${javaURI}/api/person/get`;
-    const signupURL = `${javaURI}/api/person/create`;
-    const userCredentials = JSON.stringify({
-        uid: document.getElementById("uid").value,
-        password: document.getElementById("password").value,
-    });
-    const loginOptions = {
-        ...fetchOptions,
-        method: "POST",
-        body: userCredentials,
-    };
-    console.log("Attempting Java login...");
-    fetch(loginURL, loginOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Invalid login");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Login successful!", data);
-            // Fetch database after login success using fetchOptions
-            return fetch(databaseURL, fetchOptions);
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Spring server response: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Java database response:", data);
-        })
-        .catch(error => {
-            console.error("Login failed:", error.message);
-            // If login fails, attempt account creation
-            if (error.message === "Invalid login") {
-                alert("Login for Spring failed. Creating a new Java account...");
-                const signupData = JSON.stringify({
-                    uid: document.getElementById("uid").value,
-                    email: document.getElementById("uid").value + "@gmail.com",
-                    dob: "11-01-2024", // Static date, can be modified
-                    name: document.getElementById("uid").value,
-                    password: document.getElementById("password").value,
-                    // kasmServerNeeded: false,
-                });
-                const signupOptions = {
-                    ...fetchOptions,
-                    method: "POST",
-                    body: signupData,
-                };
-                fetch(signupURL, signupOptions)
-                    .then(signupResponse => {
-                        if (!signupResponse.ok) {
-                            throw new Error("Account creation failed!");
-                        }
-                        return signupResponse.json();
-                    })
-                    .then(signupResult => {
-                        console.log("Account creation successful!", signupResult);
-                        alert("Account Creation Successful. Logging you into Flask/Spring!");
-                        // Retry login after account creation
-                        return fetch(loginURL, loginOptions);
-                    })
-                    .then(newLoginResponse => {
-                        if (!newLoginResponse.ok) {
-                            throw new Error("Login failed after account creation");
-                        }
-                        console.log("Login successful after account creation!");
-                        // Fetch database after successful login
-                        return fetch(databaseURL, fetchOptions);
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Spring server response: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Java database response:", data);
-                    })
-                    .catch(newLoginError => {
-                        console.error("Error after account creation:", newLoginError.message);
-                    });
-            } else {
-                console.log("Logged in!");
-            }
-        });
-};
-    // Function to fetch and display Python data
-    function pythonDatabase() {
-        const URL = `${pythonURI}/api/id`;
-        fetch(URL, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Flask server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                window.location.href = '{{site.baseurl}}/profile';
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = `Error: ${error.message}`;
+
+    // Facial Recognition Login
+    window.recognizeFace = async function () {
+        const messageBox = document.getElementById("faceLoginMessage");
+        messageBox.textContent = "📸 Scanning face...";
+
+        try {
+            const video = document.createElement('video');
+            video.style.display = 'none';
+            document.body.appendChild(video);
+
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            await video.play();
+
+            await new Promise(res => setTimeout(res, 1500));
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            const base64 = canvas.toDataURL().split(',')[1];
+
+            stream.getTracks().forEach(track => track.stop());
+            video.remove();
+
+            const response = await fetch(`${pythonURI}/user/facial/recognize`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: base64 })
             });
-    }
-   window.signup = function () {
-    const signupButton = document.querySelector(".signup-card button");
-    // Disable the button and change its color
-    signupButton.disabled = true;
-    signupButton.style.backgroundColor = '#d3d3d3'; // Light gray to indicate disabled state
-    const signupData = {
-        uid: document.getElementById("signupUid").value,
-        name: document.getElementById("name").value,
-        password: document.getElementById("signupPassword").value,
-        // kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+
+            const data = await response.json();
+
+            if (data.username) {
+                messageBox.textContent = `✅ Logged in as ${data.username}`;
+                window.location.href = '{{site.baseurl}}/userlog';
+            } else {
+                messageBox.textContent = "❌ Face not recognized. Try manual login.";
+            }
+        } catch (error) {
+            console.error("Facial Login Error:", error);
+            messageBox.textContent = "❌ Facial login failed. Try again.";
+        }
     };
-     const signupDataJava = {
-        email: document.getElementById("signupUid").value + "@gmail.com",
-        uid: document.getElementById("signupUid").value,
-        dob: "11-01-2024", // You can dynamically get this
-        name: document.getElementById("name").value,
-        password: document.getElementById("signupPassword").value,
-        // kasmServerNeeded: document.getElementById("kasmNeeded").checked,
-    };
-    // First, make the request to the Python backend
-    const pythonSignupOptions = {
-        URL: `${pythonURI}/api/user`,
-        method: "POST",
-        cache: "no-cache",
-        headers: new Headers({
-            "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(signupData),
-    };
-    // Second, make the request to the Java backend
-    const javaSignupOptions = {
-        URL: `${javaURI}/api/person/create`,
-        method: "POST",
-        cache: "no-cache",
-        headers: new Headers({
-            "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(signupDataJava),
-    };
-    // Perform the fetch to both servers in parallel using Promise.all
-    Promise.all([
-        fetch(pythonSignupOptions.URL, pythonSignupOptions),
-        fetch(javaSignupOptions.URL, javaSignupOptions),
-    ])
-        .then(responses => {
-            // Check if both requests were successful
-            return Promise.all(responses.map(response => {
-                if (!response.ok) {
-                    throw new Error(`Signup failed on one or both backends: ${response.status}`);
-                }
-                return response.json();
-            }));
+
+    // Signup logic
+    window.signup = function() {
+        const signupButton = document.querySelector(".signup-card button");
+
+        signupButton.disabled = true;
+        signupButton.style.backgroundColor = '#d3d3d3';
+
+        const signupOptions = {
+            URL: `${pythonURI}/api/user`,
+            method: "POST",
+            cache: "no-cache",
+            body: {
+                name: document.getElementById("name").value,
+                uid: document.getElementById("signupUid").value,
+                password: document.getElementById("signupPassword").value,
+                interests: document.getElementById("interests").value,
+            }
+        };
+
+        fetch(signupOptions.URL, {
+            method: signupOptions.method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(signupOptions.body)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Signup failed: ${response.status}`);
+            return response.json();
         })
         .then(data => {
-            document.getElementById("signupMessage").textContent = "Signup successful on both backends!";
-            // Optionally redirect to the profile page or handle the response data as needed
-            // window.location.href = '{{site.baseurl}}/profile';
+            document.getElementById("signupMessage").textContent = "Signup successful!";
         })
         .catch(error => {
             console.error("Signup Error:", error);
-            document.getElementById("signupMessage").textContent = "Signup successful on both backends!";
-            // Re-enable the button if there is an error
+            document.getElementById("signupMessage").textContent = `Signup Error: ${error.message}`;
             signupButton.disabled = false;
-            signupButton.style.backgroundColor = ''; // Reset to default color
+            signupButton.style.backgroundColor = '';
         });
-};
-    function javaDatabase() {
-        const URL = `${javaURI}/api/person/get`;
+    };
+
+    // Handle login redirect based on role
+    function handleLoginResponse() {
+        const URL = `${pythonURI}/api/id`;
+
         fetch(URL, fetchOptions)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`Flask server response: ${response.status}`);
                 return response.json();
             })
+            .then(data => {
+                if (data.role === 'admin') {
+                    window.location.href = '{{site.baseurl}}/adminlog';
+                } else {
+                    window.location.href = '{{site.baseurl}}/userlog';
+                }
+            })
             .catch(error => {
-                console.error("Java Database Error:", error);
+                console.error("Python Database Error:", error);
+                document.getElementById("message").textContent = `Python Database Error: ${error.message}`;
             });
     }
+
+    window.onload = function() {
+        pythonDatabase();
+    };
 </script>
