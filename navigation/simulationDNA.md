@@ -224,7 +224,7 @@ show_reading_time: false
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8504/sequence', {
+      const response = await fetch('http://127.0.0.1:8504/api/sequence', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
