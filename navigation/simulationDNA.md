@@ -102,10 +102,10 @@ show_reading_time: false
   };
 
   const fullDescriptions = {
-    'A': 'Adenine is one of the four nucleobases in DNA. It pairs with Thymine and is essential for energy transfer in cells.',
-    'T': 'Thymine is a nucleobase that pairs with Adenine. It contributes to the DNA\'s structure and stability.',
-    'C': 'Cytosine is a pyrimidine nucleobase that pairs with Guanine. It plays a key role in the storage and expression of genetic information.',
-    'G': 'Guanine is a purine base that pairs with Cytosine. It participates in both DNA structure and important cellular functions like signaling.'
+    'A': 'Adenine is a purine, meaning it has a double-ring structure made of a six-membered and a five-membered ring fused together. It pairs specifically with thymine in DNA through two hydrogen bonds, a pairing that helps stabilize the double helix structure. In addition to its role in DNA, adenine is a key component of important biomolecules like ATP (adenosine triphosphate), NAD, and FAD, all of which are involved in energy transfer and enzymatic processes.',
+    'T': 'Thymine, a pyrimidine base with a single six-membered ring, pairs with adenine via two hydrogen bonds. Unique to DNA, thymine contains a methyl group that contributes to the chemical stability of DNA compared to RNA. In RNA, thymine is replaced by uracil, which lacks this methyl group.',
+    'C': 'Cytosine is another pyrimidine, with an amino group at carbon 4 and a carbonyl group at carbon 2. It pairs with guanine through three hydrogen bonds, contributing to DNA’s structural strength. Cytosine is also notable for its role in epigenetic regulation, as it can be chemically modified through methylation to form 5-methylcytosine, which affects gene expression without altering the DNA sequence.',
+    'G': 'Guanine is the second purine base, structurally similar to adenine but with a carbonyl group at position 6 and an amino group at position 2. It pairs with cytosine using three hydrogen bonds, forming a more thermally stable bond than adenine-thymine pairs. Guanine is also found in molecules like GTP (guanosine triphosphate), which play essential roles in signal transduction and protein synthesis.'
   };
 
   let currentSequence = 'ATCG'.repeat(50); // Default 200 bases
