@@ -1,48 +1,41 @@
 ---
-layout: page 
+layout: tailwind 
 ---
 
-<!-- This inserts content from the page using this layout -->
-{{ content | markdownify }}
-
-<!-- Get all posts -->
 {% assign rawposts = site.posts %}
-
-<!-- Hide posts if front matter flag hide:true -->
 {% assign posts = '' | split:'' %}
 {% for post in rawposts %}
-  {% if post.hide != true %}
+  {% unless post.hide == true %}
     {% assign posts = posts | push: post %}
-  {% endif %}
+  {% endunless %}
 {% endfor %}
 
-<!-- Sort posts by rank, then date, put posts with "sticky_posts: 1" front matter at the top -->
 {% assign grouped_posts = posts | group_by: "sticky_rank" | sort: "name", "last" %}
 {% assign sticky_posts = '' | split:'' %}
 {% assign non_sticky_posts = '' | split:'' %}
-<!-- Split posts into sticky and non-sticky -->
 {% for gp in grouped_posts %}
-  {%- if gp.name == "" -%}
+  {% if gp.name == "" %}
     {% assign non_sticky_posts = gp.items | sort: "date" | reverse %}
-  {%- else %}
+  {% else %}
     {% assign sticky_posts = sticky_posts | concat: gp.items %}
-  {%- endif %}
+  {% endif %}
 {% endfor %}
 
-<!-- Generate Card for each Post -->
 {% assign sticky_posts = sticky_posts | sort: "sticky_rank", "last" %}
 {% assign posts = sticky_posts | concat: non_sticky_posts %}
-{%- if posts.size > 0 -%}
-  {%- if page.list_title -%}
-    <h2 class="post-list-heading">{{ page.list_title }}</h2>
-  {%- endif -%}
-  <ul class="post-list">
-    {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-    {%- for post in posts -%}
-    <li>
-      <!-- This file can be found in _includes -->
-      {%- include post_list_image_card.html -%}
-    </li>
-    {%- endfor -%}
-  </ul>
-{%- endif -%}
+
+{% if posts.size > 0 %}
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-16 space-y-6">
+    {% for post in posts %}
+      <div class="border-t border-gray-200 pt-6">
+        <a href="{{ post.url | relative_url }}" class="block">
+          <h3 class="text-2xl font-semibold text-blue-700 hover:underline">{{ post.title }}</h3>
+          {% if post.excerpt %}
+            <p class="text-gray-200 mt-1">{{ post.excerpt | strip_html | truncate: 180 }}</p>
+          {% endif %}
+          <p class="text-sm text-gray-400 mt-1">{{ post.date | date: "%b %-d, %Y" }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
