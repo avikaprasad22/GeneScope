@@ -16,7 +16,6 @@ show_reading_time: false
       padding: 0;
       overflow: hidden;
     }
-
     .tooltip-box {
       position: absolute;
       color: white;
@@ -31,11 +30,18 @@ show_reading_time: false
       background-color: rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
     }
-
     .codon-info {
       max-width: 320px;
       border-left: 4px solid white;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-line {
+      position: absolute;
+      height: 2px;
+      width: 0;
+      transition: width 0.4s ease;
+      pointer-events: none;
+      z-index: 40;
     }
   </style>
 </head>
@@ -108,7 +114,7 @@ show_reading_time: false
     'G': 'Guanine is the second purine base, structurally similar to adenine but with a carbonyl group at position 6 and an amino group at position 2. It pairs with cytosine using three hydrogen bonds, forming a more thermally stable bond than adenine-thymine pairs. Guanine is also found in molecules like GTP (guanosine triphosphate), which play essential roles in signal transduction and protein synthesis.'
   };
 
-  let currentSequence = 'ATCG'.repeat(50); // Default 200 bases
+  let currentSequence = 'ATCG'.repeat(50);
 
   const tooltipContainer = document.getElementById('tooltipContainer');
   const customTooltip = document.getElementById('customTooltip');
@@ -153,24 +159,39 @@ show_reading_time: false
         dot.style.borderRadius = '50%';
         dot.style.pointerEvents = 'auto';
         dot.style.backgroundColor = 'rgba(255, 255, 255, 0.01)';
-        dot.addEventListener('mouseenter', () => {
-          const color = baseColors[base] || 'white';
 
+        dot.addEventListener('mouseenter', () => {
+          // show tooltip and codon info
           customTooltip.textContent = baseDescriptions[base] || base;
           customTooltip.style.left = `${x}px`;
           customTooltip.style.top = `${y}px`;
-          customTooltip.style.boxShadow = `0 0 12px ${color}`;
+          customTooltip.style.boxShadow = `0 0 12px ${baseColors[base]}`;
           customTooltip.classList.remove('hidden');
 
           codonTitle.textContent = baseDescriptions[base];
           codonDescription.textContent = fullDescriptions[base];
-          codonBox.style.borderColor = color;
-          codonBox.style.boxShadow = `0 0 20px ${color}`;
+          codonBox.style.borderColor = baseColors[base];
+          codonBox.style.boxShadow = `0 0 20px ${baseColors[base]}`;
           codonBox.classList.remove('hidden');
+
+          // create and animate line
+          const line = document.createElement('div');
+          line.className = 'hover-line';
+          line.style.backgroundColor = baseColors[base];
+          line.style.left = `${x}px`;
+          line.style.top = `${y}px`;
+          tooltipContainer.appendChild(line);
+          requestAnimationFrame(() => {
+            line.style.width = '180px';
+          });
         });
 
         dot.addEventListener('mouseleave', () => {
           customTooltip.classList.add('hidden');
+          codonBox.classList.add('hidden');
+          // remove line
+          const existing = tooltipContainer.querySelector('.hover-line');
+          if (existing) tooltipContainer.removeChild(existing);
         });
 
         tooltipContainer.appendChild(dot);
