@@ -6,7 +6,7 @@ hide: true
 show_reading_time: false
 menu: nav/home.html
 ---
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
