@@ -162,7 +162,7 @@ menu: nav/home.html
         userInput.value = '';
 
         try {
-            const response = await fetch(`${BACKEND_URL}/chat`, {
+            const response = await fetch(`${BACKEND_URL}/giftbot/chat`, {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
