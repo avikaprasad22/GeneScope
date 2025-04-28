@@ -246,11 +246,12 @@ show_reading_time: false
 
     try {
       const response = await fetch('http://127.0.0.1:8504/api/sequence', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ organism, gene })
-      });
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ organism, gene })
+    });
+
 
       const result = await response.json();
 
