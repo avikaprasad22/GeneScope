@@ -364,6 +364,68 @@ background-color: black; /* Makes the background black */
       from { transform: rotate(0); }
       to { transform: rotate(-1turn); }
     }
+    .card {
+  position: relative;
+  width: 300px;
+  height: 254px;
+  color: #fff;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-20px);
+}
+.card::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(45deg,rgb(0, 255, 255),rgb(200, 32, 206));
+  border-radius: 1.2em;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg,rgb(0, 238, 255),rgb(255, 0, 212));
+  filter: blur(30px);
+}
+.card span {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  border-radius: 1em;
+}
+.card span::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.card .content {
+  position: relative;
+  padding: 10px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.5em;
+}
 
   </style>
 </head>
@@ -420,27 +482,38 @@ background-color: black; /* Makes the background black */
 <!-- Interactive Activities Section -->
 <section id="ai-solutions" class="py-20 bg-gray-900">
   <h2 class="text-5xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-6xl">
-    <a href="{{ site.baseurl }}/risk-quiz/">
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
-        <h3 class="text-3xl font-bold mb-2 text-black">Risk Quiz Analysis</h3>
-        <p class="text-xl text-gray-700">Explore DNA sequencing processes.</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-6xl place-items-center">
+    <a href="{{ site.baseurl }}/risk-quiz/" class="block">
+      <div class="card">
+        <span></span>
+        <div class="content flex flex-col items-center justify-center text-center">
+          <div class="text-2xl">Risk Quiz</div>
+          <p class="text-sm font-normal mt-2 px-4">Explore DNA sequencing processes.</p>
+        </div>
       </div>
     </a>
-    <a href="{{ site.baseurl }}/trivia">
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
-        <h3 class="text-3xl font-bold mb-2 text-black">Trivia Challenge</h3>
-        <p class="text-xl text-gray-700">Test your knowledge on genetic research breakthroughs.</p>
+    <a href="{{ site.baseurl }}/trivia" class="block">
+      <div class="card">
+        <span></span>
+        <div class="content flex flex-col items-center justify-center text-center">
+          <div class="text-2xl">Trivia Challenge</div>
+          <p class="text-sm font-normal mt-2 px-4">Test your knowledge on genetic research breakthroughs.</p>
+        </div>
       </div>
     </a>
-    <a href="{{ site.baseurl }}/genes">
-      <div class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 ai-card">
-        <h3 class="text-3xl font-bold mb-2 text-black">Gene Mutation Guessing Game</h3>
-        <p class="text-xl text-gray-700">Learn about the effects of different gene mutations on the body.</p>
+    <a href="{{ site.baseurl }}/genes" class="block">
+      <div class="card">
+        <span></span>
+        <div class="content flex flex-col items-center justify-center text-center">
+          <div class="text-2xl">Gene Mutation Game</div>
+          <p class="text-sm font-normal mt-2 px-4">Learn about the effects of different gene mutations on the body.</p>
+        </div>
       </div>
     </a>
   </div>
 </section>
+
+
 
 <!-- Chatbot -->
 <button id="help-button">Need Help?</button>
