@@ -49,7 +49,7 @@ show_reading_time: false
 <body class="bg-black text-white">
 
 <!-- Form -->
-<div class="absolute top-5 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+<div class="absolute top-15 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
   <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
          class="mb-2 p-2 rounded w-full text-black" />
