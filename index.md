@@ -297,11 +297,10 @@ function toggleChat() {
   }
 }
 
-async function sendMessage() {
-  const message = userInput.value.trim();
+async function sendMessage(inputMessage) {
+  const message = inputMessage.trim();
   if (!message) return;
   appendMessage('user', message);
-  userInput.value = '';
 
   try {
     const response = await fetch(`${BACKEND_URL}/dnabot/chat`, {
@@ -315,13 +314,17 @@ async function sendMessage() {
     const data = await response.json();
     if (response.ok) {
       appendMessage('assistant', data.response);
+      console.log('DNA Bot response:', data.response);  // This should log the response
     } else {
+      console.error('Error from backend:', data.error); // Log if the backend sends an error
       appendMessage('assistant', `Error: ${data.error}`);
     }
   } catch (error) {
+    console.error('Network or server error:', error.message);  // Log if a network error occurs
     appendMessage('assistant', `Error: ${error.message}`);
   }
 }
+
 
 function appendMessage(sender, message) {
   const messageElement = document.createElement('div');
@@ -351,6 +354,7 @@ function appendMessage(sender, message) {
           heardText = event.results[i][0].transcript.trim();
           console.log("ANNIE heard:", heardText);  // Print to console
           // Optional: also display it on the page
+          sendMessage(heardText);
           document.getElementById("output").textContent = "Heard: " + heardText;
         }
       }
