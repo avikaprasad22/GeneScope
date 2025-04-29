@@ -20,7 +20,6 @@ menu: nav/home.html
         cursor: pointer;
         transition: all 0.3s ease;
         position: relative;
-        padding: 1rem;
     }
 
     .login-container {
