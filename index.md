@@ -247,7 +247,7 @@ menu: nav/home.html
       <span class="shadow"></span>
     </div>
   </div>
-  <p id="output">Click the pyramid to start or stop listening...</p>
+  <p id="output">Click the pyramid to speak with ANNIE</p>
 </div>
 
 
@@ -335,46 +335,50 @@ function appendMessage(sender, message) {
 </script>
 <!-- ANNIES CODE -->
 <script>
-  const output = document.getElementById('output');
-  const wrapper = document.getElementById('pyramidWrapper');
+  let recognition;
+  let isListening = false;
+  let heardText = "";  // This will save what ANNIE hears
 
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.continuous = true;
-  recognition.lang = 'en-US';
+  if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
 
-  let listening = false;
+    recognition.onresult = function(event) {
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          heardText = event.results[i][0].transcript.trim();
+          console.log("ANNIE heard:", heardText);  // Print to console
+          // Optional: also display it on the page
+          document.getElementById("output").textContent = "Heard: " + heardText;
+        }
+      }
+    };
 
-  wrapper.addEventListener('click', () => {
-    if (!listening) {
+    recognition.onerror = function(event) {
+      console.error("Recognition error:", event.error);
+    };
+  } else {
+    console.error("Speech recognition not supported in this browser.");
+  }
+
+  // Click the pyramid to start/stop listening
+  const pyramidWrapper = document.getElementById("pyramidWrapper");
+  pyramidWrapper.addEventListener("click", function() {
+    if (!isListening) {
       recognition.start();
-      wrapper.classList.add('spinning');
-      listening = true;
+      pyramidWrapper.classList.add("spinning");
+      console.log("ANNIE started listening...");
     } else {
       recognition.stop();
-      wrapper.classList.remove('spinning');
-      listening = false;
+      pyramidWrapper.classList.remove("spinning");
+      console.log("ANNIE stopped listening.");
     }
+    isListening = !isListening;
   });
-
-  recognition.onresult = (event) => {
-    const transcript = Array.from(event.results)
-      .map(result => result[0])
-      .map(result => result.transcript)
-      .join('');
-    output.textContent = transcript;
-  };
-
-  recognition.onend = () => {
-    wrapper.classList.remove('spinning');
-    listening = false;
-  };
-
-  recognition.onerror = (event) => {
-    console.error('Speech recognition error:', event.error);
-    wrapper.classList.remove('spinning');
-    listening = false;
-  };
 </script>
+
 
 
 </body>
