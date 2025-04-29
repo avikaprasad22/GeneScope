@@ -43,6 +43,66 @@ show_reading_time: false
       pointer-events: none;
       z-index: 40;
     }
+    .loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.loader:before, .loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+}
+.loader:before {
+  animation: before8 2s infinite;
+}
+.loader:after {
+  animation: after6 2s infinite;
+}
+@keyframes before8 {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+@keyframes after6 {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}
+
   </style>
 </head>
 
@@ -57,6 +117,8 @@ show_reading_time: false
          class="mb-2 p-2 rounded w-full text-black" />
   <button onclick="fetchSequence()"
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
+          <div id="loader" class="loader hidden"></div>
+
   <p id="errorMessage" class="text-red-400 mt-2"></p>
 </div>
 
@@ -65,6 +127,11 @@ show_reading_time: false
   <button id="freezeButton" onclick="toggleFreeze()"
           class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
 </div>
+
+<button class="bg-red-950 text-red-400 border border-red-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+  <span class="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+  Hover Over Colored Dots For More Info
+</button>
 
 <!-- Canvas -->
 <canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
@@ -233,38 +300,46 @@ show_reading_time: false
     requestAnimationFrame(animateDNA);
   }
 
-  async function fetchSequence() {
-    const organism = document.getElementById('organismInput').value.trim();
-    const gene = document.getElementById('geneInput').value.trim();
-    const errorEl = document.getElementById('errorMessage');
-    errorEl.textContent = "";
+async function fetchSequence() {
+  const organism = document.getElementById('organismInput').value.trim();
+  const gene = document.getElementById('geneInput').value.trim();
+  const errorEl = document.getElementById('errorMessage');
+  const loaderEl = document.getElementById('loader');  // The loader element
+  errorEl.textContent = "";
 
-    if (!organism || !gene) {
-      errorEl.textContent = "Please enter both organism and gene symbol.";
-      return;
-    }
+  if (!organism || !gene) {
+    errorEl.textContent = "Please enter both organism and gene symbol.";
+    return;
+  }
 
-    try {
-      const response = await fetch('http://127.0.0.1:8504/api/sequence', {
+  // Show the loader while fetching
+  loaderEl.style.display = 'block';
+
+  try {
+    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ organism, gene })
     });
 
+    const result = await response.json();
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Unknown error");
-      }
-
-      currentSequence = result.sequence.slice(0, 200);
-      angleOffset = 0;
-    } catch (err) {
-      errorEl.textContent = `Error: ${err.message}`;
+    if (!response.ok) {
+      throw new Error(result.error || "Unknown error");
     }
+
+    currentSequence = result.sequence.slice(0, 200);
+    angleOffset = 0;
+
+  } catch (err) {
+    errorEl.textContent = `Error: ${err.message}`;
+  } finally {
+    // Hide the loader when done (or error)
+    loaderEl.style.display = 'none';
   }
+}
+
 
   animateDNA();
 </script>
