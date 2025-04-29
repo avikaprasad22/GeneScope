@@ -69,6 +69,100 @@ menu: nav/home.html
       cursor: pointer; font-size: 14px;
     }
     button:hover { background-color: #555; }
+    
+    #output {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .pyramid-loader {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    transform-style: preserve-3d;
+    transform: rotateX(-20deg);
+    margin: 20px auto;
+    cursor: pointer;
+  }
+  
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+  
+  .wrapper.spinning {
+    animation: spin 4s linear infinite;
+  }
+  
+  @keyframes spin {
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  
+  .pyramid-loader .wrapper .side {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform-origin: center top;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  
+  .pyramid-loader .wrapper .side1 {
+    transform: rotateZ(-30deg) rotateY(90deg);
+    background: conic-gradient(#e0115f, #ff6f61, #e0115f);
+  }
+  
+  .pyramid-loader .wrapper .side2 {
+    transform: rotateZ(30deg) rotateY(90deg);
+    background: conic-gradient(#ff6f61, #e0115f, #ff6f61);
+  }
+  
+  .pyramid-loader .wrapper .side3 {
+    transform: rotateX(30deg);
+    background: conic-gradient(#e0115f, #ff6f61, #e0115f);
+  }
+  
+  .pyramid-loader .wrapper .side4 {
+    transform: rotateX(-30deg);
+    background: conic-gradient(#ff6f61, #e0115f, #ff6f61);
+  }
+  
+  .pyramid-loader .wrapper .shadow {
+    width: 60px;
+    height: 60px;
+    background: #ff6f61;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotateX(90deg) translateZ(-40px);
+    filter: blur(12px);
+  }
+  #pyricmind-container {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  z-index: 1000;
+  text-align: center;
+  width: 150px; /* Optional: control width */
+}
+
+#pyricmind-container #output {
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+}
   </style>
 </head>
 
@@ -131,7 +225,7 @@ menu: nav/home.html
 
 <div id="chat-container">
   <div id="chat-header">
-    <h4>Giftinator 3000</h4>
+    <h4>Annie</h4>
     <button id="close-chat">×</button>
   </div>
   <div id="chat-box"></div>
@@ -140,6 +234,22 @@ menu: nav/home.html
     <button id="send-message-button">Send</button>
   </div>
 </div>
+
+<!-- ANNIE--->
+
+<div id="pyricmind-container">
+  <div id="loader" class="pyramid-loader">
+    <div class="wrapper" id="pyramidWrapper">
+      <span class="side side1"></span>
+      <span class="side side2"></span>
+      <span class="side side3"></span>
+      <span class="side side4"></span>
+      <span class="shadow"></span>
+    </div>
+  </div>
+  <p id="output">Click the pyramid to start or stop listening...</p>
+</div>
+
 
 <!-- Typewriter Script -->
 <script>
@@ -161,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<!-- Chatbot Script -->
+<!-- DNABOT Script -->
 <script>
 const BACKEND_URL = "http://127.0.0.1:8504";
 const chatBox = document.getElementById('chat-box');
@@ -220,7 +330,52 @@ function appendMessage(sender, message) {
   chatBox.appendChild(messageElement);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+
 </script>
+<!-- ANNIES CODE -->
+<script>
+  const output = document.getElementById('output');
+  const wrapper = document.getElementById('pyramidWrapper');
+
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.continuous = true;
+  recognition.lang = 'en-US';
+
+  let listening = false;
+
+  wrapper.addEventListener('click', () => {
+    if (!listening) {
+      recognition.start();
+      wrapper.classList.add('spinning');
+      listening = true;
+    } else {
+      recognition.stop();
+      wrapper.classList.remove('spinning');
+      listening = false;
+    }
+  });
+
+  recognition.onresult = (event) => {
+    const transcript = Array.from(event.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('');
+    output.textContent = transcript;
+  };
+
+  recognition.onend = () => {
+    wrapper.classList.remove('spinning');
+    listening = false;
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    wrapper.classList.remove('spinning');
+    listening = false;
+  };
+</script>
+
 
 </body>
 </html>
