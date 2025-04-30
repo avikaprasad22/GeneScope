@@ -621,6 +621,7 @@ async function sendMessage(inputMessage) {
     if (response.ok) {
       appendMessage('assistant', data.response);
       console.log('DNA Bot response:', data.response);  // This should log the response
+      speakText(data.response);  // ← This makes the AI speak
     } else {
       console.error('Error from backend:', data.error); // Log if the backend sends an error
       appendMessage('assistant', `Error: ${data.error}`);
@@ -644,6 +645,14 @@ function appendMessage(sender, message) {
 </script>
 <!-- ANNIES CODE -->
 <script>
+  function speakText(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';  // Set language
+  utterance.pitch = 1;       // Adjust voice pitch (optional)
+  utterance.rate = 1;        // Adjust speed (optional)
+  speechSynthesis.speak(utterance);
+  }
+
   let recognition;
   let isListening = false;
   let heardText = "";  // This will save what ANNIE hears
