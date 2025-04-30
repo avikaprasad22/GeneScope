@@ -551,7 +551,7 @@ background-color: black; /* Makes the background black */
     window.addEventListener('load', function() {
     const loadingScreen = document.getElementById('hamster-loading-screen');
     if (loadingScreen) {
-      loadingScreen.style.transition = 'opacity 1.0s ease';
+      loadingScreen.style.transition = 'opacity 3.0s ease';
       loadingScreen.style.opacity = '0';
       setTimeout(() => loadingScreen.style.display = 'none', 500);
     }
