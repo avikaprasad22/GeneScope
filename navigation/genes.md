@@ -32,7 +32,7 @@ show_reading_time: false
   .C { color: #27ae60; }
   .G { color: #f39c12; }
 
-  button {
+  button, select {
     margin-top: 10px;
     padding: 8px 14px;
     background: #4CAF50;
@@ -43,11 +43,15 @@ show_reading_time: false
     margin-right: 8px;
   }
 
+  select {
+    color: black;
+  }
+
   button:hover {
     background-color: #45a049;
   }
 
-  #gene-name, #condition-name, #mutation-type {
+  #mutation-type, #mutation-effect {
     margin-top: 18px;
     font-weight: bold;
     font-size: 18px;
@@ -60,16 +64,28 @@ show_reading_time: false
 
 # 🧬 Gene Explorer
 
+<label for="gene-select">Select a gene:</label>
+<select id="gene-select">
+  <option value="random">Random</option>
+</select>
+<button onclick="loadSelectedGene()">Load Gene</button>
+
 <p id="gene-name">Gene: ...</p>
 <div id="dna-sequence" class="sequence-box"></div>
 
 <div style="margin-top: 12px;">
-  <button onclick="revealMutation()">Reveal Mutation Type</button>
-  <button onclick="checkSequence()">Check New Sequence</button>
+  <select id="mutation-action">
+    <option value="substitute">Substitution</option>
+    <option value="insert">Insertion</option>
+    <option value="delete">Deletion</option>
+  </select>
+  <input type="text" id="base-input" maxlength="1" placeholder="Base (A/T/C/G)" />
+  <button onclick="applyMutation()">Apply Mutation</button>
 </div>
 
 <p id="condition-name">Condition: ...</p>
-<p id="mutation-type" class="hidden">Mutation: ...</p>
+<p id="mutation-type">Mutation: ...</p>
+<p id="mutation-effect"></p>
 
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504/api";
@@ -77,111 +93,77 @@ show_reading_time: false
   let currentGene = "";
   let currentCondition = "";
   let currentMutation = "";
+  let currentSequence = "";
 
-  async function loadNewSequence() {
-    const seqBox = document.getElementById("dna-sequence");
-    const geneText = document.getElementById("gene-name");
-    const conditionText = document.getElementById("condition-name");
-    const mutationText = document.getElementById("mutation-type");
+  async function populateGeneList() {
+    const geneSelect = document.getElementById("gene-select");
+    const res = await fetch(`${BACKEND_URL}/choose-gene?name=${selected}`);
+    const data = await res.json();
+    geneSelect.innerHTML += `<option value="${data.gene}">${data.gene}</option>`;
+  }
 
-    try {
-      const res = await fetch(`${BACKEND_URL}/get-sequence`);
-      const data = await res.json();
+  async function loadSelectedGene() {
+    const selected = document.getElementById("gene-select").value;
+    const res = await fetch(`${BACKEND_URL}/choose-gene?name=${selected}`);
+    const data = await res.json();
+    if (selected !== "random" && selected !== data.gene) return;
 
-      currentGene = data.gene;
-      currentCondition = data.condition;
-      currentMutation = data.mutation;
+    currentGene = data.gene;
+    currentCondition = data.condition;
+    currentMutation = data.mutation;
+    currentSequence = data.sequence;
 
-      geneText.textContent = `Gene: ${currentGene}`;
-      conditionText.textContent = `Condition: ${currentCondition}`;
-      mutationText.textContent = "Mutation: ...";
-      mutationText.classList.add("hidden");
-
-      renderSequence(data.sequence);
-
-    } catch (error) {
-      console.error("Error loading sequence:", error);
-    }
+    document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
+    document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
+    document.getElementById("mutation-type").textContent = `Mutation: ${currentMutation}`;
+    document.getElementById("mutation-effect").textContent = "";
+    renderSequence(currentSequence);
   }
 
   function renderSequence(sequence) {
-    const seqBox = document.getElementById("dna-sequence");
-    seqBox.innerHTML = "";
-
+    const box = document.getElementById("dna-sequence");
+    box.innerHTML = "";
     for (let i = 0; i < sequence.length; i++) {
       const span = document.createElement("span");
       span.textContent = sequence[i];
       span.className = `base ${sequence[i]}`;
-      span.setAttribute("draggable", "true");
       span.dataset.index = i;
-
-      span.ondragstart = e => {
-        e.dataTransfer.setData("text/plain", e.target.dataset.index);
-      };
-
-      span.ondragover = e => e.preventDefault();
-
-      span.ondrop = e => {
-        e.preventDefault();
-        const fromIndex = e.dataTransfer.getData("text/plain");
-        const toIndex = e.target.dataset.index;
-        swapBases(fromIndex, toIndex);
-      };
-
-      seqBox.appendChild(span);
+      box.appendChild(span);
     }
   }
 
-  function swapBases(fromIndex, toIndex) {
+  function applyMutation() {
+    const action = document.getElementById("mutation-action").value;
+    const base = document.getElementById("base-input").value.toUpperCase();
     const seqBox = document.getElementById("dna-sequence");
-    const items = Array.from(seqBox.children);
-    const temp = items[fromIndex].textContent;
-    items[fromIndex].textContent = items[toIndex].textContent;
-    items[toIndex].textContent = temp;
+    const bases = Array.from(seqBox.children).map(e => e.textContent);
 
-    const tempClass = items[fromIndex].className;
-    items[fromIndex].className = items[toIndex].className;
-    items[toIndex].className = tempClass;
-  }
-
-  async function checkSequence() {
-    const newSeq = Array.from(document.getElementById("dna-sequence").children)
-      .map(el => el.textContent)
-      .join("");
-
-    try {
-      const res = await fetch(`${BACKEND_URL}/check-sequence`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ sequence: newSeq })
-      });
-
-      if (!res.ok) throw new Error("No match");
-
-      const data = await res.json();
-      document.getElementById("gene-name").textContent = `Gene: ${data.gene}`;
-      document.getElementById("condition-name").textContent = `Condition: ${data.condition}`;
-      currentMutation = data.mutation;
-
-    } catch (err) {
-      document.getElementById("condition-name").textContent = "❌ No match found for this sequence.";
-      console.error("❌ Error in checkSequence():", err);
+    if (!["A", "T", "C", "G"].includes(base) && action !== "delete") {
+      alert("Please enter a valid base (A, T, C, G)");
+      return;
     }
+
+    if (action === "substitute") {
+      bases[0] = base;
+      showEffect("Substitution changes a base, possibly altering an amino acid or causing a silent mutation.");
+    } else if (action === "insert") {
+      bases.splice(0, 0, base);
+      showEffect("Insertion can shift the entire reading frame (frameshift), leading to major changes.");
+    } else if (action === "delete") {
+      bases.splice(0, 1);
+      showEffect("Deletion removes a base, which can also cause a frameshift mutation.");
+    }
+
+    currentSequence = bases.join("").substring(0, 12);
+    renderSequence(currentSequence);
   }
 
-  function revealMutation() {
-    const mutationText = document.getElementById("mutation-type");
-    mutationText.textContent = `Mutation: ${currentMutation}`;
-    mutationText.classList.remove("hidden");
+  function showEffect(text) {
+    document.getElementById("mutation-effect").textContent = `Effect: ${text}`;
   }
 
-// TESTING CORS
-fetch("http://127.0.0.1:8504/test-cors")
-  .then(res => res.json())
-  .then(console.log)
-  .catch(console.error);
-
-  window.onload = loadNewSequence;
+  window.onload = () => {
+    loadSelectedGene();
+    populateGeneList();
+  };
 </script>
