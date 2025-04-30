@@ -332,4 +332,22 @@ async function fetchSequence() {
 
   animateDNA();
 </script>
+
+<!-- Suggestions Section -->
+<div class="absolute bottom-24 left-5 z-30 text-white">
+  <h2 class="text-md font-semibold mb-2">Suggestions</h2>
+  <div class="flex gap-4">
+    <!-- Box 1 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">TNF</h3>
+      <p>The TNF gene encodes a cytokine involved in inflammation and cancer. TNF-α triggers inflammation and promotes tumor cell death.</p>
+    </div>
+    <!-- Box 2 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">CFTR</h3>
+      <p>CFTR is a chloride channel protein. Mutations cause cystic fibrosis by disrupting ion transport across cell membranes.</p>
+    </div>
+  </div>
+</div>
+
 </body>
