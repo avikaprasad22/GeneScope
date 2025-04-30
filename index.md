@@ -645,13 +645,34 @@ function appendMessage(sender, message) {
 </script>
 <!-- ANNIES CODE -->
 <script>
-  function speakText(text) {
+function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';  // Set language
-  utterance.pitch = 1;       // Adjust voice pitch (optional)
-  utterance.rate = 1;        // Adjust speed (optional)
-  speechSynthesis.speak(utterance);
+  utterance.lang = 'en-US';
+  utterance.pitch = 1;
+  utterance.rate = 1;
+
+  // Wait for voices to be loaded
+  const voices = speechSynthesis.getVoices();
+  const femaleVoice = voices.find(voice =>
+    voice.lang === 'en-US' && voice.name.toLowerCase().includes("female")
+  ) || voices.find(voice =>
+    voice.lang === 'en-US' && (voice.name.includes("Google") || voice.name.includes("Samantha") || voice.name.includes("Jenny"))
+  );
+
+  if (femaleVoice) {
+    utterance.voice = femaleVoice;
   }
+
+  speechSynthesis.speak(utterance);
+}
+
+// Ensure voices are loaded
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = () => {
+    // preload voices
+    speechSynthesis.getVoices();
+  };
+}
 
   let recognition;
   let isListening = false;
