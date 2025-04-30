@@ -505,7 +505,7 @@ background-color: black; /* Makes the background black */
       <div class="card">
         <span></span>
         <div class="content flex flex-col items-center justify-center text-center">
-          <div class="text-2xl">Gene Mutation Game</div>
+          <div class="text-2xl">Gene Explorer</div>
           <p class="text-sm font-normal mt-2 px-4">Learn about the effects of different gene mutations on the body.</p>
         </div>
       </div>

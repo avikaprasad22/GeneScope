@@ -84,7 +84,6 @@ show_reading_time: false
 </div>
 
 <p id="condition-name">Condition: ...</p>
-<p id="mutation-type">Mutation: Hidden</p>
 <p id="mutation-effect"></p>
 
 <script>
@@ -123,7 +122,6 @@ show_reading_time: false
 
     document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
     document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
-    document.getElementById("mutation-type").textContent = `Mutation: Hidden`;
     document.getElementById("mutation-effect").textContent = "";
 
     renderSequence(currentSequence);
