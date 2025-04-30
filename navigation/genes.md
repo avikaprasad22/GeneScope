@@ -84,7 +84,7 @@ show_reading_time: false
 </div>
 
 <p id="condition-name">Condition: ...</p>
-<p id="mutation-type">Mutation: ...</p>
+<p id="mutation-type">Mutation: Hidden</p>
 <p id="mutation-effect"></p>
 
 <script>
@@ -92,31 +92,40 @@ show_reading_time: false
 
   let currentGene = "";
   let currentCondition = "";
-  let currentMutation = "";
   let currentSequence = "";
 
   async function populateGeneList() {
-    const geneSelect = document.getElementById("gene-select");
-    const res = await fetch(`${BACKEND_URL}/choose-gene?name=${selected}`);
-    const data = await res.json();
-    geneSelect.innerHTML += `<option value="${data.gene}">${data.gene}</option>`;
+    try {
+      const res = await fetch(`${BACKEND_URL}/gene-list`);
+      const data = await res.json();
+      const select = document.getElementById("gene-select");
+
+      select.innerHTML = `<option value="random">Random</option>`;
+      data.genes.forEach(gene => {
+        const opt = document.createElement("option");
+        opt.value = gene;
+        opt.textContent = gene;
+        select.appendChild(opt);
+      });
+    } catch (err) {
+      console.error("Failed to load gene list:", err);
+    }
   }
 
   async function loadSelectedGene() {
     const selected = document.getElementById("gene-select").value;
     const res = await fetch(`${BACKEND_URL}/choose-gene?name=${selected}`);
     const data = await res.json();
-    if (selected !== "random" && selected !== data.gene) return;
 
     currentGene = data.gene;
     currentCondition = data.condition;
-    currentMutation = data.mutation;
     currentSequence = data.sequence;
 
     document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
     document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
-    document.getElementById("mutation-type").textContent = `Mutation: ${currentMutation}`;
+    document.getElementById("mutation-type").textContent = `Mutation: Hidden`;
     document.getElementById("mutation-effect").textContent = "";
+
     renderSequence(currentSequence);
   }
 
@@ -127,9 +136,36 @@ show_reading_time: false
       const span = document.createElement("span");
       span.textContent = sequence[i];
       span.className = `base ${sequence[i]}`;
+      span.setAttribute("draggable", "true");
       span.dataset.index = i;
+
+      span.ondragstart = e => {
+        e.dataTransfer.setData("text/plain", e.target.dataset.index);
+      };
+
+      span.ondragover = e => e.preventDefault();
+
+      span.ondrop = e => {
+        e.preventDefault();
+        const fromIndex = e.dataTransfer.getData("text/plain");
+        const toIndex = e.target.dataset.index;
+        swapBases(fromIndex, toIndex);
+      };
+
       box.appendChild(span);
     }
+  }
+
+  function swapBases(fromIndex, toIndex) {
+    const seqBox = document.getElementById("dna-sequence");
+    const items = Array.from(seqBox.children);
+    const temp = items[fromIndex].textContent;
+    items[fromIndex].textContent = items[toIndex].textContent;
+    items[toIndex].textContent = temp;
+
+    const tempClass = items[fromIndex].className;
+    items[fromIndex].className = items[toIndex].className;
+    items[toIndex].className = tempClass;
   }
 
   function applyMutation() {
@@ -145,13 +181,13 @@ show_reading_time: false
 
     if (action === "substitute") {
       bases[0] = base;
-      showEffect("Substitution changes a base, possibly altering an amino acid or causing a silent mutation.");
+      showEffect("Substitution changes one base and can alter a protein, or sometimes do nothing (silent).");
     } else if (action === "insert") {
       bases.splice(0, 0, base);
-      showEffect("Insertion can shift the entire reading frame (frameshift), leading to major changes.");
+      showEffect("Insertion can cause a frameshift, altering the entire protein downstream.");
     } else if (action === "delete") {
       bases.splice(0, 1);
-      showEffect("Deletion removes a base, which can also cause a frameshift mutation.");
+      showEffect("Deletion removes a base, often causing a frameshift mutation.");
     }
 
     currentSequence = bases.join("").substring(0, 12);
@@ -163,7 +199,7 @@ show_reading_time: false
   }
 
   window.onload = () => {
-    loadSelectedGene();
     populateGeneList();
+    loadSelectedGene();
   };
 </script>
