@@ -6,6 +6,31 @@ show_reading_time: false
 menu: nav/home.html
 ---
 
+<style>
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  #result {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .question-block {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f9f9f9;
+  }
+</style>
+
+# 🩺 Disease Risk Analysis Quiz
+
+<p class="text-gray-700 mt-2 text-base">
+  Enter a disease to check your symptom risk level based on real data. Your answers will be analyzed using a machine learning model to estimate likelihood.
+</p>
+
 <form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
   <input type="text" id="disease" placeholder="e.g., diabetes" required
     class="p-2 border border-gray-300 rounded text-gray-900 text-base" />
@@ -13,13 +38,13 @@ menu: nav/home.html
     class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Start Quiz</button>
 </form>
 
-<form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="flex flex-col gap-4 mt-4">
+<form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="flex flex-col gap-4 mt-6">
   <div id="symptom-questions" class="mt-4"></div>
   <button type="submit"
     class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Submit Answers</button>
 </form>
 
-<div id="result" class="mt-6 font-bold text-lg text-gray-900"></div>
+<div id="result" class="mt-8 font-bold text-lg text-gray-900"></div>
 
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504";
@@ -35,9 +60,10 @@ menu: nav/home.html
       console.error("❌ Error fetching symptoms:", text);
       return;
     }
-    const data = await res.json();
 
+    const data = await res.json();
     const result = document.getElementById("result");
+
     if (!data.success) {
       result.textContent = "⚠️ Disease not found. Please try another.";
       return;
@@ -50,7 +76,7 @@ menu: nav/home.html
     data.symptoms.forEach(symptom => {
       const label = symptom.replace(/_/g, ' ');
       questionsDiv.innerHTML += `
-        <div>
+        <div class="question-block">
           <label class="block font-medium">${label}</label>
           <div class="flex gap-4 mt-1">
             <label class="flex items-center gap-1">
