@@ -142,10 +142,10 @@ menu: nav/home.html
     <ul>
       <li><strong>Avika</strong> - Scrum Master</li>
       <li><strong>Nora</strong> - Assistant Scrum Master</li>
-      <li><strong>Soni</strong> - DNA Sequencing Simulation</li>
+      <li><strong>Soni</strong> - DNA Sequencing Simulation and AI Voice Bot</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Trivia Question System</li>
+      <li><strong>Zoe</strong> - Career and College Matches</li>
     </ul>
   </div>
 </div>
