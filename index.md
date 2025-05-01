@@ -382,7 +382,7 @@ background-color: black; /* Makes the background black */
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(45deg,rgb(0, 255, 255),rgb(200, 32, 206));
+  background: linear-gradient(45deg,rgb(0, 255, 255),rgb(44, 32, 206));
   border-radius: 1.2em;
 }
 .card::after {
@@ -392,7 +392,7 @@ background-color: black; /* Makes the background black */
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg,rgb(0, 238, 255),rgb(255, 0, 212));
+  background: linear-gradient(45deg,rgb(0, 238, 255),rgb(17, 0, 255));
   filter: blur(30px);
 }
 .card span {
@@ -426,6 +426,7 @@ background-color: black; /* Makes the background black */
   font-weight: 800;
   font-size: 1.5em;
 }
+
 
   </style>
 </head>
