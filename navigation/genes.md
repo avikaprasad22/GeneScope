@@ -36,7 +36,7 @@ show_reading_time: false
     margin-top: 10px;
     padding: 8px 14px;
     background: #4CAF50;
-    color: white;
+    color: black;
     border: none;
     font-size: 16px;
     cursor: pointer;
@@ -59,6 +59,14 @@ show_reading_time: false
 
   .hidden {
     display: none;
+  }
+
+  /* Highlight the input box for entering A/T/C/G */
+  #base-input {
+    border: 2px solid #007BFF;
+    background-color: #e6f0ff;
+    color: black;
+    outline: none;
   }
 </style>
 
