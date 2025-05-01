@@ -49,7 +49,12 @@ menu: nav/home.html
     <h3 class="text-xl font-bold text-center text-purple-900 mb-4">🧬 Learn About Key Genes</h3>
     <!-- Search Bar -->
     <div class="mb-4 text-center">
-      <input id="geneSearch" type="text" placeholder="Search Genes by Name or Location" class="p-2 border-2 border-gray-300 rounded-lg w-80" oninput="filterGeneTable()">
+    <input
+      id="geneSearch"
+      type="text"
+      placeholder="Search Genes by Name or Location"
+      class="p-2 border-2 border-gray-300 rounded-lg w-80 text-black"
+      oninput="filterGeneTable()">    
     </div>
     <div id="geneTableContainer" class="overflow-x-auto bg-white rounded-2xl shadow-inner">
       <table class="min-w-full table-auto text-center border-collapse">

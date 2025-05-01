@@ -62,7 +62,7 @@ menu: nav/home.html
     0% { fill: white; } 50% { fill: #fbc638; } 100% { fill: white; }
   }
   h1, p, label, span, input, button {
-    color: black !important;
+    color: black ;
   }
 </style>
 
@@ -70,13 +70,11 @@ menu: nav/home.html
   <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
     <h1 class="text-2xl font-bold text-center">🩺 Disease Risk Analysis Quiz</h1>
     <p class="mt-2 text-center text-base">Enter a disease to check your symptom risk level.</p>
-
     <form id="disease-form" onsubmit="startQuiz(event)" class="mt-6 flex flex-col gap-2">
       <input type="text" id="disease" placeholder="e.g., diabetes" required
         class="p-2 border border-gray-300 rounded text-base" />
       <button type="submit" class="p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700">Start Quiz</button>
     </form>
-
     <form id="symptom-form" style="display:none;" onsubmit="submitSymptoms(event)" class="mt-6">
       <div id="symptom-questions"></div>
       <div class="flex justify-center">
