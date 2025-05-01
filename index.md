@@ -151,30 +151,41 @@ menu: nav/home.html
   z-index: 1000;
   text-align: center;
   width: 150px; /* Optional: control width */
-}
+  }
 
-#pyricmind-container #output {
-  font-size: 14px;
-  color: white;
-  margin-top: 10px;
-}
-/* Fullscreen Loading Screen */
-#hamster-loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-background-color: black; /* Makes the background black */
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+  #pyricmind-container #output {
+    font-size: 14px;
+    color: white;
+    margin-top: 10px;
+  }
+  /* Fullscreen Loading Screen */
+  #hamster-loading-screen {
+    position: fixed;
+    top: -40;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 1;
+    transition: opacity 1s ease-out; /* Smooth fade out */
+  }
 
-.wheel-and-hamster {
+  #hamster-loading-screen.hide {
+    opacity: 0;
+    visibility: hidden; /* Hides it completely after fade out */
+  }
+
+  @keyframes stay-visible {
+    0% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  .wheel-and-hamster {
       --dur: 1s;
       font-size: 14px;
       width: 12em;
@@ -552,7 +563,25 @@ background-color: black; /* Makes the background black */
       setTimeout(() => loadingScreen.style.display = 'none', 500);
     }
   });
+
+  window.onload = function () {
+  // Trigger fade out after 3 seconds or when loading is done
+  setTimeout(function() {
+    document.getElementById('hamster-loading-screen').classList.add('hide');
+  }, 1000); // Customize delay as per your need
+  };
+
+  function updateTime() {
+  const outputElement = document.getElementById("output");
+  const date = new Date();
+  const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  outputElement.innerHTML = formattedTime;
+}
+
+// Update the time every second
+setInterval(updateTime, 1000);
 </script>
+
 <!-- Typewriter Script -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -600,9 +629,15 @@ function toggleChat() {
 }
 
 async function sendMessage(inputMessage) {
-  const message = inputMessage.trim();
+  // If inputMessage is undefined (i.e., user typed something), get it from the input box
+  const message = inputMessage !== undefined ? inputMessage.trim() : userInput.value.trim();
   if (!message) return;
+
   appendMessage('user', message);
+
+  if (!inputMessage) {
+    userInput.value = ""; // Clear the input box only if typed manually
+  }
 
   try {
     const response = await fetch(`${BACKEND_URL}/dnabot/chat`, {
@@ -616,17 +651,19 @@ async function sendMessage(inputMessage) {
     const data = await response.json();
     if (response.ok) {
       appendMessage('assistant', data.response);
-      console.log('DNA Bot response:', data.response);  // This should log the response
-      speakText(data.response);  // ← This makes the AI speak
+      console.log('DNA Bot response:', data.response);
+      console.log("⏯️ About to speak:", data.response)
+      speakText(data.response); // 🔊 Annie speaks here
     } else {
-      console.error('Error from backend:', data.error); // Log if the backend sends an error
+      console.error('Error from backend:', data.error);
       appendMessage('assistant', `Error: ${data.error}`);
     }
   } catch (error) {
-    console.error('Network or server error:', error.message);  // Log if a network error occurs
+    console.error('Network or server error:', error.message);
     appendMessage('assistant', `Error: ${error.message}`);
   }
 }
+
 
 
 function appendMessage(sender, message) {
@@ -663,12 +700,14 @@ function speakText(text) {
 }
 
 // Ensure voices are loaded
-if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = () => {
-    // preload voices
-    speechSynthesis.getVoices();
+    setTimeout(() => {
+      speechSynthesis.getVoices(); // Ensure loading
+    }, 100);
   };
 }
+
 
   let recognition;
   let isListening = false;
@@ -714,8 +753,5 @@ if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !=
     isListening = !isListening;
   });
 </script>
-
-
-
 
 </body>

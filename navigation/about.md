@@ -43,6 +43,26 @@ menu: nav/home.html
     color: #1e3a8a;
   }
 
+  .section-highlight {
+    background: linear-gradient(to bottom, #93c5fd, #3b82f6);
+    padding: 20px 6px;
+    color: white;
+  }
+
+  .section-highlight h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin-bottom: 12px;
+  }
+
+  .section-highlight .content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 18px;
+    color: white;
+  }
+
   .buttons button {
     background-color: #2563eb;
     color: white;
@@ -96,14 +116,14 @@ menu: nav/home.html
 </style>
 
 <div class="header">
-  <h1>🚀 About Us</h1>
+  <h1>About Us</h1>
   <p class="content">
     The GeneScope Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way.
   </p>
 </div>
 
-<div class="section">
-  <h2>🌍 Our Mission & Vision</h2>
+<div class="section-highlight">
+  <h2>Our Mission & Vision</h2>
   <p class="content">
     Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields.
   </p>
@@ -118,14 +138,14 @@ menu: nav/home.html
 <div id="teamPopup" class="popup" onclick="closePopup(event, 'teamPopup')">
   <div class="popup-content">
     <button onclick="closePopup(event, 'teamPopup')">&times;</button>
-    <h2>👨‍💻 Our Team</h2>
+    <h2>Our Team</h2>
     <ul>
       <li><strong>Avika</strong> - Scrum Master</li>
       <li><strong>Nora</strong> - Assistant Scrum Master</li>
-      <li><strong>Soni</strong> - DNA Sequencing Simulation</li>
+      <li><strong>Soni</strong> - DNA Sequencing Simulation and AI Voice Bot</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Trivia Question System</li>
+      <li><strong>Zoe</strong> - Career and College Matches</li>
     </ul>
   </div>
 </div>
@@ -133,11 +153,12 @@ menu: nav/home.html
 <div id="historyPopup" class="popup" onclick="closePopup(event, 'historyPopup')">
   <div class="popup-content">
     <button onclick="closePopup(event, 'historyPopup')">&times;</button>
-    <h2>📜 Our History</h2>
+    <h2>Our History</h2>
     <ul>
       <li><strong>March 2025</strong> - Conceptualized the biotech education platform</li>
       <li><strong>April 2025</strong> - Launched first interactive game prototype</li>
-      <li><strong>May 2025</strong> - xx</li>
+      <li><strong>May 2025</strong> - Presentation</li>
+      <li><strong>For more information, please refer to our documentation page. </strong></li>
     </ul>
   </div>
 </div>
@@ -145,7 +166,7 @@ menu: nav/home.html
 <div id="contactPopup" class="popup" onclick="closePopup(event, 'contactPopup')">
   <div class="popup-content">
     <button onclick="closePopup(event, 'contactPopup')">&times;</button>
-    <h2>📩 Get in Touch</h2>
+    <h2>Get in Touch</h2>
     <p>Email: <a href="mailto:contact@yourcompany.com">katherine.yx.chen@gmail.com</a></p>
     <p>Phone: +1 (858) 456-7890</p>
     <p>We are excited to collaborate with you!</p>
