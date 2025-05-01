@@ -17,13 +17,14 @@ show_reading_time: false
     font-size: 22px;
     margin-top: 10px;
     min-height: 40px;
+    border-radius: 8px;
   }
 
   .base {
     cursor: move;
     padding: 4px 10px;
     border: 1px solid #999;
-    border-radius: 4px;
+    border-radius: 8px;
     background: #fff;
   }
 
@@ -41,6 +42,7 @@ show_reading_time: false
     font-size: 16px;
     cursor: pointer;
     margin-right: 8px;
+    border-radius: 8px;
   }
 
   select {
@@ -61,16 +63,34 @@ show_reading_time: false
     display: none;
   }
 
-  /* Highlight the input box for entering A/T/C/G */
   #base-input {
     border: 2px solid #007BFF;
     background-color: #e6f0ff;
     color: black;
     outline: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 16px;
+    margin-top: 12px; /* Adjusted to make the input box a bit smaller on the top */
+    margin-right: 8px; 
+  }
+
+  .button-row {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .left-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 </style>
 
-# 🧬 Gene Explorer
+<h1 style="font-size: 36px; font-weight: bold;">🧬 Gene Explorer</h1>
 
 <label for="gene-select">Select a gene:</label>
 <select id="gene-select">
@@ -81,14 +101,17 @@ show_reading_time: false
 <p id="gene-name">Gene: ...</p>
 <div id="dna-sequence" class="sequence-box"></div>
 
-<div style="margin-top: 12px;">
-  <select id="mutation-action">
-    <option value="substitute">Substitution</option>
-    <option value="insert">Insertion</option>
-    <option value="delete">Deletion</option>
-  </select>
-  <input type="text" id="base-input" maxlength="1" placeholder="Base (A/T/C/G)" />
-  <button onclick="applyMutation()">Apply Mutation</button>
+<div class="button-row">
+  <div class="left-buttons">
+    <select id="mutation-action">
+      <option value="substitute">Substitution</option>
+      <option value="insert">Insertion</option>
+      <option value="delete">Deletion</option>
+    </select>
+    <input type="text" id="base-input" maxlength="1" placeholder="Base (A/T/C/G)" />
+    <button onclick="applyMutation()">Apply Mutation</button>
+  </div>
+  <button onclick="resetSequence()">Reset</button>
 </div>
 
 <p id="condition-name">Condition: ...</p>
@@ -100,6 +123,7 @@ show_reading_time: false
   let currentGene = "";
   let currentCondition = "";
   let currentSequence = "";
+  let originalSequence = "";
 
   async function populateGeneList() {
     try {
@@ -127,6 +151,7 @@ show_reading_time: false
     currentGene = data.gene;
     currentCondition = data.condition;
     currentSequence = data.sequence;
+    originalSequence = data.sequence;
 
     document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
     document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
@@ -197,6 +222,12 @@ show_reading_time: false
     }
 
     currentSequence = bases.join("").substring(0, 12);
+    renderSequence(currentSequence);
+  }
+
+  function resetSequence() {
+    currentSequence = originalSequence;
+    document.getElementById("mutation-effect").textContent = "";
     renderSequence(currentSequence);
   }
 
