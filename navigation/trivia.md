@@ -43,8 +43,33 @@ menu: nav/home.html
   </div>
 
   <p id="message" class="text-red-500 text-center pt-2"></p>
-</div>
 
+  <!-- 🧬 Gene Information Table Section -->
+  <div id="geneTableSection" class="mt-10">
+    <h3 class="text-xl font-bold text-center text-purple-900 mb-4">🧬 Learn About Key Genes</h3>
+    <!-- Search Bar -->
+    <div class="mb-4 text-center">
+      <input id="geneSearch" type="text" placeholder="Search Genes by Name or Location" class="p-2 border-2 border-gray-300 rounded-lg w-80" oninput="filterGeneTable()">
+    </div>
+    <div id="geneTableContainer" class="overflow-x-auto bg-white rounded-2xl shadow-inner">
+      <table class="min-w-full table-auto text-center border-collapse">
+        <thead>
+          <tr class="bg-pink-200">
+            <th class="border px-3 py-2 text-purple-900">Gene Symbol</th>
+            <th class="border px-3 py-2 text-purple-900">Gene Name</th>
+            <th class="border px-3 py-2 text-purple-900">Chromosome</th>
+            <th class="border px-3 py-2 text-purple-900">Location</th>
+            <th class="border px-3 py-2 text-purple-900">Description</th>
+            <th class="border px-3 py-2 text-purple-900">Learn More</th>
+          </tr>
+        </thead>
+        <tbody id="geneTableBody" class="text-purple-800">
+          <!-- Gene data rows will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 <script type="module">
   import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -96,41 +121,41 @@ menu: nav/home.html
     playAgainBtn.classList.add('hidden');
     gameCtn.classList.remove('hidden');
 
-function showQuestion() {
-  if (idx >= questions.length) idx = 0;
-  const q = questions[idx++];
-  qText.textContent = q.question;
-  ansCtn.innerHTML = '';
+    function showQuestion() {
+      if (idx >= questions.length) idx = 0;
+      const q = questions[idx++];
+      qText.textContent = q.question;
+      ansCtn.innerHTML = '';
 
-  const opts = [...q.options].sort(() => Math.random() - 0.5);
-  opts.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all';
-    btn.textContent = opt;
+      const opts = [...q.options].sort(() => Math.random() - 0.5);
+      opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all';
+        btn.textContent = opt;
 
-    btn.addEventListener('click', () => {
-      ansCtn.querySelectorAll('button').forEach(b => b.disabled = true);
+        btn.addEventListener('click', () => {
+          ansCtn.querySelectorAll('button').forEach(b => b.disabled = true);
 
-      if (opt === q.correct_answer) {
-        btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
-        btn.classList.add('bg-green-500', 'animate-pulse');
-        score++;
-        scoreEl.textContent = score;
-      } else {
-        btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
-        btn.classList.add('bg-red-500', 'animate-pulse');
-      }
+          if (opt === q.correct_answer) {
+            btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
+            btn.classList.add('bg-green-500', 'animate-pulse');
+            score++;
+            scoreEl.textContent = score;
+          } else {
+            btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
+            btn.classList.add('bg-red-500', 'animate-pulse');
+          }
 
-      setTimeout(() => {
-        btn.classList.remove('animate-pulse');
-        updateLeaderboard();
-        showQuestion();
-      }, 800);
-    });
+          setTimeout(() => {
+            btn.classList.remove('animate-pulse');
+            updateLeaderboard();
+            showQuestion();
+          }, 800);
+        });
 
-    ansCtn.appendChild(btn);
-  });
-}
+        ansCtn.appendChild(btn);
+      });
+    }
 
     function tick() {
       timeLeft--;
@@ -178,5 +203,43 @@ function showQuestion() {
     }
   });
 
-  document.addEventListener("DOMContentLoaded", updateLeaderboard);
+  document.addEventListener("DOMContentLoaded", async () => {
+    updateLeaderboard();
+    const genes = await fetchGeneResources();
+    renderGeneTable(genes);
+  });
+
+  async function fetchGeneResources() {
+    const res = await fetch(pythonURI + '/api/gene_resources', fetchOptions);
+    if (!res.ok) throw new Error('Failed to load gene resources');
+    return await res.json();
+  }
+
+  function renderGeneTable(genes) {
+    const tbody = document.getElementById('geneTableBody');
+    tbody.innerHTML = '';
+
+    genes.forEach(gene => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="border px-3 py-2 text-purple-900">${gene.symbol}</td>
+        <td class="border px-3 py-2 text-purple-900">${gene.name}</td>
+        <td class="border px-3 py-2 text-purple-900">${gene.chromosome}</td>
+        <td class="border px-3 py-2 text-purple-900">${gene.map_location}</td>
+        <td class="border px-3 py-2 text-purple-900">${gene.description}</td>
+        <td class="border px-3 py-2 text-purple-900"><a href="${gene.url}" target="_blank" class="text-blue-500 underline">Learn more</a></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function filterGeneTable() {
+    const query = document.getElementById('geneSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#geneTableBody tr');
+    rows.forEach(row => {
+      const name = row.cells[1].textContent.toLowerCase();
+      const location = row.cells[3].textContent.toLowerCase();
+      row.style.display = (name.includes(query) || location.includes(query)) ? '' : 'none';
+    });
+  }
 </script>
