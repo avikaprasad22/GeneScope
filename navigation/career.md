@@ -12,19 +12,19 @@ menu: nav/home.html
   body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg,rgb(0, 0, 0),rgb(0, 0, 0));
-    color: #3b0d7d; /* Updated to match the title */
+    color: #3b0d7d;
     padding: 20px;
   }
 
-   h1 {
+  h1 {
     font-family: 'Poppins', sans-serif;
-    color:rgb(233, 221, 255); /* Title color set to white */
+    color: rgb(233, 221, 255);
     text-align: center;
     margin-bottom: 10px;
   }
 
   h3 {
-    color:rgb(232, 228, 249); /* Also matching for consistency */
+    color: rgb(232, 228, 249);
   }
 
   label {
@@ -32,7 +32,7 @@ menu: nav/home.html
   }
 
   .quiz-section {
-    background-color:rgb(87, 67, 217);
+    background-color: rgb(87, 67, 217);
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -60,9 +60,9 @@ menu: nav/home.html
     display: none;
     margin-top: 30px;
     padding: 25px;
-    border: 2px dashedrgb(90, 67, 218);
+    border: 2px dashed rgb(90, 67, 218);
     border-radius: 16px;
-    background-color:rgb(73, 52, 167);
+    background-color: rgb(73, 52, 167);
     animation: fadeIn 0.5s ease-in-out;
     max-width: 700px;
     margin-left: auto;
@@ -90,7 +90,6 @@ menu: nav/home.html
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
-
 
 <body>
   <h1>🔬 Biotechnology Career Quiz</h1>
@@ -126,6 +125,37 @@ menu: nav/home.html
     <h2>Your Suggested Career in Biotechnology:</h2>
     <p id="career-result-text"></p>
     <div id="spinner" class="spinner" style="display: none;"></div>
+  </div>
+
+  <!-- College Quiz Button -->
+  <div style="text-align:center; margin-top: 30px;">
+    <a
+      href="/illumina_dna/college/"
+      class="relative flex items-center px-6 py-3 overflow-hidden font-medium transition-all bg-indigo-500 rounded-md group"
+    >
+      <span
+        class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-mr-4 group-hover:-mt-4"
+      >
+        <span
+          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+        ></span>
+      </span>
+      <span
+        class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-ml-4 group-hover:-mb-4"
+      >
+        <span
+          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+        ></span>
+      </span>
+      <span
+        class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-indigo-600 rounded-md group-hover:translate-x-0"
+      ></span>
+      <span
+        class="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white"
+      >
+        Interested in Colleges?
+      </span>
+    </a>
   </div>
 
 <script>
