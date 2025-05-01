@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: tailwind
 permalink: /profile
 #menu: nav/home.html
 search_exclude: true
@@ -30,13 +30,13 @@ show_reading_time: false
         text-align: center;
         margin-bottom: 2rem;
         padding: 2rem 0;
-        border-bottom: 2px solid #e53e3e;
+        border-bottom: 2px solid #007cff;
     }
 
     .page-header h1 {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #e53e3e;
+        color: #007cff;
         margin-bottom: 0.5rem;
     }
 
@@ -59,7 +59,7 @@ show_reading_time: false
         width: 150px;
         height: 150px;
         border-radius: 50%;
-        border: 4px solid #e53e3e;
+        border: 4px solid #007cff;
         margin-right: 2rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
@@ -82,9 +82,9 @@ show_reading_time: false
     .card h3 {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #e53e3e;
+        color: #007cff;
         margin-bottom: 1.5rem;
-        border-bottom: 2px solid #e53e3e;
+        border-bottom: 2px solid #007cff;
         padding-bottom: 0.5rem;
     }
 
@@ -112,14 +112,14 @@ show_reading_time: false
     input[type="text"]:focus,
     input[type="password"]:focus {
         outline: none;
-        border-color: #e53e3e;
+        border-color: #007cff;
         box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
     }
 
     .file-icon {
         display: inline-block;
         padding: 0.75rem 1.5rem;
-        background-color: #e53e3e;
+        background-color: #007cff;
         color: white;
         border-radius: 4px;
         cursor: pointer;
@@ -173,7 +173,7 @@ show_reading_time: false
         width: 100%;
         padding: 0.75rem;
         margin-bottom: 1rem;
-        border: 2px solid #e53e3e;
+        border: 2px solid #007cff;
         border-radius: 6px;
         background-color: #1a1a1a;
         color: #ffffff;
@@ -193,7 +193,7 @@ show_reading_time: false
     }
 
     .btn-primary {
-        background-color: #e53e3e;
+        background-color: #007cff;
         color: white;
         padding: 0.75rem 1.5rem;
         border: none;
@@ -233,12 +233,12 @@ show_reading_time: false
         padding: 1rem;
         border-radius: 8px;
         margin: 0;
-        border-left: 3px solid #e53e3e;
+        border-left: 3px solid #007cff; /*e53e3e*/
     }
 
     .post-title {
         font-weight: bold;
-        color: #e53e3e;
+        color: #007cff;
         margin-bottom: 0.5rem;
     }
 
@@ -257,7 +257,7 @@ show_reading_time: false
         display: inline-block;
         padding: 10px 20px;
         background-color: #2d3748;
-        border: 2px solid #e53e3e;
+        border: 2px solid #007cff;
         border-radius: 20px;
         color: #ffffff;
         cursor: pointer;
@@ -329,7 +329,6 @@ show_reading_time: false
             <h2 id="username">User Name</h2>
         </div>
     </section>
-
     <section class="card">
         <h3>Profile Settings</h3>
         <form>
@@ -358,10 +357,9 @@ show_reading_time: false
                 Upload Profile Picture <i class="fas fa-upload"></i>
             </label>
             <input type="file" id="profilePictureUpload" accept="image/*" style="display: none;">
-            <p id="profile-message" style="color: red;"></p>
+            <p id="profile-message" style="color: blue;"></p>
         </form>
     </section>
-
     <section class="grid grid-cols-2">
         <div class="card">
             <h3>User Stats</h3>
@@ -374,28 +372,23 @@ show_reading_time: false
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec felis vel metus.</p>
         </div>
     </section>
-
     <section class="card">
         <h3>My Interests</h3>
         <p>Click on an interest to view more details</p>
         <section class="grid grid-cols-2" id="interestsSection"></section>
     </section>
-
     <section class="grid grid-cols-2" id="interestsSection">
     </section>
-
     <section class="card">
         <h3>My Following</h3>
         <p>Click on a person you are following to view more details</p>
         <section class="grid grid-cols-2" id="followersSection"></section>
     </section>
-
     <section class="card">
         <h3>My Followers</h3>
         <p>Click on a follower to view more details</p>
         <div class="web-container" id="myFollowersWeb"></div>
     </section>
-
     <section class="card">
         <h3>Create New Post</h3>
         <form id="newPostForm">
@@ -410,13 +403,11 @@ show_reading_time: false
             <button type="button" onclick="createPost()" class="btn btn-primary">Create Post</button>
         </form>
     </section>
-
     <section class="card">
         <h3>Recent Posts</h3>
         <div id="recentPosts" class="posts-container">
         </div>
     </section>
-
     <section class="card">
         <h3>Activity Feed</h3>
         <ul>
@@ -820,7 +811,7 @@ function convertToBase64(file) {
     });
 }
 
-function showError(message, color = 'red') {
+function showError(message, color = 'blue') {
     const messageElement = document.getElementById('profile-message');
     messageElement.style.color = color;
     messageElement.textContent = message;
@@ -956,7 +947,7 @@ async function fetchPosts() {
     } catch (error) {
         console.error('Error fetching posts:', error);
         const postsContainer = document.getElementById('recentPosts');
-        postsContainer.innerHTML = '<p style="color: #e53e3e;">Error loading posts. Please try again later.</p>';
+        postsContainer.innerHTML = '<p style="color: #007cff;">Error loading posts. Please try again later.</p>';
     }
 }
 

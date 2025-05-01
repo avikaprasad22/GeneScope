@@ -16,7 +16,6 @@ show_reading_time: false
       padding: 0;
       overflow: hidden;
     }
-
     .tooltip-box {
       position: absolute;
       color: white;
@@ -31,37 +30,109 @@ show_reading_time: false
       background-color: rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
     }
-
     .codon-info {
       max-width: 320px;
       border-left: 4px solid white;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+    .hover-line {
+      position: absolute;
+      height: 2px;
+      width: 0;
+      transition: width 0.4s ease;
+      pointer-events: none;
+      z-index: 40;
+    }
+    .loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.loader:before, .loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+}
+.loader:before {
+  animation: before8 2s infinite;
+}
+.loader:after {
+  animation: after6 2s infinite;
+}
+@keyframes before8 {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+@keyframes after6 {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}
+  /* Adjust the layout to 3 columns */
+  @media (min-width: 768px) {
+    .flex-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
   </style>
 </head>
 
 <body class="bg-black text-white">
 
 <!-- Form -->
-<div class="absolute top-5 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+<div class="absolute top-12 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
-  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
-         class="mb-2 p-2 rounded w-full text-black" />
-  <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
-         class="mb-2 p-2 rounded w-full text-black" />
+<input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
+       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+<input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
   <button onclick="fetchSequence()"
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
+          <div id="loader" class="loader hidden"></div>
+
   <p id="errorMessage" class="text-red-400 mt-2"></p>
 </div>
 
-<!-- Freeze Button -->
-<div class="absolute bottom-10 left-10 z-10">
-  <button id="freezeButton" onclick="toggleFreeze()"
-          class="p-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md transition duration-300">Freeze</button>
-</div>
-
 <!-- Canvas -->
-<canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+<canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full ml-[10rem]"></canvas>
+
 
 <!-- Tooltip Overlay -->
 <div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
@@ -108,7 +179,7 @@ show_reading_time: false
     'G': 'Guanine is the second purine base, structurally similar to adenine but with a carbonyl group at position 6 and an amino group at position 2. It pairs with cytosine using three hydrogen bonds, forming a more thermally stable bond than adenine-thymine pairs. Guanine is also found in molecules like GTP (guanosine triphosphate), which play essential roles in signal transduction and protein synthesis.'
   };
 
-  let currentSequence = 'ATCG'.repeat(50); // Default 200 bases
+  let currentSequence = 'ATCG'.repeat(50);
 
   const tooltipContainer = document.getElementById('tooltipContainer');
   const customTooltip = document.getElementById('customTooltip');
@@ -153,24 +224,39 @@ show_reading_time: false
         dot.style.borderRadius = '50%';
         dot.style.pointerEvents = 'auto';
         dot.style.backgroundColor = 'rgba(255, 255, 255, 0.01)';
-        dot.addEventListener('mouseenter', () => {
-          const color = baseColors[base] || 'white';
 
+        dot.addEventListener('mouseenter', () => {
+          // show tooltip and codon info
           customTooltip.textContent = baseDescriptions[base] || base;
           customTooltip.style.left = `${x}px`;
           customTooltip.style.top = `${y}px`;
-          customTooltip.style.boxShadow = `0 0 12px ${color}`;
+          customTooltip.style.boxShadow = `0 0 12px ${baseColors[base]}`;
           customTooltip.classList.remove('hidden');
 
           codonTitle.textContent = baseDescriptions[base];
           codonDescription.textContent = fullDescriptions[base];
-          codonBox.style.borderColor = color;
-          codonBox.style.boxShadow = `0 0 20px ${color}`;
+          codonBox.style.borderColor = baseColors[base];
+          codonBox.style.boxShadow = `0 0 20px ${baseColors[base]}`;
           codonBox.classList.remove('hidden');
+
+          // create and animate line
+          const line = document.createElement('div');
+          line.className = 'hover-line';
+          line.style.backgroundColor = baseColors[base];
+          line.style.left = `${x}px`;
+          line.style.top = `${y}px`;
+          tooltipContainer.appendChild(line);
+          requestAnimationFrame(() => {
+            line.style.width = '180px';
+          });
         });
 
         dot.addEventListener('mouseleave', () => {
           customTooltip.classList.add('hidden');
+          codonBox.classList.add('hidden');
+          // remove line
+          const existing = tooltipContainer.querySelector('.hover-line');
+          if (existing) tooltipContainer.removeChild(existing);
         });
 
         tooltipContainer.appendChild(dot);
@@ -212,38 +298,96 @@ show_reading_time: false
     requestAnimationFrame(animateDNA);
   }
 
-  async function fetchSequence() {
-    const organism = document.getElementById('organismInput').value.trim();
-    const gene = document.getElementById('geneInput').value.trim();
-    const errorEl = document.getElementById('errorMessage');
-    errorEl.textContent = "";
+async function fetchSequence() {
+  const organism = document.getElementById('organismInput').value.trim();
+  const gene = document.getElementById('geneInput').value.trim();
+  const errorEl = document.getElementById('errorMessage');
+  const loaderEl = document.getElementById('loader');  // The loader element
+  errorEl.textContent = "";
 
-    if (!organism || !gene) {
-      errorEl.textContent = "Please enter both organism and gene symbol.";
-      return;
-    }
-
-    try {
-      const response = await fetch('http://127.0.0.1:8504/sequence', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ organism, gene })
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Unknown error");
-      }
-
-      currentSequence = result.sequence.slice(0, 200);
-      angleOffset = 0;
-    } catch (err) {
-      errorEl.textContent = `Error: ${err.message}`;
-    }
+  if (!organism || !gene) {
+    errorEl.textContent = "Please enter both organism and gene symbol.";
+    return;
   }
+
+  // Show the loader while fetching
+  loaderEl.style.display = 'block';
+
+  try {
+    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ organism, gene })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Unknown error");
+    }
+
+    currentSequence = result.sequence.slice(0, 200);
+    angleOffset = 0;
+
+  } catch (err) {
+    errorEl.textContent = `Error: ${err.message}`;
+  } finally {
+    // Hide the loader when done (or error)
+    loaderEl.style.display = 'none';
+  }
+}
+
 
   animateDNA();
 </script>
+
+<!-- Suggestions Section -->
+<div class="absolute bottom-24 left-5 z-30 text-white ">
+  <h2 class="text-md font-semibold mb-2">Suggestions</h2>
+  <div class="flex gap-4 flex-wrap max-w-screen-lg">
+    <!-- Box 1 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">BRCA1 (Homo sapiens)</h3>
+      <p><span class="italic">Common name:</span> Human<br></p>
+    </div>
+    <!-- Box 2 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">Trp53 (Mus musculus)</h3>
+      <p><span class="italic">Common name:</span> House Mouse<br></p>
+    </div>
+    <!-- Box 5 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">sox10 (Danio rerio)</h3>
+      <p><span class="italic">Common name:</span> Zebrafish<br></p>
+    </div>
+    <!-- Box 8 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">lacZ (Escherichia coli)</h3>
+      <p><span class="italic">Common name:</span> E. coli<br></p>
+    </div>
+    <!-- Box 9 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">FOXP2 (Pan troglodytes)</h3>
+      <p><span class="italic">Common name:</span> Chimpanzee<br></p>
+    </div>
+    <!-- Box 10 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">MDR1 (Canis lupus familiaris)</h3>
+      <p><span class="italic">Common name:</span> Dog<br></p>
+    </div>
+    <!-- Box 11 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">SHH (Gallus gallus)</h3>
+      <p><span class="italic">Common name:</span> Chicken<br></p>
+    </div>
+    <!-- Box 12 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">CSN2 (Bos taurus)</h3>
+      <p><span class="italic">Common name:</span> Cow<br></p>
+    </div>
+  </div>
+</div>
+
+
 </body>
