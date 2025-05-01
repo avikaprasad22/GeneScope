@@ -12,19 +12,24 @@ menu: nav/home.html
   body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg,rgb(0, 0, 0),rgb(0, 0, 0));
-    color: #3b0d7d;
+    color:rgb(170, 255, 237);
     padding: 20px;
   }
 
   h1 {
-    font-family: 'Poppins', sans-serif;
-    color: rgb(233, 221, 255);
-    text-align: center;
-    margin-bottom: 10px;
-  }
+  text-align: center;
+  background: linear-gradient(to right, #00bfa5, #1de9b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
 
   h3 {
-    color: rgb(232, 228, 249);
+    color: rgb(228, 249, 243);
   }
 
   label {
@@ -32,7 +37,7 @@ menu: nav/home.html
   }
 
   .quiz-section {
-    background-color: rgb(87, 67, 217);
+    background-color: rgb(0, 197, 151);
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -41,7 +46,7 @@ menu: nav/home.html
   }
 
   button {
-    background: #5b21b6;
+    background:rgb(122, 212, 175);
     color: white;
     padding: 12px 24px;
     font-size: 16px;
@@ -53,16 +58,16 @@ menu: nav/home.html
   }
 
   button:hover {
-    background: #6d28d9;
+    background:rgb(40, 217, 173);
   }
 
   #career-result {
     display: none;
     margin-top: 30px;
     padding: 25px;
-    border: 2px dashed rgb(90, 67, 218);
+    border: 2px dashed rgb(151, 234, 205);
     border-radius: 16px;
-    background-color: rgb(73, 52, 167);
+    background-color: rgb(0, 198, 152);
     animation: fadeIn 0.5s ease-in-out;
     max-width: 700px;
     margin-left: auto;
@@ -71,8 +76,8 @@ menu: nav/home.html
 
   .spinner {
     margin-top: 10px;
-    border: 4px solid #d1d5db;
-    border-top: 4px solid #5b21b6;
+    border: 4px solidrgb(209, 219, 215);
+    border-top: 4px solidrgb(153, 121, 204);
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -128,35 +133,37 @@ menu: nav/home.html
   </div>
 
   <!-- College Quiz Button -->
-  <div style="text-align:center; margin-top: 30px;">
-    <a
-      href="/illumina_dna/college/"
-      class="relative flex items-center px-6 py-3 overflow-hidden font-medium transition-all bg-indigo-500 rounded-md group"
+ <!-- College Quiz Button -->
+<div style="text-align:center; margin-top: 30px;">
+  <a
+    href="/illumina_dna/college/"
+    class="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-semibold text-white bg-teal-500 rounded-md shadow-lg group hover:bg-teal-600 transition-all duration-300 ease-in-out"
+    style="width: auto; max-width: 250px;"
+  >
+    <span
+      class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-mr-4 group-hover:-mt-4"
     >
       <span
-        class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-mr-4 group-hover:-mt-4"
-      >
-        <span
-          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
-        ></span>
-      </span>
-      <span
-        class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-ml-4 group-hover:-mb-4"
-      >
-        <span
-          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
-        ></span>
-      </span>
-      <span
-        class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-indigo-600 rounded-md group-hover:translate-x-0"
+        class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
       ></span>
+    </span>
+    <span
+      class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-ml-4 group-hover:-mb-4"
+    >
       <span
-        class="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white"
-      >
-        Interested in Colleges?
-      </span>
-    </a>
-  </div>
+        class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+      ></span>
+    </span>
+    <span
+      class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-teal-600 rounded-md group-hover:translate-x-0"
+    ></span>
+    <span
+      class="relative text-sm text-center transition-colors duration-200 ease-in-out group-hover:text-white"
+    >
+      🎓 Interested in Colleges?
+    </span>
+  </a>
+</div>
 
 <script>
   let displayedCareers = new Set();
