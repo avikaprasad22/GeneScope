@@ -131,7 +131,8 @@ show_reading_time: false
 </div>
 
 <!-- Canvas -->
-<canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+<canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full ml-[10rem]"></canvas>
+
 
 <!-- Tooltip Overlay -->
 <div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
