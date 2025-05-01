@@ -102,6 +102,14 @@ show_reading_time: false
     box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
 }
+  /* Adjust the layout to 3 columns */
+  @media (min-width: 768px) {
+    .flex-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
 
   </style>
 </head>
@@ -109,12 +117,12 @@ show_reading_time: false
 <body class="bg-black text-white">
 
 <!-- Form -->
-<div class="absolute top-15 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+<div class="absolute top-12 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
-  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
-         class="mb-2 p-2 rounded w-full text-black" />
-  <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
-         class="mb-2 p-2 rounded w-full text-black" />
+<input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
+       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+<input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
   <button onclick="fetchSequence()"
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
           <div id="loader" class="loader hidden"></div>
@@ -334,20 +342,51 @@ async function fetchSequence() {
 </script>
 
 <!-- Suggestions Section -->
-<div class="absolute bottom-24 left-5 z-30 text-white">
+<div class="absolute bottom-24 left-5 z-30 text-white ">
   <h2 class="text-md font-semibold mb-2">Suggestions</h2>
-  <div class="flex gap-4">
+  <div class="flex gap-4 flex-wrap max-w-screen-lg">
     <!-- Box 1 -->
     <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
-      <h3 class="font-bold mb-1">TNF</h3>
-      <p>The TNF gene encodes a cytokine involved in inflammation and cancer. TNF-α triggers inflammation and promotes tumor cell death.</p>
+      <h3 class="font-bold mb-1">BRCA1 (Homo sapiens)</h3>
+      <p><span class="italic">Common name:</span> Human<br></p>
     </div>
     <!-- Box 2 -->
     <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
-      <h3 class="font-bold mb-1">CFTR</h3>
-      <p>CFTR is a chloride channel protein. Mutations cause cystic fibrosis by disrupting ion transport across cell membranes.</p>
+      <h3 class="font-bold mb-1">Trp53 (Mus musculus)</h3>
+      <p><span class="italic">Common name:</span> House Mouse<br></p>
+    </div>
+    <!-- Box 5 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">sox10 (Danio rerio)</h3>
+      <p><span class="italic">Common name:</span> Zebrafish<br></p>
+    </div>
+    <!-- Box 8 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">lacZ (Escherichia coli)</h3>
+      <p><span class="italic">Common name:</span> E. coli<br></p>
+    </div>
+    <!-- Box 9 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">FOXP2 (Pan troglodytes)</h3>
+      <p><span class="italic">Common name:</span> Chimpanzee<br></p>
+    </div>
+    <!-- Box 10 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">MDR1 (Canis lupus familiaris)</h3>
+      <p><span class="italic">Common name:</span> Dog<br></p>
+    </div>
+    <!-- Box 11 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">SHH (Gallus gallus)</h3>
+      <p><span class="italic">Common name:</span> Chicken<br></p>
+    </div>
+    <!-- Box 12 -->
+    <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
+      <h3 class="font-bold mb-1">CSN2 (Bos taurus)</h3>
+      <p><span class="italic">Common name:</span> Cow<br></p>
     </div>
   </div>
 </div>
+
 
 </body>
