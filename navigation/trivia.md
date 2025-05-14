@@ -6,39 +6,42 @@ show_reading_time: false
 menu: nav/home.html
 ---
 
-<div class="trivia-container space-y-6 p-6 bg-pink-100 rounded-2xl shadow-2xl max-w-2xl mx-auto font-[Comic Sans MS,cursive,sans-serif]">
-  <h2 class="text-3xl font-extrabold text-pink-800 text-center">🧬 Genetics Trivia Challenge 🧠</h2>
+<div class="pt-6"></div>
 
-  <button id="startGameButton"
-          class="bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-md transition duration-300">
-     Start 30‑Second Challenge
-  </button>
+<div class="trivia-container space-y-6 p-6 bg-blue-100 rounded-2xl shadow-2xl max-w-2xl mx-auto font-[Comic Sans MS,cursive,sans-serif]">
+  <h2 class="text-3xl font-extrabold text-blue-800 text-center">🧬 Genetics Trivia Challenge 🧠</h2>
+
+  <div class="text-center">
+    <button id="startGameButton"
+      class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
+      Start 30‑Second Challenge
+    </button>
+  </div>
 
   <div id="gameContainer" class="hidden space-y-4">
-    <h3 id="questionText" class="text-xl font-semibold text-purple-900 text-center"></h3>
+    <h3 id="questionText" class="text-xl font-semibold text-blue-900 text-center"></h3>
     <div id="answersContainer" class="grid grid-cols-2 gap-4"></div>
-
     <div class="flex justify-between px-2">
-      <p class="text-purple-800">⏳ Time Left: <span id="timer" class="font-bold text-red-600">30</span>s</p>
-      <p class="text-purple-800">🌟 Score: <span id="score" class="font-bold text-green-600">0</span></p>
+      <p class="text-blue-800">⏳ Time Left: <span id="timer" class="font-bold text-blue-600">30</span>s</p>
+      <p class="text-blue-800">🌟 Score: <span id="score" class="font-bold text-blue-700">0</span></p>
     </div>
   </div>
 
   <button id="playAgainButton"
-          class="hidden bg-green-400 text-white px-6 py-3 rounded-full hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 shadow-md transition duration-300">
+          class="hidden bg-blue-400 text-white px-6 py-3 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
      Play Again
   </button>
 
   <div id="leaderboardContainer" class="space-y-2 max-h-64 overflow-y-auto bg-white p-4 rounded-xl shadow-inner">
-    <h3 class="text-xl font-semibold text-purple-900 text-center">🏆 Leaderboard</h3>
+    <h3 class="text-xl font-semibold text-blue-900 text-center">🏆 Leaderboard</h3>
     <table class="w-full table-auto border-collapse">
       <thead>
-        <tr class="bg-pink-200">
-          <th class="border px-3 py-2 text-purple-900">Username</th>
-          <th class="border px-3 py-2 text-purple-900">Score</th>
+        <tr class="bg-blue-200">
+          <th class="border px-3 py-2 text-blue-900">Username</th>
+          <th class="border px-3 py-2 text-blue-900">Score</th>
         </tr>
       </thead>
-      <tbody id="leaderboardBody" class="text-purple-800"></tbody>
+      <tbody id="leaderboardBody" class="text-blue-800"></tbody>
     </table>
   </div>
 
@@ -46,7 +49,7 @@ menu: nav/home.html
 
   <!-- 🧬 Gene Information Table Section -->
   <div id="geneTableSection" class="mt-10">
-    <h3 class="text-xl font-bold text-center text-purple-900 mb-4">🧬 Learn About Key Genes</h3>
+    <h3 class="text-xl font-bold text-center text-blue-900 mb-4">🧬 Learn About Key Genes</h3>
     <!-- Search Bar -->
     <div class="mb-4 text-center">
     <input
@@ -59,16 +62,16 @@ menu: nav/home.html
     <div id="geneTableContainer" class="overflow-x-auto bg-white rounded-2xl shadow-inner">
       <table class="min-w-full table-auto text-center border-collapse">
         <thead>
-          <tr class="bg-pink-200">
-            <th class="border px-3 py-2 text-purple-900">Gene Symbol</th>
-            <th class="border px-3 py-2 text-purple-900">Gene Name</th>
-            <th class="border px-3 py-2 text-purple-900">Chromosome</th>
-            <th class="border px-3 py-2 text-purple-900">Location</th>
-            <th class="border px-3 py-2 text-purple-900">Description</th>
-            <th class="border px-3 py-2 text-purple-900">Learn More</th>
+          <tr class="bg-blue-200">
+            <th class="border px-3 py-2 text-blue-900">Gene Symbol</th>
+            <th class="border px-3 py-2 text-blue-900">Gene Name</th>
+            <th class="border px-3 py-2 text-blue-900">Chromosome</th>
+            <th class="border px-3 py-2 text-blue-900">Location</th>
+            <th class="border px-3 py-2 text-blue-900">Description</th>
+            <th class="border px-3 py-2 text-blue-900">Learn More</th>
           </tr>
         </thead>
-        <tbody id="geneTableBody" class="text-purple-800">
+        <tbody id="geneTableBody" class="text-blue-800">
           <!-- Gene data rows will be dynamically inserted here -->
         </tbody>
       </table>
