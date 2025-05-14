@@ -92,7 +92,6 @@ menu: nav/home.html
         </button>
       </div>
     </form>
-
     <div id="result" class="mt-8 font-bold text-lg text-center text-black"></div>
   </div>
 </div>

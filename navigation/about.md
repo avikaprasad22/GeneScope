@@ -125,7 +125,7 @@ menu: nav/home.html
 <div class="section-highlight">
   <h2>Our Mission & Vision</h2>
   <p class="content">
-    Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields.
+    Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields. We aim to spark curiosity, inspire future scientists, and make biotech education accessible to all.
   </p>
 </div>
 

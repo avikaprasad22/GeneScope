@@ -9,34 +9,34 @@ menu: nav/home.html
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-  body {
+  .biotech-quiz-page {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg,rgb(0, 0, 0),rgb(0, 0, 0));
-    color:rgb(170, 255, 237);
+    /* background: linear-gradient(135deg, rgb(0, 0, 0), rgb(0, 0, 0)); */
+    color: rgb(170, 255, 237);
     padding: 20px;
   }
 
-  h1 {
-  text-align: center;
-  background: linear-gradient(to right, #00bfa5, #1de9b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 4rem;
-  font-weight: 800;
-  margin-bottom: 25px;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-}
+  .biotech-quiz-page h1 {
+    text-align: center;
+    background: linear-gradient(to right, #00bfa5, #1de9b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
 
-  h3 {
+  .biotech-quiz-page h3 {
     color: rgb(228, 249, 243);
   }
 
-  label {
+  .biotech-quiz-page label {
     font-weight: 500;
   }
 
-  .quiz-section {
+  .biotech-quiz-page .quiz-section {
     background-color: rgb(0, 197, 151);
     padding: 25px;
     border-radius: 16px;
@@ -45,8 +45,8 @@ menu: nav/home.html
     margin: 20px auto;
   }
 
-  button {
-    background:rgb(122, 212, 175);
+  .biotech-quiz-page button {
+    background: rgb(122, 212, 175);
     color: white;
     padding: 12px 24px;
     font-size: 16px;
@@ -57,11 +57,11 @@ menu: nav/home.html
     margin-top: 10px;
   }
 
-  button:hover {
-    background:rgb(40, 217, 173);
+  .biotech-quiz-page button:hover {
+    background: rgb(40, 217, 173);
   }
 
-  #career-result {
+  .biotech-quiz-page #career-result {
     display: none;
     margin-top: 30px;
     padding: 25px;
@@ -74,10 +74,10 @@ menu: nav/home.html
     margin-right: auto;
   }
 
-  .spinner {
+  .biotech-quiz-page .spinner {
     margin-top: 10px;
-    border: 4px solidrgb(209, 219, 215);
-    border-top: 4px solidrgb(153, 121, 204);
+    border: 4px solid rgb(209, 219, 215);
+    border-top: 4px solid rgb(153, 121, 204);
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -96,7 +96,7 @@ menu: nav/home.html
   }
 </style>
 
-<body>
+<div class="biotech-quiz-page">
   <h1>🔬 Biotechnology Career Quiz</h1>
 
   <div class="quiz-section">
@@ -105,23 +105,18 @@ menu: nav/home.html
       <p><strong>1.</strong> Are you interested in working with genetic data?</p>
       <input type="radio" name="q1" value="5"> Yes<br>
       <input type="radio" name="q1" value="0"> No<br><br>
-
       <p><strong>2.</strong> Do you enjoy conducting experiments in a lab?</p>
       <input type="radio" name="q2" value="5"> Yes<br>
       <input type="radio" name="q2" value="0"> No<br><br>
-
       <p><strong>3.</strong> Are you interested in coding and analyzing biological data?</p>
       <input type="radio" name="q3" value="5"> Yes<br>
       <input type="radio" name="q3" value="0"> No<br><br>
-
       <p><strong>4.</strong> Do you want to contribute to developing new medical treatments?</p>
       <input type="radio" name="q4" value="5"> Yes<br>
       <input type="radio" name="q4" value="0"> No<br><br>
-
       <p><strong>5.</strong> Are you curious about how living organisms function at the molecular level?</p>
       <input type="radio" name="q5" value="5"> Yes<br>
       <input type="radio" name="q5" value="0"> No<br><br>
-
       <button type="button" onclick="calculateScore()">Submit Quiz</button>
     </form>
   </div>
@@ -132,37 +127,36 @@ menu: nav/home.html
     <div id="spinner" class="spinner" style="display: none;"></div>
   </div>
 
-  <!-- College Quiz Button -->
- <!-- College Quiz Button -->
-<div style="text-align:center; margin-top: 30px;">
-  <a
-    href="/illumina_dna/college/"
-    class="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-semibold text-white bg-teal-500 rounded-md shadow-lg group hover:bg-teal-600 transition-all duration-300 ease-in-out"
-    style="width: auto; max-width: 250px;"
-  >
-    <span
-      class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-mr-4 group-hover:-mt-4"
+  <div style="text-align:center; margin-top: 30px;">
+    <a
+      href="/illumina_dna/college/"
+      class="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-semibold text-white bg-teal-500 rounded-md shadow-lg group hover:bg-teal-600 transition-all duration-300 ease-in-out"
+      style="width: auto; max-width: 250px;"
     >
       <span
-        class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
-      ></span>
-    </span>
-    <span
-      class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-ml-4 group-hover:-mb-4"
-    >
+        class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-mr-4 group-hover:-mt-4"
+      >
+        <span
+          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+        ></span>
+      </span>
       <span
-        class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+        class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-teal-700 rounded group-hover:-ml-4 group-hover:-mb-4"
+      >
+        <span
+          class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+        ></span>
+      </span>
+      <span
+        class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-teal-600 rounded-md group-hover:translate-x-0"
       ></span>
-    </span>
-    <span
-      class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-teal-600 rounded-md group-hover:translate-x-0"
-    ></span>
-    <span
-      class="relative text-sm text-center transition-colors duration-200 ease-in-out group-hover:text-white"
-    >
-      🎓 Interested in Colleges?
-    </span>
-  </a>
+      <span
+        class="relative text-sm text-center transition-colors duration-200 ease-in-out group-hover:text-white"
+      >
+        🎓 Interested in Colleges?
+      </span>
+    </a>
+  </div>
 </div>
 
 <script>
@@ -251,4 +245,3 @@ menu: nav/home.html
     }
   }
 </script>
-</body>
