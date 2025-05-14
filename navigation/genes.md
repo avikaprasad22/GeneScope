@@ -17,7 +17,6 @@ show_reading_time: false
     font-size: 22px;
     margin-top: 10px;
     min-height: 40px;
-    border-radius: 8px;
   }
 
   .base {
@@ -45,12 +44,12 @@ show_reading_time: false
     border-radius: 8px;
   }
 
-  select {
-    color: black;
-  }
-
   button:hover {
     background-color: #45a049;
+  }
+
+  select {
+    color: black;
   }
 
   #mutation-type, #mutation-effect {
@@ -62,35 +61,9 @@ show_reading_time: false
   .hidden {
     display: none;
   }
-
-  #base-input {
-    border: 2px solid #007BFF;
-    background-color: #e6f0ff;
-    color: black;
-    outline: none;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 16px;
-    margin-top: 12px; /* Adjusted to make the input box a bit smaller on the top */
-    margin-right: 8px; 
-  }
-
-  .button-row {
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .left-buttons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
 </style>
 
-<h1 style="font-size: 36px; font-weight: bold;">🧬 Gene Explorer</h1>
+# 🧬 Gene Explorer
 
 <label for="gene-select">Select a gene:</label>
 <select id="gene-select">
@@ -98,32 +71,49 @@ show_reading_time: false
 </select>
 <button onclick="loadSelectedGene()">Load Gene</button>
 
-<p id="gene-name">Gene: ...</p>
-<div id="dna-sequence" class="sequence-box"></div>
+  <p id="gene-name">Gene: ...</p>
+  <div id="dna-sequence" class="sequence-box"></div>
 
-<div class="button-row">
-  <div class="left-buttons">
-    <select id="mutation-action">
-      <option value="substitute">Substitution</option>
-      <option value="insert">Insertion</option>
-      <option value="delete">Deletion</option>
-    </select>
-    <input type="text" id="base-input" maxlength="1" placeholder="Base (A/T/C/G)" />
-    <button onclick="applyMutation()">Apply Mutation</button>
+  <div class="progress-container" id="progress-container" style="display:none;">
+    <div class="progress-bar" id="progress-bar">0%</div>
   </div>
-  <button onclick="resetSequence()">Reset</button>
+
+  <div id="move-counter" style="display:none;">Moves: 0</div>
+
+<div style="margin-top: 12px;">
+  <select id="mutation-action">
+    <option value="substitute">Substitution</option>
+    <option value="insert">Insertion</option>
+    <option value="delete">Deletion</option>
+  </select>
+  <input type="text" id="base-input" maxlength="1" placeholder="Base (A/T/C/G)" />
+  <button onclick="applyMutation()">Apply Mutation</button>
 </div>
 
-<p id="condition-name">Condition: ...</p>
-<p id="mutation-effect"></p>
-
+  <p id="condition-name">Condition: ...</p>
+  <p id="mutation-effect"></p>
+  <p id="you-won-message"></p>
+</div>
+<div id="scramble-popup" style="
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  font-size: 24px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  flex-direction: column;
+">
+  <p>Randomizing sequence…</p>
+</div>
 <script>
   const BACKEND_URL = "http://127.0.0.1:8504/api";
 
   let currentGene = "";
   let currentCondition = "";
   let currentSequence = "";
-  let originalSequence = "";
 
   async function populateGeneList() {
     try {
@@ -151,7 +141,6 @@ show_reading_time: false
     currentGene = data.gene;
     currentCondition = data.condition;
     currentSequence = data.sequence;
-    originalSequence = data.sequence;
 
     document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
     document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
@@ -222,12 +211,6 @@ show_reading_time: false
     }
 
     currentSequence = bases.join("").substring(0, 12);
-    renderSequence(currentSequence);
-  }
-
-  function resetSequence() {
-    currentSequence = originalSequence;
-    document.getElementById("mutation-effect").textContent = "";
     renderSequence(currentSequence);
   }
 
