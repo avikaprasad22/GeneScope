@@ -94,17 +94,21 @@ show_reading_time: false
   }
 </style>
 
-# 🧬 Gene Mutation Game
+# Gene Mutation Game
 
-<div id="mode-select">
-  <label for="mode">Choose Mode:</label>
-  <select id="mode">
-    <option value="fix">Fix the Gene</option>
-    <option value="sandbox">Sandbox</option>
+<!-- Game Mode Selector -->
+<div id="mode-select" style="margin-bottom: 20px;">
+  <h2 style="font-size: 20px; font-weight: bold;">Select a Game Mode:</h2>
+  <select id="mode" onchange="handleModeChange()" style="font-size: 16px; margin-top: 8px;">
+    <option value="fix">🧩 Fix the Gene</option>
+    <option value="sandbox">🧪 Sandbox</option>
   </select>
-  <button onclick="startGame()">Start Game</button>
+  <br>
+  <button onclick="startGame()" style="margin-top: 10px;">Start Game</button>
 </div>
 
+
+<!-- Shared Gene Selection -->
 <div id="game-ui" class="hidden">
   <label for="gene-select">Select a gene:</label>
   <select id="gene-select">
@@ -113,15 +117,21 @@ show_reading_time: false
   <button onclick="loadSelectedGene()">Load Gene</button>
 
   <p id="gene-name">Gene: ...</p>
+  <p id="condition-name">Condition: ...</p>
+
   <div id="dna-sequence" class="sequence-box"></div>
 
-  <div class="progress-container" id="progress-container" style="display:none;">
-    <div class="progress-bar" id="progress-bar">0%</div>
+  <!-- Fix the Gene Mode UI -->
+  <div id="fix-tools" class="hidden">
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <div id="move-counter">Moves: 0</div>
+    <p id="you-won-message"></p>
   </div>
 
-  <div id="move-counter" style="display:none;">Moves: 0</div>
-
-  <div style="margin-top: 12px;">
+  <!-- Sandbox Mode UI -->
+  <div id="sandbox-tools" class="hidden" style="margin-top: 12px;">
     <select id="mutation-action">
       <option value="substitute">Substitution</option>
       <option value="insert">Insertion</option>
@@ -131,12 +141,10 @@ show_reading_time: false
     <button onclick="applyMutation()">Apply Mutation</button>
   </div>
 
-  <p id="condition-name">Condition: ...</p>
   <p id="mutation-effect"></p>
-  <p id="you-won-message"></p>
 </div>
 
-<!-- 🔄 Scramble popup -->
+<!-- Scramble popup (for Fix mode only) -->
 <div id="scramble-popup" style="
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -158,18 +166,22 @@ let currentCondition = "";
 let correctSequence = "";
 let currentSequence = "";
 let moveCount = 0;
-let mode = "sandbox";
+let mode = "sandbox";  // default
+function handleModeChange() {
+  const selected = document.getElementById("mode").value;
+  if (selected === "fix") {
+    document.getElementById("fix-tools").classList.remove("hidden");
+    document.getElementById("sandbox-tools").classList.add("hidden");
+  } else {
+    document.getElementById("fix-tools").classList.add("hidden");
+    document.getElementById("sandbox-tools").classList.remove("hidden");
+  }
+}
 function startGame() {
   mode = document.getElementById("mode").value;
   document.getElementById("mode-select").classList.add("hidden");
   document.getElementById("game-ui").classList.remove("hidden");
-  if (mode === "fix") {
-    document.getElementById("progress-container").style.display = "block";
-    document.getElementById("move-counter").style.display = "block";
-  } else {
-    document.getElementById("progress-container").style.display = "none";
-    document.getElementById("move-counter").style.display = "none";
-  }
+  handleModeChange(); // toggle UI tools
   populateGeneList();
   loadSelectedGene();
 }
@@ -222,8 +234,8 @@ async function loadSelectedGene() {
   } else {
     currentSequence = correctSequence;
     renderSequence(currentSequence);
-    updateProgress();
   }
+  updateProgress();
 }
 function renderSequence(sequence) {
   const box = document.getElementById("dna-sequence");
@@ -251,10 +263,12 @@ function swapBases(fromIndex, toIndex) {
   let arr = currentSequence.split('');
   [arr[fromIndex], arr[toIndex]] = [arr[toIndex], arr[fromIndex]];
   currentSequence = arr.join('');
-  moveCount++;
-  document.getElementById("move-counter").textContent = `Moves: ${moveCount}`;
+  if (mode === "fix") {
+    moveCount++;
+    document.getElementById("move-counter").textContent = `Moves: ${moveCount}`;
+    updateProgress();
+  }
   renderSequence(currentSequence);
-  updateProgress();
 }
 function applyMutation() {
   const action = document.getElementById("mutation-action").value;
@@ -275,10 +289,7 @@ function applyMutation() {
     showEffect("Deletion removes a base, often causing a frameshift mutation.");
   }
   currentSequence = bases.join("").substring(0, 12);
-  moveCount++;
-  document.getElementById("move-counter").textContent = `Moves: ${moveCount}`;
   renderSequence(currentSequence);
-  updateProgress();
 }
 function updateProgress() {
   if (mode !== "fix") return;
