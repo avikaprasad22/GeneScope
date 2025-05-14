@@ -470,22 +470,6 @@ menu: nav/home.html
   </div>
 </section>
 
-<!-- About Us Section -->
-<section id="about" class="py-20 text-center bg-gray-900">
-  <h2 class="text-5xl font-bold text-white fade-in">About Us</h2>
-  <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
-    The GeneScope Biotech Education Game is an innovative initiative designed to engage students and the community in the fascinating world of biotechnology. Through interactive gameplay and real-world challenges, participants explore DNA, genetics, and cutting-edge scientific advancements in a fun and immersive way.
-  </p>
-</section>
-
-<!-- Our Mission Section -->
-<section id="mission" class="py-20 text-center bg-black">
-  <h3 class="text-5xl font-bold text-white fade-in">Our Mission</h3>
-  <p class="text-xl text-gray-300 mt-4 max-w-4xl mx-auto fade-in">
-    Our mission aims to spark curiosity, inspire future scientists, and make biotech education accessible to all.
-  </p>
-</section>
-
 <!-- Interactive Activities Section -->
 <section id="ai-solutions" class="py-20 bg-gray-900">
   <h2 class="text-5xl font-bold text-center text-white mb-10 fade-in">Interactive Activities</h2>
