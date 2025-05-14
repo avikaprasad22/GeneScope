@@ -116,6 +116,16 @@ show_reading_time: false
 
 <body class="bg-black text-white">
 
+<!-- Instructions Panel -->
+<div id="instructionsModal" class="fixed inset-x-0 bottom-0 top-9 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-gray-800 p-6 rounded-lg max-w-lg text-white text-center shadow-xl mt-16">
+    <h2 class="text-2xl font-bold mb-4">Welcome to the DNA Simulation</h2>
+    <p class="mb-4">Use the search form to load DNA sequences by organism and gene symbol. Hover over the base pairs to explore detailed information.</p>
+    <p class="mb-6 text-sm text-gray-300">Example: <br><strong>Organism:</strong> Homo sapiens <br><strong>Gene:</strong> BRCA1</p>
+    <button id="instruction-modal" onclick="closeInstructions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Start Simulation</button>
+  </div>
+</div>
+
 <!-- Form -->
 <div class="absolute top-12 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
@@ -337,14 +347,26 @@ async function fetchSequence() {
     loaderEl.style.display = 'none';
   }
 }
-
-
   animateDNA();
+
+ function closeInstructions() {
+    const modal = document.getElementById('instructionsModal');
+    const viewBtn = document.getElementById('viewInstructionsBtn');
+    modal.style.display = 'none';
+    viewBtn.classList.remove('hidden');
+  }
+
+  function showInstructions() {
+    const modal = document.getElementById('instructionsModal');
+    const viewBtn = document.getElementById('viewInstructionsBtn');
+    modal.style.display = 'flex'; // because it's a flex container
+    viewBtn.classList.add('hidden');
+  }
 </script>
 
 <!-- Suggestions Section -->
 <div class="absolute bottom-24 left-5 z-30 text-white ">
-  <h2 class="text-md font-semibold mb-2">Suggestions</h2>
+  <h2 class="text-xl font-bold mt-10 mb-2">Suggestions</h2>
   <div class="flex gap-4 flex-wrap max-w-screen-lg">
     <!-- Box 1 -->
     <div class="bg-gray-900 bg-opacity-90 p-3 rounded-lg shadow-lg text-sm max-w-xs w-52 max-h-40 overflow-auto">
@@ -389,5 +411,9 @@ async function fetchSequence() {
   </div>
 </div>
 
+<button id="viewInstructionsBtn" onclick="showInstructions()"
+  class="hidden fixed top-20 right-4 z-50 bg-indigo-500 hover:bg-indigo-700 text-white px-4 py-2 rounded">
+  View Instructions
+</button>
 
 </body>
