@@ -1,6 +1,5 @@
 ---
 layout: tailwind
-# title: About Us
 permalink: /about/
 show_reading_time: false 
 menu: nav/home.html
@@ -61,6 +60,35 @@ menu: nav/home.html
     margin: 0 auto;
     font-size: 18px;
     color: white;
+  }
+
+  .section-documentation {
+    background: linear-gradient(to bottom, #1e3a8a, #0f172a);
+    padding: 24px 6px;
+    color: #e5e7eb;
+  }
+
+  .section-documentation h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #93c5fd;
+    margin-bottom: 12px;
+  }
+
+  .section-documentation .content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 18px;
+    color: #e5e7eb;
+  }
+
+  .section-documentation a {
+    color: #60a5fa;
+    text-decoration: underline;
+  }
+
+  .section-documentation a:hover {
+    color: #bfdbfe;
   }
 
   .buttons button {
@@ -129,9 +157,15 @@ menu: nav/home.html
   </p>
 </div>
 
+<div class="section-documentation">
+  <h2>Documentation</h2>
+  <p class="content">
+    We document each phase thoroughly, including decisions on tech stack, UI/UX principles, and data sourcing. Planning is tracked through milestones and feedback loops with educators and students. Upcoming improvements include multiplayer functionality, adaptive question difficulty, and expanded gene datasets. For detailed behind-the-scenes updates, visit our <a href="https://avikaprasad22.github.io/illumina_dna/blogs/" target="_blank">Project Blog</a>.
+  </p>
+</div>
+
 <div class="buttons">
   <button onclick="openPopup('teamPopup')">Meet Our Team</button>
-  <button onclick="openPopup('historyPopup')">Our Journey</button>
   <button onclick="openPopup('contactPopup')">Contact Us</button>
 </div>
 
@@ -150,24 +184,11 @@ menu: nav/home.html
   </div>
 </div>
 
-<div id="historyPopup" class="popup" onclick="closePopup(event, 'historyPopup')">
-  <div class="popup-content">
-    <button onclick="closePopup(event, 'historyPopup')">&times;</button>
-    <h2>Our History</h2>
-    <ul>
-      <li><strong>March 2025</strong> - Conceptualized the biotech education platform</li>
-      <li><strong>April 2025</strong> - Launched first interactive game prototype</li>
-      <li><strong>May 2025</strong> - Presentation</li>
-      <li><strong>For more information, please refer to our documentation page. </strong></li>
-    </ul>
-  </div>
-</div>
-
 <div id="contactPopup" class="popup" onclick="closePopup(event, 'contactPopup')">
   <div class="popup-content">
     <button onclick="closePopup(event, 'contactPopup')">&times;</button>
     <h2>Get in Touch</h2>
-    <p>Email: <a href="mailto:contact@yourcompany.com">katherine.yx.chen@gmail.com</a></p>
+    <p>Email: <a href="mailto:katherine.yx.chen@gmail.com">katherine.yx.chen@gmail.com</a></p>
     <p>Phone: +1 (858) 456-7890</p>
     <p>We are excited to collaborate with you!</p>
   </div>
