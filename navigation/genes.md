@@ -107,6 +107,16 @@ show_reading_time: false
   <button onclick="startGame()" style="margin-top: 10px;">Start Game</button>
 </div>
 
+<!-- Difficulty Level Selector (hidden by default) -->
+<div id="difficulty-container" class="hidden">
+  <h2 style="font-size: 18px; font-weight: bold;">Select Difficulty:</h2>
+  <select id="difficulty" style="font-size: 16px; margin-bottom: 10px;">
+    <option value="easy">Easy (4 bases)</option>
+    <option value="medium" selected>Medium (8 bases)</option>
+    <option value="hard">Hard (12 bases)</option>
+  </select>
+</div>
+
 
 <!-- Shared Gene Selection -->
 <div id="game-ui" class="hidden">
@@ -172,9 +182,11 @@ function handleModeChange() {
   if (selected === "fix") {
     document.getElementById("fix-tools").classList.remove("hidden");
     document.getElementById("sandbox-tools").classList.add("hidden");
+    document.getElementById("difficulty-container").classList.remove("hidden");
   } else {
     document.getElementById("fix-tools").classList.add("hidden");
     document.getElementById("sandbox-tools").classList.remove("hidden");
+    document.getElementById("difficulty-container").classList.add("hidden");
   }
 }
 function startGame() {
@@ -183,8 +195,7 @@ function startGame() {
   document.getElementById("game-ui").classList.remove("hidden");
   handleModeChange(); // toggle UI tools
   populateGeneList();
-  loadSelectedGene();
-}
+  }
 async function populateGeneList() {
   try {
     const res = await fetch(`${BACKEND_URL}/gene-list`);
@@ -209,33 +220,51 @@ function scrambleSequence(seq) {
   }
   return arr.join('');
 }
-async function loadSelectedGene() {
+function loadSelectedGene() {
   const selected = document.getElementById("gene-select").value;
-  const res = await fetch(`${BACKEND_URL}/choose-gene?name=${selected}`);
-  const data = await res.json();
-  currentGene = data.gene;
-  currentCondition = data.condition;
-  correctSequence = data.sequence;
-  moveCount = 0;
-  document.getElementById("you-won-message").textContent = "";
-  document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
-  document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
-  document.getElementById("mutation-effect").textContent = "";
-  document.getElementById("move-counter").textContent = `Moves: 0`;
-  if (mode === "fix") {
-    document.getElementById("scramble-popup").style.display = "flex";
-    renderSequence(correctSequence); // show original briefly
-    setTimeout(() => {
-      currentSequence = scrambleSequence(correctSequence);
-      renderSequence(currentSequence);
-      document.getElementById("scramble-popup").style.display = "none";
+  const difficulty = document.getElementById("difficulty").value;
+  const lengthMap = { easy: 4, medium: 8, hard: 12 };
+  const desiredLength = lengthMap[difficulty];
+  fetch(`${BACKEND_URL}/choose-gene?name=${selected}&length=${desiredLength}`)
+    .then(res => res.json())
+    .then(data => {
+      currentGene = data.gene;
+      currentCondition = data.condition;
+      correctSequence = data.sequence;
+      moveCount = 0;
+      document.getElementById("you-won-message").textContent = "";
+      document.getElementById("gene-name").textContent = `Gene: ${currentGene}`;
+      document.getElementById("condition-name").textContent = `Condition: ${currentCondition}`;
+      document.getElementById("mutation-effect").textContent = "";
+      document.getElementById("move-counter").textContent = `Moves: 0`;
+      if (mode === "fix") {
+        document.getElementById("scramble-popup").style.display = "flex";
+        let scrambled = correctSequence;
+        let attempts = 0;
+        // Ensure <50% correct
+        while (similarity(scrambled, correctSequence) >= 0.5 && attempts < 100) {
+          scrambled = scrambleSequence(correctSequence);
+          attempts++;
+        }
+        currentSequence = scrambled;
+        setTimeout(() => {
+          renderSequence(currentSequence);
+          document.getElementById("scramble-popup").style.display = "none";
+          updateProgress();
+        }, 1200);
+      } else {
+        currentSequence = correctSequence;
+        renderSequence(currentSequence);
+      }
       updateProgress();
-    }, 1500);
-  } else {
-    currentSequence = correctSequence;
-    renderSequence(currentSequence);
+    });
+}
+function similarity(seq1, seq2) {
+  let correct = 0;
+  for (let i = 0; i < seq1.length; i++) {
+    if (seq1[i] === seq2[i]) correct++;
   }
-  updateProgress();
+  return correct / seq1.length;
 }
 function renderSequence(sequence) {
   const box = document.getElementById("dna-sequence");
