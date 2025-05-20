@@ -7,7 +7,13 @@ show_reading_time: false
 ---
 
 <style>
-  .genes-page .sequence-box {
+  body {
+  background-image: url('{{site.baseurl}}/images/DnaCircle.png');
+  background-repeat: no-repeat;
+  background-position: center calc(50% + 20px); /* shift upward by 100px */
+  background-size: 700px;
+}
+  .sequence-box {
     display: flex;
     gap: 6px;
     padding: 12px;
@@ -94,6 +100,14 @@ show_reading_time: false
     font-weight: bold;
     margin-top: 12px;
   }
+  .mode-bg {
+    background-image: url('images/DnaCircle.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 40px;
+    border-radius: 12px;
+}
 </style>
 
 <div class="genes-page">
@@ -101,7 +115,7 @@ show_reading_time: false
 Gene Mutation Game
 
 <!-- Game Mode Selector -->
-<div id="mode-select" style="margin-bottom: 20px;">
+<div id="mode-select" class="mode-bg" style="margin-bottom: 20px;">
   <h2 style="font-size: 20px; font-weight: bold;">Select a Game Mode:</h2>
   <select id="mode" onchange="handleModeChange()" style="font-size: 16px; margin-top: 8px;">
     <option value="fix">🧩 Fix the Gene</option>
@@ -197,9 +211,16 @@ function handleModeChange() {
 }
 function startGame() {
   mode = document.getElementById("mode").value;
-  document.getElementById("mode-select").classList.add("hidden");
+  // Remove background
+  const modeContainer = document.getElementById("mode-select");
+  modeContainer.classList.remove("mode-bg");
+  modeContainer.classList.add("hidden");
   document.getElementById("game-ui").classList.remove("hidden");
+<<<<<<< HEAD
   handleModeChange();
+=======
+  handleModeChange();  // toggle tools
+>>>>>>> 1f4ca4d (added img in middle for gene game seleter)
   populateGeneList();
 }
 async function populateGeneList() {
