@@ -11,7 +11,21 @@ menu: nav/home.html
 <div class="trivia-container space-y-6 p-6 bg-blue-100 rounded-2xl shadow-2xl max-w-2xl mx-auto font-[Comic Sans MS,cursive,sans-serif]">
   <h2 class="text-3xl font-extrabold text-blue-800 text-center">🧬 Genetics Trivia Challenge 🧠</h2>
 
-  <div class="text-center">
+  <div class="text-center space-y-4">
+    <button id="showInstructionsButton"
+      class="bg-blue-400 text-white px-4 py-2 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
+      ℹ️ How to Play
+    </button>
+
+    <div class="flex justify-center items-center space-x-4">
+      <label for="difficultySelect" class="font-semibold text-blue-800">Select Difficulty:</label>
+      <select id="difficultySelect" class="rounded-md px-3 py-2 border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
+        <option value="easy" selected>Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
     <button id="startGameButton"
       class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
       Start 30‑Second Challenge
@@ -46,35 +60,27 @@ menu: nav/home.html
   </div>
 
   <p id="message" class="text-red-500 text-center pt-2"></p>
+</div>
 
-  <!-- 🧬 Gene Information Table Section -->
-  <div id="geneTableSection" class="mt-10">
-    <h3 class="text-xl font-bold text-center text-blue-900 mb-4">🧬 Learn About Key Genes</h3>
-    <!-- Search Bar -->
-    <div class="mb-4 text-center">
-    <input
-      id="geneSearch"
-      type="text"
-      placeholder="Search Genes by Name or Location"
-      class="p-2 border-2 border-gray-300 rounded-lg w-80 text-black"
-      oninput="filterGeneTable()">    
-    </div>
-    <div id="geneTableContainer" class="overflow-x-auto bg-white rounded-2xl shadow-inner">
-      <table class="min-w-full table-auto text-center border-collapse">
-        <thead>
-          <tr class="bg-blue-200">
-            <th class="border px-3 py-2 text-blue-900">Gene Symbol</th>
-            <th class="border px-3 py-2 text-blue-900">Gene Name</th>
-            <th class="border px-3 py-2 text-blue-900">Chromosome</th>
-            <th class="border px-3 py-2 text-blue-900">Location</th>
-            <th class="border px-3 py-2 text-blue-900">Description</th>
-            <th class="border px-3 py-2 text-blue-900">Learn More</th>
-          </tr>
-        </thead>
-        <tbody id="geneTableBody" class="text-blue-800">
-          <!-- Gene data rows will be dynamically inserted here -->
-        </tbody>
-      </table>
+<!-- Instructions & Key Terms Modal -->
+<div id="instructionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-2xl p-6 max-w-xl mx-4 max-h-[80vh] overflow-y-auto shadow-2xl relative">
+    <button id="closeInstructions" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
+    <h3 class="text-2xl font-bold text-blue-800 mb-4 text-center">How to Play & Key Terms</h3>
+    <div class="space-y-4 text-blue-900 text-sm leading-relaxed">
+      <p><strong>Objective:</strong> Answer as many genetics trivia questions correctly within 30 seconds to earn a high score!</p>
+      <p><strong>Gameplay:</strong> Select the correct answer from multiple choices. Each correct answer increases your score by 1.</p>
+      <p><strong>Difficulty Levels:</strong> Choose from Easy, Medium, or Hard questions before starting the game.</p>
+      <p><strong>Timer:</strong> You have 30 seconds per challenge. Try to answer quickly and accurately!</p>
+      <hr class="my-3 border-blue-300" />
+      <h4 class="font-semibold text-blue-700">Key Terms:</h4>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Gene:</strong> A unit of heredity made up of DNA that codes for a specific trait.</li>
+        <li><strong>Chromosome:</strong> Structures in cells that contain genes.</li>
+        <li><strong>Allele:</strong> Different versions of a gene.</li>
+        <li><strong>DNA:</strong> The molecule that carries genetic information.</li>
+        <li><strong>Mutation:</strong> A change in the DNA sequence.</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -89,8 +95,11 @@ menu: nav/home.html
     return (await res.json()).id;
   }
 
-  async function fetchGameQuestions() {
-    const res = await fetch(pythonURI + '/api/get_questions', fetchOptions);
+  // Fetch questions filtered by difficulty
+  async function fetchGameQuestions(difficulty) {
+    // Assuming backend accepts difficulty as query param, adjust if needed
+    const url = `${pythonURI}/api/get_questions?difficulty=${difficulty}`;
+    const res = await fetch(url, fetchOptions);
     if (!res.ok) throw new Error('Failed to load questions');
     return await res.json();
   }
@@ -190,10 +199,13 @@ menu: nav/home.html
     timerId = setInterval(tick, 1000);
   }
 
+  // Event handlers
+
   document.getElementById('startGameButton').addEventListener('click', async () => {
     document.getElementById('message').textContent = '';
+    const difficulty = document.getElementById('difficultySelect').value;
     try {
-      currentQuestions = await fetchGameQuestions();
+      currentQuestions = await fetchGameQuestions(difficulty);
       startChallenge(currentQuestions);
     } catch (e) {
       document.getElementById('message').textContent = e.message;
@@ -203,51 +215,36 @@ menu: nav/home.html
   document.getElementById('playAgainButton').addEventListener('click', async () => {
     document.getElementById('message').textContent = '';
     document.getElementById('playAgainButton').classList.add('hidden');
+    const difficulty = document.getElementById('difficultySelect').value;
     try {
-      currentQuestions = await fetchGameQuestions();
+      currentQuestions = await fetchGameQuestions(difficulty);
       startChallenge(currentQuestions);
     } catch (e) {
       document.getElementById('message').textContent = e.message;
     }
   });
 
-  document.addEventListener("DOMContentLoaded", async () => {
-    updateLeaderboard();
-    const genes = await fetchGeneResources();
-    renderGeneTable(genes);
+  // Instructions Modal handlers
+  const instructionsModal = document.getElementById('instructionsModal');
+  const showInstructionsButton = document.getElementById('showInstructionsButton');
+  const closeInstructionsButton = document.getElementById('closeInstructions');
+
+  showInstructionsButton.addEventListener('click', () => {
+    instructionsModal.classList.remove('hidden');
   });
 
-  async function fetchGeneResources() {
-    const res = await fetch(pythonURI + '/api/gene_resources', fetchOptions);
-    if (!res.ok) throw new Error('Failed to load gene resources');
-    return await res.json();
-  }
+  closeInstructionsButton.addEventListener('click', () => {
+    instructionsModal.classList.add('hidden');
+  });
 
-  function renderGeneTable(genes) {
-    const tbody = document.getElementById('geneTableBody');
-    tbody.innerHTML = '';
+  // Close modal if clicked outside the content
+  instructionsModal.addEventListener('click', (e) => {
+    if (e.target === instructionsModal) {
+      instructionsModal.classList.add('hidden');
+    }
+  });
 
-    genes.forEach(gene => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="border px-3 py-2 text-purple-900">${gene.symbol}</td>
-        <td class="border px-3 py-2 text-purple-900">${gene.name}</td>
-        <td class="border px-3 py-2 text-purple-900">${gene.chromosome}</td>
-        <td class="border px-3 py-2 text-purple-900">${gene.map_location}</td>
-        <td class="border px-3 py-2 text-purple-900">${gene.description}</td>
-        <td class="border px-3 py-2 text-purple-900"><a href="${gene.url}" target="_blank" class="text-blue-500 underline">Learn more</a></td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-
-  function filterGeneTable() {
-    const query = document.getElementById('geneSearch').value.toLowerCase();
-    const rows = document.querySelectorAll('#geneTableBody tr');
-    rows.forEach(row => {
-      const name = row.cells[1].textContent.toLowerCase();
-      const location = row.cells[3].textContent.toLowerCase();
-      row.style.display = (name.includes(query) || location.includes(query)) ? '' : 'none';
-    });
-  }
+  document.addEventListener("DOMContentLoaded", () => {
+    updateLeaderboard();
+  });
 </script>
