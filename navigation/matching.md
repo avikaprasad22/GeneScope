@@ -1,6 +1,6 @@
 ---
 layout: tailwind
-permalink: /matching/
+permalink: /matching-game/
 show_reading_time: false
 menu: nav/home.html
 ---
@@ -15,7 +15,7 @@ menu: nav/home.html
   }
   body {
     font-family: 'Inter', sans-serif;
-    background: rgb(0, 0, 0);
+    background: rgb(201, 204, 216);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,9 +58,9 @@ menu: nav/home.html
     pointer-events: none;
   }
   .selected {
-    border: 2px solid #3b82f6;
-    background-color: rgb(0, 0, 0);
-  }
+  border: 2px solid #3b82f6;
+  background-color: rgb(227, 230, 240); 
+}
   @keyframes fadeOut {
     from {
       opacity: 1;
@@ -80,7 +80,7 @@ menu: nav/home.html
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(31, 41, 55, 0.7);
+    background: rgba(0, 10, 24, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -225,6 +225,8 @@ menu: nav/home.html
       selectedCards = [];
       matchedCount = 0;
       totalPairs = pairs.length;
+
+      shuffleArray(pairs); // Shuffle the order of the pairs themselves
 
       const allCards = [];
       pairs.forEach((pair, index) => {
