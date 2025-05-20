@@ -186,7 +186,7 @@ menu: nav/home.html
       <li><strong>Soni</strong> - DNA Sequencing Simulation and AI Voice Bot</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Career and College Matches</li>
+      <li><strong>Zoe</strong> - Matching Game and Career/College Matches</li>
     </ul>
   </div>
 </div>
