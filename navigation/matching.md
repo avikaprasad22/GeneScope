@@ -157,7 +157,7 @@ menu: nav/home.html
   <!-- Instruction Modal -->
   <div id="instruction-modal" class="modal">
     <div class="modal-content">
-      <h2>How to Play</h2>
+      <h2>🎮How to Play!</h2>
       <p>
         • Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition. 
       </p>
