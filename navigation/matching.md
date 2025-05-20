@@ -159,7 +159,13 @@ menu: nav/home.html
     <div class="modal-content">
       <h2>How to Play</h2>
       <p>
-        Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition. If they match, they disappear. Keep matching until all pairs are gone. When you finish the game, you can choose to keep playing or try some interesting quizzes!
+        • Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition. 
+      </p>
+      <p>
+        • If they match, they disappear. Keep matching until all pairs are gone.
+      </p>
+      <p>
+        • When you finish the game, you can choose to keep playing or try some interesting quizzes!
       </p>
       <button onclick="closeModal()">Start Game</button>
     </div>
