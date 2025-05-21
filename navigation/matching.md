@@ -72,7 +72,10 @@ menu: nav/home.html
     }
   }
   .fade-out {
-    animation: fadeOut 0.4s forwards;
+  animation: fadeOut 0.5s forwards;
+  }
+  .hidden-card {
+  visibility: hidden;
   }
   .modal {
     position: fixed;
@@ -270,9 +273,9 @@ menu: nav/home.html
           card2.classList.add("matched", "fade-out");
 
           let animationsDone = 0;
-          const removeCards = () => {
-            card1.remove();
-            card2.remove();
+          const hideCards = () => {
+            card1.classList.add("hidden-card");
+            card2.classList.add("hidden-card");
             matchedCount++;
             if (matchedCount === totalPairs) {
               stopTimer();
@@ -283,9 +286,10 @@ menu: nav/home.html
           [card1, card2].forEach((card) =>
             card.addEventListener("animationend", () => {
               animationsDone++;
-              if (animationsDone === 2) removeCards();
+              if (animationsDone === 2) hideCards();
             }, { once: true })
           );
+
         }
 
         setTimeout(() => {
