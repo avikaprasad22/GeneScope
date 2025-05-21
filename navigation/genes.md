@@ -7,6 +7,12 @@ show_reading_time: false
 ---
 
 <style>
+  body {
+  background-image: url('{{site.baseurl}}/images/DnaCircle.png');
+  background-repeat: no-repeat;
+  background-position: center calc(50% + 20px); /* shift upward by 100px */
+  background-size: 700px;
+}
   .sequence-box {
     display: flex;
     gap: 6px;
@@ -20,7 +26,7 @@ show_reading_time: false
     flex-wrap: wrap;
   }
 
-  .base {
+  .genes-page .base {
     cursor: move;
     padding: 4px 10px;
     border: 1px solid #999;
@@ -28,12 +34,13 @@ show_reading_time: false
     background: #fff;
   }
 
-  .A { color: #e74c3c; }
-  .T { color: #2980b9; }
-  .C { color: #27ae60; }
-  .G { color: #f39c12; }
+  .genes-page .A { color: #e74c3c; }
+  .genes-page .T { color: #2980b9; }
+  .genes-page .C { color: #27ae60; }
+  .genes-page .G { color: #f39c12; }
 
-  button, select {
+  .genes-page button,
+  .genes-page select {
     margin-top: 10px;
     padding: 8px 14px;
     background: #4CAF50;
@@ -44,25 +51,26 @@ show_reading_time: false
     margin-right: 8px;
   }
 
-  button:hover {
+  .genes-page button:hover {
     background-color: #45a049;
   }
 
-  select {
+  .genes-page select {
     color: black;
   }
 
-  #mutation-type, #mutation-effect {
+  .genes-page #mutation-type,
+  .genes-page #mutation-effect {
     margin-top: 18px;
     font-weight: bold;
     font-size: 18px;
   }
 
-  .hidden {
+  .genes-page .hidden {
     display: none;
   }
 
-  .progress-container {
+  .genes-page .progress-container {
     width: 100%;
     background-color: #e0e0e0;
     border-radius: 4px;
@@ -71,7 +79,7 @@ show_reading_time: false
     overflow: hidden;
   }
 
-  .progress-bar {
+  .genes-page .progress-bar {
     height: 100%;
     width: 0%;
     background-color: #4CAF50;
@@ -81,23 +89,33 @@ show_reading_time: false
     font-size: 12px;
   }
 
-  #move-counter {
+  .genes-page #move-counter {
     font-weight: bold;
     margin-top: 10px;
   }
 
-  #you-won-message {
+  .genes-page #you-won-message {
     font-size: 20px;
     color: green;
     font-weight: bold;
     margin-top: 12px;
   }
+  .mode-bg {
+    background-image: url('images/DnaCircle.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 40px;
+    border-radius: 12px;
+}
 </style>
 
-# Gene Mutation Game
+<div class="genes-page">
+
+Gene Mutation Game
 
 <!-- Game Mode Selector -->
-<div id="mode-select" style="margin-bottom: 20px;">
+<div id="mode-select" class="mode-bg" style="margin-bottom: 20px;">
   <h2 style="font-size: 20px; font-weight: bold;">Select a Game Mode:</h2>
   <select id="mode" onchange="handleModeChange()" style="font-size: 16px; margin-top: 8px;">
     <option value="fix">🧩 Fix the Gene</option>
@@ -116,7 +134,6 @@ show_reading_time: false
     <option value="hard">Hard (12 bases)</option>
   </select>
 </div>
-
 
 <!-- Shared Gene Selection -->
 <div id="game-ui" class="hidden">
@@ -169,6 +186,9 @@ show_reading_time: false
 ">
   <p>Randomizing sequence…</p>
 </div>
+
+</div>
+
 <script>
 const BACKEND_URL = "http://127.0.0.1:8504/api";
 let currentGene = "";
@@ -176,7 +196,7 @@ let currentCondition = "";
 let correctSequence = "";
 let currentSequence = "";
 let moveCount = 0;
-let mode = "sandbox";  // default
+let mode = "sandbox";
 function handleModeChange() {
   const selected = document.getElementById("mode").value;
   if (selected === "fix") {
@@ -191,11 +211,18 @@ function handleModeChange() {
 }
 function startGame() {
   mode = document.getElementById("mode").value;
-  document.getElementById("mode-select").classList.add("hidden");
+  // Remove background
+  const modeContainer = document.getElementById("mode-select");
+  modeContainer.classList.remove("mode-bg");
+  modeContainer.classList.add("hidden");
   document.getElementById("game-ui").classList.remove("hidden");
-  handleModeChange(); // toggle UI tools
+<<<<<<< HEAD
+  handleModeChange();
+=======
+  handleModeChange();  // toggle tools
+>>>>>>> 1f4ca4d (added img in middle for gene game seleter)
   populateGeneList();
-  }
+}
 async function populateGeneList() {
   try {
     const res = await fetch(`${BACKEND_URL}/gene-list`);
@@ -241,7 +268,6 @@ function loadSelectedGene() {
         document.getElementById("scramble-popup").style.display = "flex";
         let scrambled = correctSequence;
         let attempts = 0;
-        // Ensure <50% correct
         while (similarity(scrambled, correctSequence) >= 0.5 && attempts < 100) {
           scrambled = scrambleSequence(correctSequence);
           attempts++;

@@ -8,13 +8,17 @@ menu: nav/home.html
 <style>
   body {
     font-family: Arial, sans-serif;
-    text-align: center;
   }
   
+  .page-content {
+    text-align: center;
+  }
+
   .header {
     background: linear-gradient(to bottom, #cce4ff, white);
     padding: 20px 6px;
     color: black;
+    text-align: center;
   }
 
   .header h1 {
@@ -43,6 +47,7 @@ menu: nav/home.html
   }
 
   .section-highlight {
+    margin-bottom: 40px; /* Added for gap */
     background: linear-gradient(to bottom, #93c5fd, #3b82f6);
     padding: 20px 6px;
     color: white;
@@ -150,23 +155,25 @@ menu: nav/home.html
   </p>
 </div>
 
-<div class="section-highlight">
-  <h2>Our Mission & Vision</h2>
-  <p class="content">
-    Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields. We aim to spark curiosity, inspire future scientists, and make biotech education accessible to all.
-  </p>
-</div>
+<div class="page-content">
+  <div class="section-highlight">
+    <h2>Our Mission & Vision</h2>
+    <p class="content">
+      Our mission is to inspire the next generation of scientists and innovators by making biotechnology accessible and engaging. We envision a world where learning is interactive, inclusive, and drives curiosity in STEM fields. We aim to spark curiosity, inspire future scientists, and make biotech education accessible to all.
+    </p>
+  </div>
 
-<div class="section-documentation">
-  <h2>Documentation</h2>
-  <p class="content">
-    We document each phase thoroughly, including decisions on tech stack, UI/UX principles, and data sourcing. Planning is tracked through milestones and feedback loops with educators and students. Upcoming improvements include multiplayer functionality, adaptive question difficulty, and expanded gene datasets. For detailed behind-the-scenes updates, visit our <a href="https://avikaprasad22.github.io/illumina_dna/blogs/" target="_blank">Project Blog</a>.
-  </p>
-</div>
+  <div class="section-documentation">
+    <h2>Documentation</h2>
+    <p class="content">
+      We document each phase thoroughly, including decisions on tech stack, UI/UX principles, and data sourcing. Planning is tracked through milestones and feedback loops with educators and students. Upcoming improvements include multiplayer functionality, adaptive question difficulty, and expanded gene datasets. For detailed behind-the-scenes updates, visit our <a href="https://avikaprasad22.github.io/illumina_dna/blogs/" target="_blank">Project Blog</a>.
+    </p>
+  </div>
 
-<div class="buttons">
-  <button onclick="openPopup('teamPopup')">Meet Our Team</button>
-  <button onclick="openPopup('contactPopup')">Contact Us</button>
+  <div class="buttons">
+    <button onclick="openPopup('teamPopup')">Meet Our Team</button>
+    <button onclick="openPopup('contactPopup')">Contact Us</button>
+  </div>
 </div>
 
 <div id="teamPopup" class="popup" onclick="closePopup(event, 'teamPopup')">
@@ -179,7 +186,7 @@ menu: nav/home.html
       <li><strong>Soni</strong> - DNA Sequencing Simulation and AI Voice Bot</li>
       <li><strong>Katherine</strong> - UI Design and Implementation</li>
       <li><strong>Gabi</strong> - Trivia Question System</li>
-      <li><strong>Zoe</strong> - Career and College Matches</li>
+      <li><strong>Zoe</strong> - Matching Game and Career/College Matches</li>
     </ul>
   </div>
 </div>

@@ -32,7 +32,7 @@ layout: null
     <style>
       :root {
         --color-dark: #121212;
-        --color-darker: #232e43;
+        --color-darker: #243e6e;
         --color-accent: #82b2ff;
         --color-success: #34A853;
         --color-warning: #FBBC05;
@@ -68,29 +68,44 @@ layout: null
     <header class="bg-gray-900 shadow-md py-6 fixed top-0 w-full z-50">
       <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-accent"><a href="{{ site.baseurl }}/">GeneScope</a></h1>
-        <nav class="space-x-6">
-          <div class="relative group inline-block"><div class="relative group inline-block">
-            <button class="text-gray-200 hover:text-accent focus:outline-none">
+        <nav class="space-x-6 flex items-center">
+          <div
+            class="relative group inline-block"
+            tabindex="0"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <button
+              class="text-gray-200 hover:text-accent focus:outline-none flex items-center"
+              aria-haspopup="true"
+              aria-expanded="false"
+              type="button"
+            >
               Quizzes
-              <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                class="w-4 h-4 inline ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded-lg shadow-lg z-50">
-              <a href="{{ site.baseurl }}/trivia/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Trivia</a>
-              <a href="{{ site.baseurl }}/genes/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Genes Quiz</a>
-              <a href="{{ site.baseurl }}/risk-quiz/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Risk Quiz</a>
-              <a href="{{ site.baseurl }}/career/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white">Career Quiz</a>
+            <div
+              class="absolute hidden group-hover:block group-focus-within:block bg-gray-800 mt-2 rounded-lg shadow-lg z-50 min-w-[150px]"
+              role="menu"
+              aria-label="Quizzes menu"
+            >
+              <a href="{{ site.baseurl }}/trivia/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white" role="menuitem" tabindex="0">Trivia</a>
+              <a href="{{ site.baseurl }}/genes/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white" role="menuitem" tabindex="0">Genes Quiz</a>
+              <a href="{{ site.baseurl }}/risk-quiz/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white" role="menuitem" tabindex="0">Risk Quiz</a>
+              <a href="{{ site.baseurl }}/matching-game/" class="block px-4 py-2 text-gray-200 hover:bg-accent hover:text-white" role="menuitem" tabindex="0">Matching Game</a>
             </div>
           </div>
-          </div>
-          <!-- <a href="{{ site.baseurl }}/trivia/" class="text-gray-200 hover:text-accent">Trivia</a> -->
-          <!-- <a href="{{ site.baseurl }}/genes/" class="text-gray-200 hover:text-accent">Trivia</a> -->
-          <!-- <a href="{{ site.baseurl }}/career" class="text-gray-200 hover:text-accent">Career Quiz</a> -->
           <a href="{{ site.baseurl }}/dnasimulation" class="text-gray-200 hover:text-accent">DNA Simulation</a>
           <a href="{{ site.baseurl }}/about/" class="text-gray-200 hover:text-accent">About Us</a>
           <a href="{{ site.baseurl }}/search/" class="text-gray-200 hover:text-accent">Search</a>
-          <!-- <a href="{{ site.baseurl }}/blogs/" class="text-gray-200 hover:text-accent">Documentation</a> -->
           <a id="signup-login" href="{{ site.baseurl }}/login" class="text-gray-300 font-extrabold tracking-tight hover:text-accent">Sign Up | Login</a>
         </nav>
       </div>
