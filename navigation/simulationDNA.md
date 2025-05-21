@@ -1,136 +1,274 @@
-<div id="dna-app" style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-  <h3>Select Organism and Gene</h3>
-  <label for="organism-select">Organism:</label>
-  <select id="organism-select">
-    <option value="homo_sapiens">Homo sapiens</option>
-    <option value="mus_musculus">Mus musculus</option>
-    <option value="drosophila_melanogaster">Drosophila melanogaster</option>
-    <option value="danio_rerio">Danio rerio</option>
-    <option value="caenorhabditis_elegans">Caenorhabditis elegans</option>
+---
+layout: tailwind
+title: DNA Animation
+permalink: /dnasimulation/
+show_reading_time: false
+---
+
+<head>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .tooltip-box {
+      position: absolute;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      z-index: 50;
+      white-space: nowrap;
+      transform: translate(-50%, -120%);
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      background-color: rgba(0, 0, 0, 0.85);
+      transition: all 0.2s ease;
+    }
+    .codon-info {
+      max-width: 320px;
+      border-left: 4px solid white;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-line {
+      position: absolute;
+      height: 2px;
+      width: 0;
+      transition: width 0.4s ease;
+      pointer-events: none;
+      z-index: 40;
+    }
+    .loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.loader:before, .loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+}
+.loader:before {
+  animation: before8 2s infinite;
+}
+.loader:after {
+  animation: after6 2s infinite;
+}
+@keyframes before8 {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+@keyframes after6 {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}
+  /* Adjust the layout to 3 columns */
+  @media (min-width: 768px) {
+    .flex-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
+  </style>
+</head>
+
+<body class="bg-black text-white">
+
+<!-- Instructions Panel -->
+<div id="instructionsModal" class="fixed inset-x-0 bottom-0 top-9 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-gray-800 p-6 rounded-lg max-w-lg text-white text-center shadow-xl mt-16">
+    <h2 class="text-2xl font-bold mb-4">Welcome to the DNA Simulation</h2>
+    <p class="mb-4">Use the search form to load DNA sequences by organism and gene symbol. Hover over the base pairs to explore detailed information.</p>
+    <p class="mb-6 text-sm text-gray-300">Example: <br><strong>Organism:</strong> Homo sapiens <br><strong>Gene:</strong> BRCA1</p>
+    <button id="instruction-modal" onclick="closeInstructions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Start Simulation</button>
+  </div>
+</div>
+
+<!-- Form -->
+<div class="absolute top-12 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+  <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
+
+  <!-- Organism Dropdown -->
+  <select id="organismSelect" class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400">
+    <!-- Dropdown options will be populated dynamically -->
   </select>
 
-  <br><br>
-
-  <label for="gene-select">Gene:</label>
-  <select id="gene-select">
-    <option value="BRCA1">BRCA1</option>
-    <option value="TP53">TP53</option>
-    <option value="EGFR">EGFR</option>
-    <option value="MYC">MYC</option>
-    <option value="CFTR">CFTR</option>
+  <!-- Gene Dropdown -->
+  <select id="geneSelect" class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400">
+    <!-- Dropdown options will be populated dynamically -->
   </select>
 
-  <br><br>
-  <div>
-    <strong>Or type custom organism and gene:</strong><br>
-    Organism: <input type="text" id="organism-input" placeholder="e.g. homo_sapiens" style="width: 200px;"/><br><br>
-    Gene: <input type="text" id="gene-input" placeholder="e.g. BRCA1" style="width: 200px;"/>
-  </div>
+  <!-- User Input Fields for Organism and Gene -->
+  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
+         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+  <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+  <button onclick="fetchSequence()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
+          <div id="loader" class="loader hidden"></div>
 
-  <br>
-  <button id="fetch-sequence-btn">Fetch Sequence</button>
+  <p id="errorMessage" class="text-red-400 mt-2"></p>
+</div>
 
-  <h4>Suggestions:</h4>
-  <div id="suggestions" style="display: flex; gap: 10px;">
-    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">BRCA1 - Homo sapiens</div>
-    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">TP53 - Mus musculus</div>
-    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">EGFR - Danio rerio</div>
-    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">MYC - Drosophila melanogaster</div>
-  </div>
+<!-- Canvas -->
+<canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full ml-[10rem]"></canvas>
 
-  <br>
-  <div id="result" style="padding: 10px; background: #f0f0f0; min-height: 50px;"></div>
+
+<!-- Tooltip Overlay -->
+<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
+<div id="customTooltip" class="tooltip-box hidden"></div>
+
+<!-- Side Info Box -->
+<div id="codonInfoBox" class="absolute top-[150px] right-5 bg-gray-900 bg-opacity-90 text-white p-5 rounded-xl shadow-xl z-30 codon-info hidden">
+  <h3 class="text-lg font-bold mb-2" id="codonTitle">Codon Info</h3>
+  <p id="codonDescription" class="text-sm leading-relaxed"></p>
 </div>
 
 <script>
-  (function() {
-    const organismSelect = document.getElementById('organism-select');
-    const geneSelect = document.getElementById('gene-select');
-    const organismInput = document.getElementById('organism-input');
-    const geneInput = document.getElementById('gene-input');
-    const fetchBtn = document.getElementById('fetch-sequence-btn');
-    const resultDiv = document.getElementById('result');
-    const suggestionsDiv = document.getElementById('suggestions');
+  const canvas = document.getElementById('dnaCanvas');
+  const ctx = canvas.getContext('2d');
+  const WIDTH = window.innerWidth;
+  const HEIGHT = window.innerHeight;
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
 
-    // When clicking suggestion, fill selects and inputs
-    suggestionsDiv.querySelectorAll('div').forEach(sugg => {
-      sugg.addEventListener('click', () => {
-        const [gene, ...orgParts] = sugg.textContent.split(' - ');
-        const organism = orgParts.join(' - ');
-        // set selects if options available
-        setSelectValue(organismSelect, organism.toLowerCase().replace(/ /g, '_'));
-        setSelectValue(geneSelect, gene);
-        // set inputs
-        organismInput.value = organism.toLowerCase().replace(/ /g, '_');
-        geneInput.value = gene;
-        fetchSequence();
-      });
+  let isFrozen = false;
+  let angleOffset = 0;
+  const baseSpacing = 40;
+  const amplitude = 100;
+  const speed = 0.02;
+  const complements = { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' };
+  const baseColors = {
+    'A': '#99ff99',
+    'T': '#66b2ff',
+    'C': '#ffff99',
+    'G': '#ff6666'
+  };
+
+  let currentSequence = 'ATCG'.repeat(50);
+
+  const tooltipContainer = document.getElementById('tooltipContainer');
+  const customTooltip = document.getElementById('customTooltip');
+  const codonBox = document.getElementById('codonInfoBox');
+  const codonTitle = document.getElementById('codonTitle');
+  const codonDescription = document.getElementById('codonDescription');
+
+  async function fetchOrganismsAndGenes() {
+    try {
+      const response = await fetch('http://127.0.0.1:8504/api/sequence');
+      const data = await response.json();
+      populateDropdowns(data.organisms, data.genes);
+    } catch (error) {
+      console.error('Error fetching organisms and genes:', error);
+    }
+  }
+
+  function populateDropdowns(organisms, genes) {
+    const organismSelect = document.getElementById('organismSelect');
+    const geneSelect = document.getElementById('geneSelect');
+    
+    organisms.forEach(organism => {
+      const option = document.createElement('option');
+      option.value = organism;
+      option.textContent = organism;
+      organismSelect.appendChild(option);
     });
 
-    function setSelectValue(selectElem, val) {
-      for (let option of selectElem.options) {
-        if (option.value.toLowerCase() === val.toLowerCase()) {
-          selectElem.value = option.value;
-          return;
-        }
-      }
-      // If no option matches, clear selection
-      selectElem.value = '';
+    genes.forEach(gene => {
+      const option = document.createElement('option');
+      option.value = gene;
+      option.textContent = gene;
+      geneSelect.appendChild(option);
+    });
+  }
+
+  async function fetchSequence() {
+    const organism = document.getElementById('organismInput').value.trim() || document.getElementById('organismSelect').value;
+    const gene = document.getElementById('geneInput').value.trim() || document.getElementById('geneSelect').value;
+    const errorEl = document.getElementById('errorMessage');
+    const loaderEl = document.getElementById('loader');
+    errorEl.textContent = "";
+
+    if (!organism || !gene) {
+      errorEl.textContent = "Please enter both organism and gene symbol.";
+      return;
     }
 
-    function fetchSequence() {
-      // Decide whether to use selects or inputs, prioritize selects if set
-      let organism = organismInput.value.trim() || organismSelect.value;
-      let gene = geneInput.value.trim() || geneSelect.value;
+    loaderEl.style.display = 'block';
 
-      if (!organism || !gene) {
-        alert('Please select or type both organism and gene.');
-        return;
-      }
-
-      resultDiv.textContent = 'Loading sequence...';
-
-      fetch('http://127.0.0.1:5000/api/sequence', {
+    try {
+      const response = await fetch('http://127.0.0.1:8504/api/sequence', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ organism, gene }),
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-          resultDiv.textContent = 'Error: ' + data.error;
-          return;
-        }
-        animateResult(`Gene: ${data.gene}\nOrganism: ${data.organism}\nEnsembl ID: ${data.ensembl_id}\nSequence (first 30 chars): ${data.sequence}`);
-      })
-      .catch(err => {
-        resultDiv.textContent = 'Fetch error: ' + err.message;
+        body: JSON.stringify({ organism, gene })
       });
-    }
 
-    function animateResult(text) {
-      resultDiv.textContent = '';
-      let i = 0;
-      const speed = 30; // typing speed in ms
+      const result = await response.json();
 
-      function typeWriter() {
-        if (i < text.length) {
-          resultDiv.textContent += text.charAt(i);
-          i++;
-          setTimeout(typeWriter, speed);
-        }
+      if (!response.ok) {
+        throw new Error(result.error || "Unknown error");
       }
-      typeWriter();
-    }
 
-    fetchBtn.addEventListener('click', fetchSequence);
-  })();
+      currentSequence = result.sequence.slice(0, 200);
+      angleOffset = 0;
+    } catch (err) {
+      errorEl.textContent = `Error: ${err.message}`;
+    } finally {
+      loaderEl.style.display = 'none';
+    }
+  }
+
+  animateDNA();
+  fetchOrganismsAndGenes();
+
+  function closeInstructions() {
+    const modal = document.getElementById('instructionsModal');
+    modal.style.display = 'none';
+  }
+
+  function showInstructions() {
+    const modal = document.getElementById('instructionsModal');
+    modal.style.display = 'flex';
+  }
 </script>
+
+</body>
