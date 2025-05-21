@@ -8,10 +8,13 @@ show_reading_time: false
 
 <style>
   body {
-  background-image: url('{{site.baseurl}}/images/DnaCircle.png');
+  background-image: url('{{site.baseurl}}/images/dnacircle.png');
   background-repeat: no-repeat;
   background-position: center calc(50% + 20px); /* shift upward by 100px */
   background-size: 700px;
+}
+body.no-bg {
+  background-image: none;
 }
   .sequence-box {
     display: flex;
@@ -211,18 +214,13 @@ function handleModeChange() {
 }
 function startGame() {
   mode = document.getElementById("mode").value;
-  // Remove background
-  const modeContainer = document.getElementById("mode-select");
-  modeContainer.classList.remove("mode-bg");
-  modeContainer.classList.add("hidden");
+  document.getElementById("mode-select").classList.add("hidden");
   document.getElementById("game-ui").classList.remove("hidden");
-<<<<<<< HEAD
+  document.body.classList.add("no-bg"); 
   handleModeChange();
-=======
-  handleModeChange();  // toggle tools
->>>>>>> 1f4ca4d (added img in middle for gene game seleter)
   populateGeneList();
 }
+
 async function populateGeneList() {
   try {
     const res = await fetch(`${BACKEND_URL}/gene-list`);
