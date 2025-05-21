@@ -1,176 +1,136 @@
----
-layout: tailwind
-title: DNA Animation
-permalink: /dnasimulation/
-show_reading_time: false
----
+<div id="dna-app" style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+  <h3>Select Organism and Gene</h3>
+  <label for="organism-select">Organism:</label>
+  <select id="organism-select">
+    <option value="homo_sapiens">Homo sapiens</option>
+    <option value="mus_musculus">Mus musculus</option>
+    <option value="drosophila_melanogaster">Drosophila melanogaster</option>
+    <option value="danio_rerio">Danio rerio</option>
+    <option value="caenorhabditis_elegans">Caenorhabditis elegans</option>
+  </select>
 
-```jsx
-import React, { useState } from 'react';
-import axios from 'axios';
-import Confetti from 'react-confetti';
+  <br><br>
 
-function App() {
-  const [organism, setOrganism] = useState('');
-  const [gene, setGene] = useState('');
-  const [result, setResult] = useState(null);
-  const [confetti, setConfetti] = useState(false);
+  <label for="gene-select">Gene:</label>
+  <select id="gene-select">
+    <option value="BRCA1">BRCA1</option>
+    <option value="TP53">TP53</option>
+    <option value="EGFR">EGFR</option>
+    <option value="MYC">MYC</option>
+    <option value="CFTR">CFTR</option>
+  </select>
 
-  // Dropdown preset options
-  const commonOrganisms = [
-    { label: 'Human', value: 'homo_sapiens' },
-    { label: 'Mouse', value: 'mus_musculus' },
-    { label: 'Zebrafish', value: 'danio_rerio' },
-    { label: 'Fruit Fly', value: 'drosophila_melanogaster' },
-    { label: 'Yeast', value: 'saccharomyces_cerevisiae' },
-  ];
+  <br><br>
+  <div>
+    <strong>Or type custom organism and gene:</strong><br>
+    Organism: <input type="text" id="organism-input" placeholder="e.g. homo_sapiens" style="width: 200px;"/><br><br>
+    Gene: <input type="text" id="gene-input" placeholder="e.g. BRCA1" style="width: 200px;"/>
+  </div>
 
-  const commonGenes = [
-    'TP53',
-    'BRCA1',
-    'EGFR',
-    'ACTB',
-    'GAPDH',
-  ];
+  <br>
+  <button id="fetch-sequence-btn">Fetch Sequence</button>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!organism || !gene) {
-      alert('Please provide both organism and gene.');
-      return;
+  <h4>Suggestions:</h4>
+  <div id="suggestions" style="display: flex; gap: 10px;">
+    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">BRCA1 - Homo sapiens</div>
+    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">TP53 - Mus musculus</div>
+    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">EGFR - Danio rerio</div>
+    <div style="border: 1px solid #ccc; padding: 10px; width: 120px; cursor: pointer;">MYC - Drosophila melanogaster</div>
+  </div>
+
+  <br>
+  <div id="result" style="padding: 10px; background: #f0f0f0; min-height: 50px;"></div>
+</div>
+
+<script>
+  (function() {
+    const organismSelect = document.getElementById('organism-select');
+    const geneSelect = document.getElementById('gene-select');
+    const organismInput = document.getElementById('organism-input');
+    const geneInput = document.getElementById('gene-input');
+    const fetchBtn = document.getElementById('fetch-sequence-btn');
+    const resultDiv = document.getElementById('result');
+    const suggestionsDiv = document.getElementById('suggestions');
+
+    // When clicking suggestion, fill selects and inputs
+    suggestionsDiv.querySelectorAll('div').forEach(sugg => {
+      sugg.addEventListener('click', () => {
+        const [gene, ...orgParts] = sugg.textContent.split(' - ');
+        const organism = orgParts.join(' - ');
+        // set selects if options available
+        setSelectValue(organismSelect, organism.toLowerCase().replace(/ /g, '_'));
+        setSelectValue(geneSelect, gene);
+        // set inputs
+        organismInput.value = organism.toLowerCase().replace(/ /g, '_');
+        geneInput.value = gene;
+        fetchSequence();
+      });
+    });
+
+    function setSelectValue(selectElem, val) {
+      for (let option of selectElem.options) {
+        if (option.value.toLowerCase() === val.toLowerCase()) {
+          selectElem.value = option.value;
+          return;
+        }
+      }
+      // If no option matches, clear selection
+      selectElem.value = '';
     }
 
-    try {
-      const response = await axios.post('http://127.0.0.1:5024/api/sequence', {
-        organism,
-        gene,
-      }, { withCredentials: true });
+    function fetchSequence() {
+      // Decide whether to use selects or inputs, prioritize selects if set
+      let organism = organismInput.value.trim() || organismSelect.value;
+      let gene = geneInput.value.trim() || geneSelect.value;
 
-      setResult(response.data);
-      setConfetti(true);
-      setTimeout(() => setConfetti(false), 3000);
-    } catch (error) {
-      setResult({ error: error.response?.data?.error || 'An error occurred' });
-      setConfetti(false);
+      if (!organism || !gene) {
+        alert('Please select or type both organism and gene.');
+        return;
+      }
+
+      resultDiv.textContent = 'Loading sequence...';
+
+      fetch('http://127.0.0.1:5000/api/sequence', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ organism, gene }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.error) {
+          resultDiv.textContent = 'Error: ' + data.error;
+          return;
+        }
+        animateResult(`Gene: ${data.gene}\nOrganism: ${data.organism}\nEnsembl ID: ${data.ensembl_id}\nSequence (first 30 chars): ${data.sequence}`);
+      })
+      .catch(err => {
+        resultDiv.textContent = 'Fetch error: ' + err.message;
+      });
     }
-  };
 
-  const handleDropdownSelect = (type, value) => {
-    if (type === 'organism') setOrganism(value);
-    if (type === 'gene') setGene(value);
-  };
+    function animateResult(text) {
+      resultDiv.textContent = '';
+      let i = 0;
+      const speed = 30; // typing speed in ms
 
-  return (
-    <div className="App" style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
-      <h1>DNA Sequence Finder</h1>
+      function typeWriter() {
+        if (i < text.length) {
+          resultDiv.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeWriter, speed);
+        }
+      }
+      typeWriter();
+    }
 
-      {confetti && <Confetti />}
-
-      <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
-        {/* Dropdown selectors */}
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-          <div>
-            <label>Choose an organism:</label>
-            <select
-              value={organism}
-              onChange={(e) => handleDropdownSelect('organism', e.target.value)}
-            >
-              <option value="">-- Select Organism --</option>
-              {commonOrganisms.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label>Choose a gene:</label>
-            <select
-              value={gene}
-              onChange={(e) => handleDropdownSelect('gene', e.target.value)}
-            >
-              <option value="">-- Select Gene --</option>
-              {commonGenes.map((g) => (
-                <option key={g} value={g}>{g}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Manual input fallback */}
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Or type organism manually:</label><br />
-          <input
-            type="text"
-            placeholder="e.g., homo_sapiens"
-            value={organism}
-            onChange={(e) => setOrganism(e.target.value)}
-            style={{ width: '250px' }}
-          />
-        </div>
-
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Or type gene manually:</label><br />
-          <input
-            type="text"
-            placeholder="e.g., TP53"
-            value={gene}
-            onChange={(e) => setGene(e.target.value)}
-            style={{ width: '250px' }}
-          />
-        </div>
-
-        <button type="submit">Get DNA Sequence</button>
-      </form>
-
-      {/* Results display */}
-      {result && (
-        <div style={{ marginTop: '2rem' }}>
-          {result.error ? (
-            <div style={{ color: 'red' }}>{result.error}</div>
-          ) : (
-            <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
-              <h2>Sequence Info</h2>
-              <p><strong>Gene:</strong> {result.gene}</p>
-              <p><strong>Organism:</strong> {result.organism}</p>
-              <p><strong>Ensembl ID:</strong> {result.ensembl_id}</p>
-              <p><strong>Sequence (first 30 bases):</strong><br /><code>{result.sequence}</code></p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Example suggestions - trimmed down to 3-4 */}
-      <div style={{ marginTop: '3rem' }}>
-        <h3>Popular Queries:</h3>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          {[
-            { organism: 'homo_sapiens', gene: 'TP53' },
-            { organism: 'mus_musculus', gene: 'BRCA1' },
-            { organism: 'danio_rerio', gene: 'EGFR' },
-            { organism: 'drosophila_melanogaster', gene: 'GAPDH' },
-          ].map((example, idx) => (
-            <div
-              key={idx}
-              onClick={() => {
-                setOrganism(example.organism);
-                setGene(example.gene);
-              }}
-              style={{
-                padding: '1rem',
-                border: '1px solid #ccc',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                background: '#f9f9f9',
-              }}
-            >
-              <strong>{example.gene}</strong><br />
-              <em>{example.organism}</em>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
+    fetchBtn.addEventListener('click', fetchSequence);
+  })();
+</script>
