@@ -47,8 +47,8 @@ show_reading_time: false
   .genes-page select {
     margin-top: 10px;
     padding: 8px 14px;
-    background: #003366;
-    color: white;
+    background: rgb(66, 136, 223); /* Dropdown/button color */
+    color: white!important ;
     border: none;
     font-size: 16px;
     cursor: pointer;
@@ -57,7 +57,9 @@ show_reading_time: false
   }
 
   .genes-page button:hover {
-    background-color: #002244;
+    background-color:rgb(255, 255, 255); /* Button Hover color */
+    color: SteelBlue !important ;
+
   }
 
   .genes-page select {
@@ -113,7 +115,7 @@ show_reading_time: false
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 51, 102, 0.5); /* semi-transparent navy blue */
+    background: rgb(34, 90, 232); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -159,11 +161,11 @@ show_reading_time: false
 
 <!-- Game Mode Selector -->
 <div id="mode-select" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="bg-gray-800 p-6 rounded-lg max-w-md w-full text-white text-center shadow-xl">
+<div style="background-color:rgba(17, 75, 156, 0.66);" class="p-6 rounded-lg max-w-md w-full text-white text-center shadow-xl">
     <h2 class="text-2xl font-bold mb-4">Select a Game Mode</h2>
     <select id="mode" onchange="handleModeChange()" class="mb-4 p-2 rounded bg-gray-700 text-white w-full">
-      <option value="fix">🧩 Fix the Gene</option>
-      <option value="sandbox">🧪 Sandbox</option>
+      <option value="fix">Fix the Gene</option>
+      <option value="sandbox">Sandbox</option>
     </select>
     <div id="difficulty-container" class="hidden mb-4">
       <h3 class="font-semibold mb-2">Select Difficulty</h3>
