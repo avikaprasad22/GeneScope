@@ -164,8 +164,8 @@ show_reading_time: false
 <div style="background-color:rgba(17, 75, 156, 0.66);" class="p-6 rounded-lg max-w-md w-full text-white text-center shadow-xl">
     <h2 class="text-2xl font-bold mb-4">Select a Game Mode</h2>
     <select id="mode" onchange="handleModeChange()" class="mb-4 p-2 rounded bg-gray-700 text-white w-full">
-      <option value="fix">Fix the Gene</option>
       <option value="sandbox">Sandbox</option>
+      <option value="fix">Fix the Gene</option>
     </select>
     <div id="difficulty-container" class="hidden mb-4">
       <h3 class="font-semibold mb-2">Select Difficulty</h3>
