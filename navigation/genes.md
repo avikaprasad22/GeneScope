@@ -5,17 +5,18 @@ menu: nav/home.html
 author: Nora Ahadian
 show_reading_time: false
 ---
-
 <style>
   body {
-  background-image: url('{{site.baseurl}}/images/dnacircle.png');
-  background-repeat: no-repeat;
-  background-position: center calc(50% + 20px); /* shift upward by 100px */
-  background-size: 700px;
-}
-body.no-bg {
-  background-image: none;
-}
+    background-image: url('{{site.baseurl}}/images/dnacircle.png');
+    background-repeat: no-repeat;
+    background-position: center calc(50% + 20px);
+    background-size: 700px;
+  }
+
+  body.no-bg {
+    background-image: none;
+  }
+
   .sequence-box {
     display: flex;
     gap: 6px;
@@ -46,16 +47,17 @@ body.no-bg {
   .genes-page select {
     margin-top: 10px;
     padding: 8px 14px;
-    background: #4CAF50;
+    background: #003366;
     color: white;
     border: none;
     font-size: 16px;
     cursor: pointer;
     margin-right: 8px;
+    border-radius: 6px;
   }
 
   .genes-page button:hover {
-    background-color: #45a049;
+    background-color: #002244;
   }
 
   .genes-page select {
@@ -103,30 +105,78 @@ body.no-bg {
     font-weight: bold;
     margin-top: 12px;
   }
-  .mode-bg {
-    background-image: url('images/DnaCircle.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+
+  /* Popup overlay for mode selector */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 51, 102, 0.5); /* semi-transparent navy blue */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .popup-content {
+    background-color: #e6f0ff; /* light blue */
     padding: 40px;
     border-radius: 12px;
-}
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+
+  .popup-content h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #003366;
+  }
+
+  .popup-content select {
+    font-size: 16px;
+    padding: 8px 12px;
+    margin-bottom: 20px;
+  }
+
+  .popup-content button {
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .popup-content button:hover {
+    background-color: #002244;
+  }
 </style>
 
 <div class="genes-page">
 
-Gene Mutation Game
-
 <!-- Game Mode Selector -->
-<div id="mode-select" class="mode-bg" style="margin-bottom: 20px;">
-  <h2 style="font-size: 20px; font-weight: bold;">Select a Game Mode:</h2>
-  <select id="mode" onchange="handleModeChange()" style="font-size: 16px; margin-top: 8px;">
-    <option value="fix">🧩 Fix the Gene</option>
-    <option value="sandbox">🧪 Sandbox</option>
-  </select>
-  <br>
-  <button onclick="startGame()" style="margin-top: 10px;">Start Game</button>
+<div id="mode-select" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-gray-800 p-6 rounded-lg max-w-md w-full text-white text-center shadow-xl">
+    <h2 class="text-2xl font-bold mb-4">Select a Game Mode</h2>
+    <select id="mode" onchange="handleModeChange()" class="mb-4 p-2 rounded bg-gray-700 text-white w-full">
+      <option value="fix">🧩 Fix the Gene</option>
+      <option value="sandbox">🧪 Sandbox</option>
+    </select>
+    <div id="difficulty-container" class="hidden mb-4">
+      <h3 class="font-semibold mb-2">Select Difficulty</h3>
+      <select id="difficulty" class="p-2 rounded bg-gray-700 text-white w-full">
+        <option value="easy">Easy (4 bases)</option>
+        <option value="medium" selected>Medium (8 bases)</option>
+        <option value="hard">Hard (12 bases)</option>
+      </select>
+    </div>
+    <button onclick="startGame()" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded w-full mt-2">Start Game</button>
+  </div>
 </div>
+
 
 <!-- Difficulty Level Selector (hidden by default) -->
 <div id="difficulty-container" class="hidden">
