@@ -48,11 +48,23 @@ menu: nav/home.html
 
   <div id="leaderboardContainer" class="space-y-2 max-h-64 overflow-y-auto bg-white p-4 rounded-xl shadow-inner">
     <h3 class="text-xl font-semibold text-blue-900 text-center">🏆 Leaderboard</h3>
+
+    <div class="text-center mb-2">
+      <label for="filterDifficulty" class="text-sm font-medium text-blue-800 mr-2">Filter by Difficulty:</label>
+      <select id="filterDifficulty" class="rounded px-2 py-1 border border-blue-300 focus:outline-none">
+        <option value="all">All</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
     <table class="w-full table-auto border-collapse">
       <thead>
         <tr class="bg-blue-200">
           <th class="border px-3 py-2 text-blue-900">Username</th>
           <th class="border px-3 py-2 text-blue-900">Score</th>
+          <th class="border px-3 py-2 text-blue-900">Difficulty</th>
         </tr>
       </thead>
       <tbody id="leaderboardBody" class="text-blue-800"></tbody>
@@ -62,7 +74,6 @@ menu: nav/home.html
   <p id="message" class="text-red-500 text-center pt-2"></p>
 </div>
 
-<!-- Instructions & Key Terms Modal -->
 <div id="instructionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
   <div class="bg-white rounded-2xl p-6 max-w-xl mx-4 max-h-[80vh] overflow-y-auto shadow-2xl relative">
     <button id="closeInstructions" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
@@ -89,15 +100,14 @@ menu: nav/home.html
   import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
   let currentQuestions = [];
+  let allScores = [];
 
   async function getUserId() {
     const res = await fetch(pythonURI + '/api/id', fetchOptions);
     return (await res.json()).id;
   }
 
-  // Fetch questions filtered by difficulty
   async function fetchGameQuestions(difficulty) {
-    // Assuming backend accepts difficulty as query param, adjust if needed
     const url = `${pythonURI}/api/get_questions?difficulty=${difficulty}`;
     const res = await fetch(url, fetchOptions);
     if (!res.ok) throw new Error('Failed to load questions');
@@ -106,14 +116,20 @@ menu: nav/home.html
 
   async function updateLeaderboard() {
     const topRes = await fetch(pythonURI + '/api/scoreboard/top', fetchOptions);
-    const top = await topRes.json();
+    allScores = await topRes.json();
+    renderLeaderboard('all');
+  }
+
+  function renderLeaderboard(filter) {
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
-    top.forEach(e => {
+    const filtered = allScores.filter(entry => filter === 'all' || entry.difficulty === filter);
+    filtered.forEach(entry => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td class="border px-2 py-1">${e.username}</td>
-        <td class="border px-2 py-1">${e.score}</td>
+        <td class="border px-2 py-1">${entry.username}</td>
+        <td class="border px-2 py-1">${entry.score}</td>
+        <td class="border px-2 py-1 capitalize">${entry.difficulty}</td>
       `;
       tbody.appendChild(row);
     });
@@ -125,13 +141,13 @@ menu: nav/home.html
     let timeLeft = duration, timerId;
     const startBtn = document.getElementById('startGameButton');
     const gameCtn = document.getElementById('gameContainer');
-    const qText    = document.getElementById('questionText');
-    const ansCtn   = document.getElementById('answersContainer');
-    const timerEl  = document.getElementById('timer');
-    const scoreEl  = document.getElementById('score');
+    const qText = document.getElementById('questionText');
+    const ansCtn = document.getElementById('answersContainer');
+    const timerEl = document.getElementById('timer');
+    const scoreEl = document.getElementById('score');
     const playAgainBtn = document.getElementById('playAgainButton');
+    const difficulty = document.getElementById('difficultySelect').value;
 
-    // Reset UI
     scoreEl.textContent = '0';
     timerEl.textContent = duration;
     startBtn.classList.add('hidden');
@@ -152,17 +168,15 @@ menu: nav/home.html
 
         btn.addEventListener('click', () => {
           ansCtn.querySelectorAll('button').forEach(b => b.disabled = true);
-
           if (opt === q.correct_answer) {
-            btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
-            btn.classList.add('bg-green-500', 'animate-pulse');
+            btn.classList.replace('bg-blue-500', 'bg-green-500');
+            btn.classList.add('animate-pulse');
             score++;
             scoreEl.textContent = score;
           } else {
-            btn.classList.remove('bg-blue-500', 'hover:bg-blue-400');
-            btn.classList.add('bg-red-500', 'animate-pulse');
+            btn.classList.replace('bg-blue-500', 'bg-red-500');
+            btn.classList.add('animate-pulse');
           }
-
           setTimeout(() => {
             btn.classList.remove('animate-pulse');
             updateLeaderboard();
@@ -189,7 +203,7 @@ menu: nav/home.html
       await fetch(pythonURI + '/api/scoreboard/', {
         ...fetchOptions,
         method: 'POST',
-        body: JSON.stringify({ score, userId })
+        body: JSON.stringify({ score, userId, difficulty })
       });
       updateLeaderboard();
       playAgainBtn.classList.remove('hidden');
@@ -198,8 +212,6 @@ menu: nav/home.html
     showQuestion();
     timerId = setInterval(tick, 1000);
   }
-
-  // Event handlers
 
   document.getElementById('startGameButton').addEventListener('click', async () => {
     document.getElementById('message').textContent = '';
@@ -212,39 +224,22 @@ menu: nav/home.html
     }
   });
 
-  document.getElementById('playAgainButton').addEventListener('click', async () => {
-    document.getElementById('message').textContent = '';
-    document.getElementById('playAgainButton').classList.add('hidden');
-    const difficulty = document.getElementById('difficultySelect').value;
-    try {
-      currentQuestions = await fetchGameQuestions(difficulty);
-      startChallenge(currentQuestions);
-    } catch (e) {
-      document.getElementById('message').textContent = e.message;
-    }
+  document.getElementById('filterDifficulty').addEventListener('change', (e) => {
+    renderLeaderboard(e.target.value);
   });
 
-  // Instructions Modal handlers
-  const instructionsModal = document.getElementById('instructionsModal');
-  const showInstructionsButton = document.getElementById('showInstructionsButton');
-  const closeInstructionsButton = document.getElementById('closeInstructions');
-
-  showInstructionsButton.addEventListener('click', () => {
-    instructionsModal.classList.remove('hidden');
+  document.getElementById('showInstructionsButton').addEventListener('click', () => {
+    document.getElementById('instructionsModal').classList.remove('hidden');
   });
 
-  closeInstructionsButton.addEventListener('click', () => {
-    instructionsModal.classList.add('hidden');
+  document.getElementById('closeInstructions').addEventListener('click', () => {
+    document.getElementById('instructionsModal').classList.add('hidden');
   });
 
-  // Close modal if clicked outside the content
-  instructionsModal.addEventListener('click', (e) => {
-    if (e.target === instructionsModal) {
-      instructionsModal.classList.add('hidden');
-    }
+  document.getElementById('playAgainButton').addEventListener('click', () => {
+    document.getElementById('startGameButton').classList.remove('hidden');
+    document.getElementById('gameContainer').classList.add('hidden');
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-    updateLeaderboard();
-  });
+  updateLeaderboard();
 </script>
