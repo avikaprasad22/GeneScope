@@ -122,19 +122,9 @@ show_reading_time: false
   </div>
 </div>
 
-<!-- Dropdown Loader and Fetcher -->
-<div class="absolute top-20 left-5 z-30 bg-gray-900 bg-opacity-90 p-4 rounded-xl shadow-lg max-w-xs">
-  <h2 class="text-lg font-bold mb-2">Select from Available Genes</h2>
-  <select id="dropdownSelect" class="mb-2 p-2 rounded w-full text-white bg-gray-800">
-    <option value="">Loading options...</option>
-  </select>
-  <button onclick="loadFromDropdown()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
-    Load Selected Gene
-  </button>
-</div>
-  
-  <!-- Error Message Display -->
-  <div id="dropdownError" class="text-red-500 text-sm mb-2 hidden"></div>
+<!-- Dropdown Gene Selection UI (Styled like Typing Box with Load Button) -->
+<div class="absolute top-20 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+  <h2 class="text-lg font-bold mb-2 text-white">Select DNA Sequence</h2>
 
   <!-- Dropdown Menu -->
   <select id="dropdownSelect" class="mb-2 p-2 rounded w-full text-white bg-gray-800">
@@ -142,13 +132,17 @@ show_reading_time: false
   </select>
 
   <!-- Load Button -->
-  <button onclick="loadFromDropdown()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
+  <button onclick="fetchDropdownSequence()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Selected Gene
   </button>
+
+  <!-- Loader and Error Message -->
+  <div id="loaderEl" class="mt-2 text-sm text-indigo-300 hidden">Loading...</div>
+  <div id="errorEl" class="mt-2 text-sm text-red-400"></div>
 </div>
 
-<!-- Form -->
-<div class="absolute top-40 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
+<!-- Form
+<div class="absolute bottom-80 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
 <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
        class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
@@ -159,7 +153,7 @@ show_reading_time: false
           <div id="loader" class="loader hidden"></div>
 
   <p id="errorMessage" class="text-red-400 mt-2"></p>
-</div>
+</div> -->
 
 <!-- Canvas -->
 <canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full ml-[10rem]"></canvas>
@@ -384,62 +378,66 @@ async function fetchSequence() {
     viewBtn.classList.add('hidden');
   }
 
-// Populate dropdown on page load
+const dropdown = document.getElementById("dropdownSelect");
+const loaderEl = document.getElementById("loaderEl");
+const errorEl = document.getElementById("errorEl");
+
+// Populate dropdown dynamically from backend
 async function populateDropdown() {
-  const dropdown = document.getElementById('dropdownSelect');
   try {
-    const res = await fetch('http://127.0.0.1:8504/api/sequence');
-    const data = await res.json();
-    dropdown.innerHTML = '<option value="">Select an organism and gene</option>';
-    data.forEach(entry => {
-      const option = document.createElement('option');
-      option.value = JSON.stringify({ organism: entry.organism, gene: entry.gene });
-      option.textContent = `${entry.gene} (${entry.organism})`;
+    const res = await fetch("http://127.0.0.1:8504/api/genes", {
+      credentials: 'include'
+    });
+    const geneList = await res.json();
+
+    dropdown.innerHTML = ''; // Clear existing options
+
+    geneList.forEach(item => {
+      const option = document.createElement("option");
+      option.value = `${item.organism}|${item.gene}`;
+      option.textContent = `${item.gene} (${item.organism})`;
       dropdown.appendChild(option);
     });
   } catch (err) {
-    dropdown.innerHTML = '<option value="">Failed to load options</option>';
+    errorEl.textContent = "Failed to load gene list.";
+    console.error("Error loading gene list:", err);
   }
 }
 
-// Handle dropdown-based sequence loading
-async function loadFromDropdown() {
-  const dropdown = document.getElementById('dropdownSelect');
+// Called when button is clicked
+async function fetchDropdownSequence() {
   const selected = dropdown.value;
-  const errorEl = document.getElementById('errorMessage');
-  const loaderEl = document.getElementById('loader');
-
-  errorEl.textContent = "";
-
+  errorEl.textContent = '';
   if (!selected) {
-    errorEl.textContent = "Please select a gene from the dropdown.";
+    errorEl.textContent = "Please select a gene.";
     return;
   }
 
-  const { organism, gene } = JSON.parse(selected);
-
-  loaderEl.style.display = 'block';
+  const [organism, gene] = selected.split('|');
+  loaderEl.classList.remove("hidden");
   try {
-    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ organism, gene })
+    const response = await fetch(`http://127.0.0.1:8504/api/sequence?organism=${organism}&gene=${gene}`, {
+      credentials: 'include'
     });
 
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || "Unknown error");
+    const data = await response.json();
+    loaderEl.classList.add("hidden");
 
-    currentSequence = result.sequence.slice(0, 200);
-    angleOffset = 0;
+    if (!response.ok) {
+      errorEl.textContent = data.error || "An error occurred.";
+      return;
+    }
+
+    // Display result
+    alert(`Gene: ${data.gene}\nOrganism: ${data.organism}\nEnsembl ID: ${data.ensembl_id}\nSequence (first 30 bp): ${data.sequence}`);
   } catch (err) {
-    errorEl.textContent = `Error: ${err.message}`;
-  } finally {
-    loaderEl.style.display = 'none';
+    loaderEl.classList.add("hidden");
+    errorEl.textContent = "Failed to fetch gene sequence.";
+    console.error(err);
   }
 }
 
-// Call it on page load
+// Load dropdown on page ready
 populateDropdown();
 
 </script>
