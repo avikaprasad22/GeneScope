@@ -142,6 +142,7 @@ menu: nav/home.html
       <h2 class="text-2xl font-semibold mb-3"> What is Biotechnology?</h2>
       <p class="mb-4 text-sm leading-relaxed">
       Biotechnology is a rapidly growing field that applies biology and technology to improve healthcare, agriculture, and environmental sustainability. From gene editing (like CRISPR) to vaccine development, biotech is changing our world.<br><br>
+      Biotechnology stands at the forefront of scientific advancement, blending biology, chemistry, engineering, and data science to push the boundaries of what is possible. Its applications are vast and continually expanding, promising a future where we can better understand life itself and apply that knowledge to improve the quality of life for people and the planet alike.<br><br>
       Careers range from lab researchers and pharmaceutical engineers to data scientists and regulatory analysts. Whether you're into coding, chemistry, or environmental science, there's a path for you in biotech.<br><br>
       🧠 Want to explore more? Here are some trusted resources to get started:
       <ul class="list-disc list-inside mt-2 text-teal-700">

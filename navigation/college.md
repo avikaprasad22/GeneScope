@@ -165,7 +165,16 @@ menu: nav/home.html
     <button onclick="closePopup()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
     <h2 class="text-2xl font-semibold mb-3">🔬 What is Biotechnology?</h2>
     <p class="mb-4 text-sm leading-relaxed">
-      Biotechnology is a field that uses living organisms and biological systems to develop products and technologies that improve lives and the environment. It spans careers in medicine, agriculture, data science, and more!
+      Biotechnology is a rapidly growing field that applies biology and technology to improve healthcare, agriculture, and environmental sustainability. From gene editing (like CRISPR) to vaccine development, biotech is changing our world.<br><br>
+      Biotechnology stands at the forefront of scientific advancement, blending biology, chemistry, engineering, and data science to push the boundaries of what is possible. Its applications are vast and continually expanding, promising a future where we can better understand life itself and apply that knowledge to improve the quality of life for people and the planet alike.<br><br>
+      Whether you’re interested in developing new pharmaceuticals or tackling environmental challenges through bioengineering, college biotechnology programs offer a robust foundation and diverse pathways to a rewarding career. <br><br>
+      🧠 Want to explore more? Here are some trusted resources to get started:
+      <ul class="list-disc list-inside mt-2 text-teal-700">
+        <li><a href="https://www.khanacademy.org/science/biology" target="_blank" class="underline hover:text-teal-800">Khan Academy – Biology</a></li>
+        <li><a href="https://www.nature.com/nbt/" target="_blank" class="underline hover:text-teal-800">Nature Biotechnology</a></li>
+        <li><a href="https://www.genome.gov/" target="_blank" class="underline hover:text-teal-800">National Human Genome Research Institute (NHGRI)</a></li>
+        <li><a href="https://learn.genetics.utah.edu/" target="_blank" class="underline hover:text-teal-800">Learn Genetics – University of Utah</a></li>
+      </ul>
     </p>
     <button onclick="closePopup()" class="mt-3 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md shadow transition">
       Got it!
