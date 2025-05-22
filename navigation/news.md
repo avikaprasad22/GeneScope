@@ -5,50 +5,183 @@ author: Katherine Chen
 show_reading_time: false
 menu: nav/home.html
 ---
+
 <div style="padding-top: 40px;"></div>
 
-<div id="science-news">
-  <p>Loading science news...</p>
+<!-- Filters Section -->
+<form id="filter-form" class="max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-md space-y-4">
+  <h2 class="text-xl font-semibold">Filter News</h2>
+
+  <!-- Endpoint Selection -->
+  <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
+    <label class="flex items-center space-x-2">
+      <input type="radio" name="endpoint" value="science-news" checked />
+      <span class="text-gray-700">Top Science Headlines</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="radio" name="endpoint" value="everything-news" />
+      <span class="text-gray-700">Search All News (Everything)</span>
+    </label>
+  </div>
+
+  <!-- Input Filters -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input type="text" name="q" placeholder="Keyword (optional)" class="border p-2 rounded text-black" />
+    <!-- Everything-only filters -->
+    <input type="date" name="from" class="border p-2 rounded text-black everything-only hidden" />
+    <select name="sortBy" class="border p-2 rounded bg-blue-600 text-white everything-only hidden">
+      <option value="">Sort By</option>
+      <option value="publishedAt">Published At (Date)</option>
+      <option value="relevancy">Relevancy</option>
+      <option value="popularity">Popularity</option>
+    </select>
+    <select name="searchIn" class="border p-2 rounded bg-blue-600 text-white everything-only hidden">
+      <option value="">Search In</option>
+      <option value="title">Title</option>
+      <option value="description">Description</option>
+      <option value="content">Content</option>
+      <option value="title,description">Title + Description</option>
+    </select>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex space-x-4">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
+    <button type="button" id="clear-button" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Clear</button>
+  </div>
+</form>
+
+<!-- News Results -->
+<div id="science-news" class="max-w-4xl mx-auto mt-6">
+  <p>Loading news...</p>
 </div>
 
-<script>
-  async function loadScienceNews() {
-    try {
-      const response = await fetch('https://newsapi.org/v2/top-headlines?category=science&language=en&pageSize=5&apiKey=68a69dddbb9341d0a5f8fe2aa38967fd');
-      const data = await response.json();
 
-      const container = document.getElementById("science-news");
+<script type="module">
+  import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+  async function fetchNews(params) {
+    const container = document.getElementById("science-news");
+    container.innerHTML = "<p>Loading news...</p>";
+
+    try {
+      let endpointPath = "/api/science-news";
+      if (params.endpoint === "everything-news") {
+        endpointPath = "/api/everything-news";
+      }
+
+      // Always use default page size
+      params.pageSize = "10";
+
+      const queryParams = new URLSearchParams();
+      for (const key in params) {
+        if (key !== "endpoint" && params[key]) {
+          queryParams.append(key, params[key]);
+        }
+      }
+
+       const response = await fetch(pythonURI + `${endpointPath}?${queryParams.toString()}`);
+    //    const response = await fetch(`http://127.0.0.1:8504${endpointPath}?${queryParams.toString()}`);
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => null);
+        throw new Error(errData?.error || response.statusText);
+      }
+
+      const data = await response.json();
       container.innerHTML = "";
 
       if (!data.articles || data.articles.length === 0) {
-        container.innerHTML = "<p>No science news available right now.</p>";
+        container.innerHTML = "<p>No articles found.</p>";
         return;
       }
 
       data.articles.forEach(article => {
-        const item = document.createElement("div");
-        item.style.border = "1px solid #ccc";
-        item.style.borderRadius = "10px";
-        item.style.padding = "15px";
-        item.style.marginBottom = "20px";
-        item.style.backgroundColor = "#f9f9f9";
-        item.style.color = "#000";
-        item.style.fontSize = "18px";
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-lg shadow-md p-6 mb-6";
 
-        item.innerHTML = `
-          <h3 style="margin-top: 0;"><a href="${article.url}" target="_blank" rel="noopener noreferrer" style="color: #000; text-decoration: underline;">${article.title}</a></h3>
-          ${article.urlToImage ? `<img src="${article.urlToImage}" alt="News image" style="max-width: 150px; height: auto; float: right; margin-left: 10px; border-radius: 8px;">` : ""}
-          <p style="margin-top: 10px;">${article.description || ""}</p>
-          <small><strong>Source:</strong> ${article.source.name} &nbsp; | &nbsp; <strong>Published:</strong> ${new Date(article.publishedAt).toLocaleString()}</small>
-          <div style="clear: both;"></div>
+        card.innerHTML = `
+          <h3 class="text-lg font-semibold mb-2">
+            <a href="${article.url}" target="_blank" class="text-blue-700 hover:underline">${article.title}</a>
+          </h3>
+          ${article.urlToImage ? `<img src="${article.urlToImage}" class="w-full md:w-1/3 float-right ml-4 rounded mb-2" alt="News image">` : ""}
+          <p class="text-gray-700 mb-3">${article.description || ""}</p>
+          <div class="text-sm text-gray-500">
+            <span><strong>Source:</strong> ${article.source.name}</span> &nbsp;|&nbsp;
+            <span><strong>Published:</strong> ${new Date(article.publishedAt).toLocaleString()}</span>
+          </div>
+          <div class="clear-both"></div>
         `;
-        container.appendChild(item);
-      });
 
+        container.appendChild(card);
+      });
     } catch (err) {
-      document.getElementById("science-news").innerHTML = `<p>Error loading news: ${err.message}</p>`;
+      container.innerHTML = `<p class="text-red-600">Error loading news: ${err.message}</p>`;
     }
   }
 
-  loadScienceNews();
+  // Handle form submit
+  document.getElementById("filter-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const params = {};
+
+    for (const [key, value] of formData.entries()) {
+      if (value.trim() !== "") {
+        params[key] = value.trim();
+      }
+    }
+
+    params.endpoint = form.querySelector('input[name="endpoint"]:checked').value;
+
+    // Fix "missing q" error
+    if (params.endpoint === "everything-news" && !params.q) {
+      params.q = "news";
+    }
+
+    fetchNews(params);
+  });
+
+  // Clear filters but keep endpoint
+  document.getElementById("clear-button").addEventListener("click", () => {
+    const form = document.getElementById("filter-form");
+    Array.from(form.elements).forEach(el => {
+      if (el.name !== "endpoint" && el.type !== "radio") {
+        el.value = "";
+      }
+    });
+
+    const selectedEndpoint = form.querySelector('input[name="endpoint"]:checked').value;
+    showFields(selectedEndpoint);
+
+    fetchNews({
+      endpoint: selectedEndpoint,
+      q: selectedEndpoint === "everything-news" ? "news" : ""
+    });
+  });
+
+  // Toggle filter field visibility
+  function showFields(endpoint) {
+    document.querySelectorAll(".everything-only").forEach(el => {
+      el.classList.toggle("hidden", endpoint !== "everything-news");
+    });
+  }
+
+  // Change filters on endpoint switch
+  document.querySelectorAll('input[name="endpoint"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      showFields(radio.value);
+    });
+  });
+
+  // On page load
+  window.addEventListener("DOMContentLoaded", () => {
+    const selected = document.querySelector('input[name="endpoint"]:checked').value;
+    showFields(selected);
+    fetchNews({
+      endpoint: selected,
+      pageSize: "10"
+    });
+  });
 </script>
