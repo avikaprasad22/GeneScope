@@ -108,11 +108,12 @@ menu: nav/home.html
 <div class="biotech-quiz-page">
   <h1>🔬 Biotechnology Career Quiz</h1>
 <!-- Reopen Button -->
-  <div class="flex justify-center mb-4">
-  <button onclick="openPopup()" id="reopen-popup-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-full shadow transition duration-300 ease-in-out">
-    ⓘ About Biotech
-  </button>
-  </div>
+<button onclick="openPopup()" id="reopen-popup-btn"
+  style="position: fixed; top: 120px; right: 24px; background-color: #14b8a6; 
+         color: white; padding: 8px 16px; border-radius: 9999px; 
+         box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 9999;">
+  ℹ️ About Biotech
+</button>
   <div class="quiz-section">
     <h3>Answer these questions to discover your future career in Biotechnology💡:</h3>
     <form id="quiz-form">

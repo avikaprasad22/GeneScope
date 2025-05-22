@@ -119,7 +119,6 @@ menu: nav/home.html
 </style>
 
 <!-- College Quiz Section -->
-<!-- College Quiz Section -->
 <div class="college-quiz-section">
   <h3>Take this quick quiz to discover your top college for Biotechnology! 🎓</h3>
   <form id="college-form">
@@ -160,7 +159,27 @@ menu: nav/home.html
     <button type="button" class="college-quiz-button" onclick="getTopCollege()">Find My Best Match</button>
   </form>
 </div>
+<!-- Biotech Info Pop-up -->
+<div id="biotech-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
+  <div class="bg-white text-black p-6 rounded-2xl shadow-xl max-w-xl w-full relative">
+    <button onclick="closePopup()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
+    <h2 class="text-2xl font-semibold mb-3">🔬 What is Biotechnology?</h2>
+    <p class="mb-4 text-sm leading-relaxed">
+      Biotechnology is a field that uses living organisms and biological systems to develop products and technologies that improve lives and the environment. It spans careers in medicine, agriculture, data science, and more!
+    </p>
+    <button onclick="closePopup()" class="mt-3 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md shadow transition">
+      Got it!
+    </button>
+  </div>
+</div>
 
+<!-- Reopen Button -->
+<button onclick="openPopup()" id="reopen-popup-btn"
+  style="position: fixed; top: 120px; right: 24px; background-color: #14b8a6; 
+         color: white; padding: 8px 16px; border-radius: 9999px; 
+         box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 9999;">
+  ℹ️ About Biotech
+</button>
 
 <!-- College Result Section -->
 <div id="college-result" class="college-quiz-section">
@@ -205,4 +224,19 @@ async function getTopCollege() {
     descText.innerText = "Error retrieving data.";
     websiteButton.style.display = "none";
   }
+}
+window.addEventListener('DOMContentLoaded', () => {
+  const popupShown = sessionStorage.getItem('biotechPopupShown');
+  if (!popupShown) {
+    document.getElementById('biotech-popup').classList.remove('hidden');
+    sessionStorage.setItem('biotechPopupShown', 'true');
+  }
+});
+
+function closePopup() {
+  document.getElementById('biotech-popup').classList.add('hidden');
+}
+
+function openPopup() {
+  document.getElementById('biotech-popup').classList.remove('hidden');
 }
