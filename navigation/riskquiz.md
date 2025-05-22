@@ -107,7 +107,7 @@ menu: nav/home.html
     const disease = document.getElementById("disease").value.trim();
     if (!disease) return;
 
-    const res = await fetch(`${BACKEND_URL}/chatbot/get_symptoms?disease=${encodeURIComponent(disease)}`);
+    const res = await fetch(`${BACKEND_URL}/riskquiz/get_symptoms?disease=${encodeURIComponent(disease)}`);
     const data = await res.json();
     const result = document.getElementById("result");
 
@@ -172,7 +172,7 @@ menu: nav/home.html
     const result = document.getElementById("result");
     userAnswers["target_disease"] = document.getElementById("disease").value.trim();
 
-    const res = await fetch(`${BACKEND_URL}/chatbot/predict`, {
+    const res = await fetch(`${BACKEND_URL}/riskquiz/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userAnswers)
@@ -180,8 +180,8 @@ menu: nav/home.html
 
     if (!res.ok) {
       const text = await res.text();
-      console.error("❌ Error predicting:", text);
-      result.innerText = "❌ Error getting prediction.";
+      console.error("Error predicting:", text);
+      result.innerText = "Error getting prediction.";
       return;
     }
 
