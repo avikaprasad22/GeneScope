@@ -42,8 +42,8 @@ menu: nav/home.html
   </div>
 
   <button id="playAgainButton"
-          class="hidden bg-blue-400 text-white px-6 py-3 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
-     Play Again
+    class="hidden bg-blue-400 text-white px-6 py-3 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
+    Play Again
   </button>
 
   <div id="leaderboardContainer" class="space-y-2 max-h-64 overflow-y-auto bg-white p-4 rounded-xl shadow-inner">
@@ -62,7 +62,6 @@ menu: nav/home.html
   <p id="message" class="text-red-500 text-center pt-2"></p>
 </div>
 
-<!-- Instructions & Key Terms Modal -->
 <div id="instructionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
   <div class="bg-white rounded-2xl p-6 max-w-xl mx-4 max-h-[80vh] overflow-y-auto shadow-2xl relative">
     <button id="closeInstructions" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
@@ -95,9 +94,7 @@ menu: nav/home.html
     return (await res.json()).id;
   }
 
-  // Fetch questions filtered by difficulty
   async function fetchGameQuestions(difficulty) {
-    // Assuming backend accepts difficulty as query param, adjust if needed
     const url = `${pythonURI}/api/get_questions?difficulty=${difficulty}`;
     const res = await fetch(url, fetchOptions);
     if (!res.ok) throw new Error('Failed to load questions');
@@ -125,13 +122,12 @@ menu: nav/home.html
     let timeLeft = duration, timerId;
     const startBtn = document.getElementById('startGameButton');
     const gameCtn = document.getElementById('gameContainer');
-    const qText    = document.getElementById('questionText');
-    const ansCtn   = document.getElementById('answersContainer');
-    const timerEl  = document.getElementById('timer');
-    const scoreEl  = document.getElementById('score');
+    const qText = document.getElementById('questionText');
+    const ansCtn = document.getElementById('answersContainer');
+    const timerEl = document.getElementById('timer');
+    const scoreEl = document.getElementById('score');
     const playAgainBtn = document.getElementById('playAgainButton');
 
-    // Reset UI
     scoreEl.textContent = '0';
     timerEl.textContent = duration;
     startBtn.classList.add('hidden');
@@ -199,8 +195,6 @@ menu: nav/home.html
     timerId = setInterval(tick, 1000);
   }
 
-  // Event handlers
-
   document.getElementById('startGameButton').addEventListener('click', async () => {
     document.getElementById('message').textContent = '';
     const difficulty = document.getElementById('difficultySelect').value;
@@ -212,39 +206,19 @@ menu: nav/home.html
     }
   });
 
-  document.getElementById('playAgainButton').addEventListener('click', async () => {
-    document.getElementById('message').textContent = '';
-    document.getElementById('playAgainButton').classList.add('hidden');
-    const difficulty = document.getElementById('difficultySelect').value;
-    try {
-      currentQuestions = await fetchGameQuestions(difficulty);
-      startChallenge(currentQuestions);
-    } catch (e) {
-      document.getElementById('message').textContent = e.message;
-    }
+  document.getElementById('playAgainButton').addEventListener('click', () => {
+    document.getElementById('startGameButton').click();
   });
 
-  // Instructions Modal handlers
-  const instructionsModal = document.getElementById('instructionsModal');
-  const showInstructionsButton = document.getElementById('showInstructionsButton');
-  const closeInstructionsButton = document.getElementById('closeInstructions');
-
-  showInstructionsButton.addEventListener('click', () => {
-    instructionsModal.classList.remove('hidden');
+  document.getElementById('showInstructionsButton').addEventListener('click', () => {
+    document.getElementById('instructionsModal').classList.remove('hidden');
   });
 
-  closeInstructionsButton.addEventListener('click', () => {
-    instructionsModal.classList.add('hidden');
+  document.getElementById('closeInstructions').addEventListener('click', () => {
+    document.getElementById('instructionsModal').classList.add('hidden');
   });
 
-  // Close modal if clicked outside the content
-  instructionsModal.addEventListener('click', (e) => {
-    if (e.target === instructionsModal) {
-      instructionsModal.classList.add('hidden');
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener('DOMContentLoaded', () => {
     updateLeaderboard();
   });
 </script>
