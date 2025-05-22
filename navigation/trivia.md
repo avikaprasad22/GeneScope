@@ -16,7 +16,6 @@ menu: nav/home.html
       class="bg-blue-400 text-white px-4 py-2 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
       ℹ️ How to Play
     </button>
-
     <div class="flex justify-center items-center space-x-4">
       <label for="difficultySelect" class="font-semibold text-blue-800">Select Difficulty:</label>
       <select id="difficultySelect" class="rounded-md px-3 py-2 border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
@@ -25,7 +24,6 @@ menu: nav/home.html
         <option value="hard">Hard</option>
       </select>
     </div>
-
     <button id="startGameButton"
       class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
       Start 30‑Second Challenge
@@ -48,8 +46,7 @@ menu: nav/home.html
 
   <div id="leaderboardContainer" class="space-y-2 max-h-64 overflow-y-auto bg-white p-4 rounded-xl shadow-inner">
     <h3 class="text-xl font-semibold text-blue-900 text-center">🏆 Leaderboard</h3>
-
-    <div class="text-center mb-2">
+    <div class="text-center mb-2 flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
       <label for="filterDifficulty" class="text-sm font-medium text-blue-800 mr-2">Filter by Difficulty:</label>
       <select id="filterDifficulty" class="rounded px-2 py-1 border border-blue-300 focus:outline-none">
         <option value="all">All</option>
@@ -57,8 +54,14 @@ menu: nav/home.html
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
+      <input
+        type="text"
+        id="searchUsername"
+        placeholder="Search username..."
+        class="rounded px-2 py-1 border border-blue-300 focus:outline-none max-w-xs"
+        aria-label="Search leaderboard by username"
+      />
     </div>
-
     <table class="w-full table-auto border-collapse">
       <thead>
         <tr class="bg-blue-200">
@@ -117,13 +120,19 @@ menu: nav/home.html
   async function updateLeaderboard() {
     const topRes = await fetch(pythonURI + '/api/scoreboard/top', fetchOptions);
     allScores = await topRes.json();
-    renderLeaderboard('all');
+    renderLeaderboard('all', '');
   }
 
-  function renderLeaderboard(filter) {
+  // Updated renderLeaderboard with searchTerm param
+  function renderLeaderboard(filter, searchTerm) {
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
-    const filtered = allScores.filter(entry => filter === 'all' || entry.difficulty === filter);
+    searchTerm = searchTerm?.toLowerCase() || '';
+    const filtered = allScores.filter(entry => {
+      const matchesDifficulty = filter === 'all' || entry.difficulty === filter;
+      const matchesSearch = entry.username.toLowerCase().includes(searchTerm);
+      return matchesDifficulty && matchesSearch;
+    });
     filtered.forEach(entry => {
       const row = document.createElement('tr');
       row.innerHTML = `
@@ -224,22 +233,30 @@ menu: nav/home.html
     }
   });
 
-  document.getElementById('filterDifficulty').addEventListener('change', (e) => {
-    renderLeaderboard(e.target.value);
+  const filterDifficulty = document.getElementById('filterDifficulty');
+  const searchUsername = document.getElementById('searchUsername');
+
+  filterDifficulty.addEventListener('change', () => {
+    renderLeaderboard(filterDifficulty.value, searchUsername.value);
   });
 
-  document.getElementById('showInstructionsButton').addEventListener('click', () => {
-    document.getElementById('instructionsModal').classList.remove('hidden');
-  });
-
-  document.getElementById('closeInstructions').addEventListener('click', () => {
-    document.getElementById('instructionsModal').classList.add('hidden');
+  searchUsername.addEventListener('input', () => {
+    renderLeaderboard(filterDifficulty.value, searchUsername.value);
   });
 
   document.getElementById('playAgainButton').addEventListener('click', () => {
-    document.getElementById('startGameButton').classList.remove('hidden');
-    document.getElementById('gameContainer').classList.add('hidden');
+    document.getElementById('startGameButton').click();
   });
 
+  // Instructions modal toggle
+  const instructionsModal = document.getElementById('instructionsModal');
+  document.getElementById('showInstructionsButton').addEventListener('click', () => {
+    instructionsModal.classList.remove('hidden');
+  });
+  document.getElementById('closeInstructions').addEventListener('click', () => {
+    instructionsModal.classList.add('hidden');
+  });
+
+  // On load, fetch leaderboard
   updateLeaderboard();
 </script>
