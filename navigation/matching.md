@@ -8,149 +8,167 @@ menu: nav/home.html
 <head>
   <meta charset="UTF-8" />
   <title>Biotech Matching Game</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-  :root {
-    --navy:rgb(105, 142, 177);
-  }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: rgb(201, 204, 216);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
-    margin: 0;
-    color: var(--navy);
-  }
-  h1, h2, h3, h4, h5, h6,
-  p, label, select, .card,
-  .modal-content, .timer {
-    color: var(--navy);
-  }
-  h1 {
-    font-size: 1.875rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    max-width: 960px;
-    width: 100%;
-  }
-  .card {
-    background: white;
-    padding: 1.25rem;
-    text-align: center;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    cursor: pointer;
-    transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-    font-weight: 500;
-  }
-  .card:hover {
-    transform: scale(1.025);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-  }
-  .matched {
-    pointer-events: none;
-  }
-  .selected {
-  border: 2px solid #3b82f6;
-  background-color: rgb(227, 230, 240); 
-}
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-      transform: scale(1);
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    :root {
+      --navy: rgb(105, 142, 177);
     }
-    to {
-      opacity: 0;
-      transform: scale(0.9);
+    body {
+      font-family: 'Inter', sans-serif;
+      background: rgb(201, 204, 216);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      margin: 0;
+      color: var(--navy);
     }
-  }
-  .fade-out {
-    animation: fadeOut 0.4s forwards;
-  }
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 10, 24, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-  }
-  .modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    text-align: center;
-    max-width: 480px;
-    width: 90%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  }
-  .modal-content h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-  .modal-content p {
-    font-size: 1rem;
-    margin: 1rem 0;
-  }
-  .modal-content button {
-    margin: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .modal-content button:hover {
-    background: #2563eb;
-  }
-  .timer {
-    font-weight: 600;
-    font-size: 1.125rem;
-    margin-bottom: 1rem;
-  }
-  select {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #d1d5db;
-    outline: none;
-    margin-left: 0.5rem;
-    background: white;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: border 0.2s;
-  }
-  select:focus {
-    border-color: #3b82f6;
-  }
-  label {
-    font-weight: 500;
-    margin-right: 0.5rem;
-  }
-  @media (max-width: 480px) {
+    h1, h2, h3, h4, h5, h6,
+    p, label, select, .card,
+    .modal-content, .timer {
+      color: var(--navy);
+    }
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 960px;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      padding: 1.25rem;
+      text-align: center;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+      font-weight: 500;
+    }
+    .card:hover {
+      transform: scale(1.025);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+    .matched {
+      pointer-events: none;
+    }
+    .selected {
+      border: 2px solid #3b82f6;
+      background-color: rgb(227, 230, 240);
+    }
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+    }
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
+    .hidden-card {
+      visibility: hidden;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 10, 24, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
     .modal-content {
-      padding: 1.5rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
     .modal-content h2 {
-      font-size: 1.25rem;
+      margin-top: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
     }
-  }
-</style>
-
+    .modal-content p {
+      font-size: 1rem;
+      margin: 1rem 0;
+    }
+    .modal-content button {
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-content button:hover {
+      background: #2563eb;
+    }
+    .timer {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    .clock-icon {
+      margin-right: 8px;
+      vertical-align: middle;
+      animation: rotateClock 2s linear infinite;
+      display: inline-block;
+    }
+    @keyframes rotateClock {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    select {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      outline: none;
+      margin-left: 0.5rem;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: border 0.2s;
+    }
+    select:focus {
+      border-color: #3b82f6;
+    }
+    label {
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 1.5rem;
+      }
+      .modal-content h2 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -158,32 +176,32 @@ menu: nav/home.html
   <div id="instruction-modal" class="modal">
     <div class="modal-content">
       <h2>🎮How to Play!</h2>
-      <p>
-        • Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition. 
-      </p>
-      <p>
-        • If they match, they disappear. Keep matching until all pairs are gone.
-      </p>
-      <p>
-        • When you finish the game, you can choose to keep playing or try some interesting quizzes!
-      </p>
+      <p>• Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition.</p>
+      <p>• If they match, they disappear. Keep matching until all pairs are gone.</p>
+      <p>• When you finish the game, you can choose to keep playing or try some interesting quizzes!</p>
       <button onclick="closeModal()">Start Game</button>
     </div>
   </div>
 
   <!-- Victory Modal -->
-<div id="victory-modal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <h2>Congratulations!🎉</h2>
-    <p id="victory-time">You completed the game in X seconds!</p>
-    <p>Beat your time by hitting "Play Again" or take a Career/College Quiz</p>
-    <button onclick="restartGame()">Play Again</button>
-    <button onclick="window.location.href='/illumina_dna/career/'">Take Career Quiz</button>
-    <button onclick="window.location.href='/illumina_dna/college/'">Take College Quiz</button>
+  <div id="victory-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Congratulations!🎉</h2>
+      <p id="victory-time">You completed the game in X seconds!</p>
+      <p>Beat your time by hitting "Play Again" or take a Career/College Quiz</p>
+      <button onclick="restartGame()">Play Again</button>
+      <button onclick="window.location.href='/illumina_dna/career/'">Take Career Quiz</button>
+      <button onclick="window.location.href='/illumina_dna/college/'">Take College Quiz</button>
+    </div>
   </div>
-</div>
+
   <h1>Match the Biotech Term to its Definition</h1>
-  <div class="timer" id="timer">Time: 0s</div>
+  <div class="timer" id="timer">
+    <svg class="clock-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+    </svg>
+    <span id="timer-text">Time: 0s</span>
+  </div>
 
   <div style="margin-bottom: 20px;">
     <label for="difficulty">Select Difficulty:</label>
@@ -215,10 +233,10 @@ menu: nav/home.html
     function startTimer() {
       clearInterval(timerInterval);
       secondsElapsed = 0;
-      document.getElementById("timer").textContent = `Time: 0s`;
+      document.getElementById("timer-text").textContent = `Time: 0s`;
       timerInterval = setInterval(() => {
         secondsElapsed++;
-        document.getElementById("timer").textContent = `Time: ${secondsElapsed}s`;
+        document.getElementById("timer-text").textContent = `Time: ${secondsElapsed}s`;
       }, 1000);
     }
 
@@ -232,7 +250,7 @@ menu: nav/home.html
       matchedCount = 0;
       totalPairs = pairs.length;
 
-      shuffleArray(pairs); // Shuffle the order of the pairs themselves
+      shuffleArray(pairs);
 
       const allCards = [];
       pairs.forEach((pair, index) => {
@@ -270,9 +288,9 @@ menu: nav/home.html
           card2.classList.add("matched", "fade-out");
 
           let animationsDone = 0;
-          const removeCards = () => {
-            card1.remove();
-            card2.remove();
+          const hideCards = () => {
+            card1.classList.add("hidden-card");
+            card2.classList.add("hidden-card");
             matchedCount++;
             if (matchedCount === totalPairs) {
               stopTimer();
@@ -283,7 +301,7 @@ menu: nav/home.html
           [card1, card2].forEach((card) =>
             card.addEventListener("animationend", () => {
               animationsDone++;
-              if (animationsDone === 2) removeCards();
+              if (animationsDone === 2) hideCards();
             }, { once: true })
           );
         }
@@ -322,10 +340,11 @@ menu: nav/home.html
       document.getElementById("instruction-modal").style.display = "flex";
       loadGame();
     };
+
     function restartGame() {
-  document.getElementById("victory-modal").style.display = "none";
-  startTimer();
-  loadGame();
-  }
+      document.getElementById("victory-modal").style.display = "none";
+      startTimer();
+      loadGame();
+    }
   </script>
 </body>
