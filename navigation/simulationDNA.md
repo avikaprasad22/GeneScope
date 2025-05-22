@@ -141,7 +141,7 @@ show_reading_time: false
   <div id="errorEl" class="mt-2 text-sm text-red-400"></div>
 </div>
 
-<!-- Form
+
 <div class="absolute bottom-80 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
   <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
 <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
@@ -153,7 +153,7 @@ show_reading_time: false
           <div id="loader" class="loader hidden"></div>
 
   <p id="errorMessage" class="text-red-400 mt-2"></p>
-</div> -->
+</div>
 
 <!-- Canvas -->
 <canvas id="dnaCanvas" class="absolute top-0 left-0 w-full h-full ml-[10rem]"></canvas>
