@@ -94,11 +94,25 @@ menu: nav/home.html
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  #biotech-popup h2 {
+  color: #0d9488;
+  }
+
+  #reopen-popup-btn {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+
 </style>
 
 <div class="biotech-quiz-page">
   <h1>🔬 Biotechnology Career Quiz</h1>
-
+<!-- Reopen Button -->
+  <div class="flex justify-center mb-4">
+  <button onclick="openPopup()" id="reopen-popup-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-full shadow transition duration-300 ease-in-out">
+    ⓘ About Biotech
+  </button>
+  </div>
   <div class="quiz-section">
     <h3>Answer these questions to discover your future career in Biotechnology💡:</h3>
     <form id="quiz-form">
@@ -120,6 +134,28 @@ menu: nav/home.html
       <button type="button" onclick="calculateScore()">Submit Quiz</button>
     </form>
   </div>
+  <!-- Biotech Info Pop-up -->
+  <div id="biotech-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
+    <div class="bg-white text-black p-6 rounded-2xl shadow-xl max-w-xl w-full relative">
+      <button onclick="closePopup()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
+      <h2 class="text-2xl font-semibold mb-3"> What is Biotechnology?</h2>
+      <p class="mb-4 text-sm leading-relaxed">
+      Biotechnology is a rapidly growing field that applies biology and technology to improve healthcare, agriculture, and environmental sustainability. From gene editing (like CRISPR) to vaccine development, biotech is changing our world.<br><br>
+      Careers range from lab researchers and pharmaceutical engineers to data scientists and regulatory analysts. Whether you're into coding, chemistry, or environmental science, there's a path for you in biotech.<br><br>
+      🧠 Want to explore more? Here are some trusted resources to get started:
+      <ul class="list-disc list-inside mt-2 text-teal-700">
+        <li><a href="https://www.khanacademy.org/science/biology" target="_blank" class="underline hover:text-teal-800">Khan Academy – Biology</a></li>
+        <li><a href="https://www.nature.com/nbt/" target="_blank" class="underline hover:text-teal-800">Nature Biotechnology</a></li>
+        <li><a href="https://www.genome.gov/" target="_blank" class="underline hover:text-teal-800">National Human Genome Research Institute (NHGRI)</a></li>
+        <li><a href="https://learn.genetics.utah.edu/" target="_blank" class="underline hover:text-teal-800">Learn Genetics – University of Utah</a></li>
+      </ul>
+    </p>
+      <button onclick="closePopup()" class="mt-3 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md shadow transition">
+        Got it!
+      </button>
+    </div>
+  </div>
+
 
   <div id="career-result">
     <h2>Your Suggested Career in Biotechnology:</h2>
@@ -244,4 +280,19 @@ menu: nav/home.html
       if (showMoreButton) showMoreButton.style.display = "none";
     }
   }
+  window.addEventListener('DOMContentLoaded', () => {
+  const popupShown = sessionStorage.getItem('biotechPopupShown');
+  if (!popupShown) {
+    document.getElementById('biotech-popup').classList.remove('hidden');
+    sessionStorage.setItem('biotechPopupShown', 'true');
+  }
+});
+
+function closePopup() {
+  document.getElementById('biotech-popup').classList.add('hidden');
+}
+
+function openPopup() {
+  document.getElementById('biotech-popup').classList.remove('hidden');
+}
 </script>
