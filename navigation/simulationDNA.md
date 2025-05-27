@@ -158,9 +158,9 @@ show_reading_time: false
 <div id="manualBox"
      class="absolute top-56 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg w-80 max-w-full hidden transition-all duration-300 ease-in-out">
   <h2 class="text-lg font-bold mb-2 text-white">Search DNA Sequence</h2>
-  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
-         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
   <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
          class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
   <button onclick="fetchSequence()"
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
@@ -341,8 +341,8 @@ show_reading_time: false
 async function fetchSequence() {
   const organism = document.getElementById('organismInput').value.trim();
   const gene = document.getElementById('geneInput').value.trim();
-  const errorEl = document.getElementById('errorMessage');
-  const loaderEl = document.getElementById('loader');  // The loader element
+  const errorEl = document.getElementById('error');
+  const loaderEl = document.getElementById('loader');
   errorEl.textContent = "";
 
   if (!organism || !gene) {
@@ -350,8 +350,7 @@ async function fetchSequence() {
     return;
   }
 
-  // Show the loader while fetching
-  loaderEl.style.display = 'block';
+  loaderEl.classList.remove('hidden');
 
   try {
     const response = await fetch('http://127.0.0.1:8504/api/sequence', {
@@ -364,19 +363,23 @@ async function fetchSequence() {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || "Unknown error");
+      throw new Error(result.error || "Unknown error occurred while fetching sequence.");
     }
 
-    currentSequence = result.sequence.slice(0, 200);
+    // Assign and render sequence
+    currentSequence = result.sequence?.slice(0, 200) || '';
+    if (!currentSequence) throw new Error("No sequence data received.");
+
     angleOffset = 0;
+    animateDNA();
 
   } catch (err) {
     errorEl.textContent = `Error: ${err.message}`;
   } finally {
-    // Hide the loader when done (or error)
-    loaderEl.style.display = 'none';
+    loaderEl.classList.add('hidden');
   }
 }
+
   animateDNA();
 
  function closeInstructions() {
@@ -421,8 +424,13 @@ async function populateDropdown() {
 
 // Called when button is clicked
 async function fetchDropdownSequence() {
+  const dropdown = document.getElementById('dropdownSelect');
+  const errorEl = document.getElementById('errorEl');
+  const loaderEl = document.getElementById('loaderEl');
+
   const selected = dropdown.value;
   errorEl.textContent = '';
+
   if (!selected) {
     errorEl.textContent = "Please select a gene.";
     return;
@@ -442,22 +450,22 @@ async function fetchDropdownSequence() {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || "Unknown error");
+      throw new Error(result.error || "Unknown error occurred while fetching sequence.");
     }
 
-    currentSequence = result.sequence.slice(0, 200); // Use as needed
-    angleOffset = 0; // Use as needed
+    currentSequence = result.sequence?.slice(0, 200) || '';
+    if (!currentSequence) throw new Error("No sequence data received.");
 
-    // Optional display (you can replace or remove this)
-    alert(`Gene: ${result.gene}\nOrganism: ${result.organism}\nEnsembl ID: ${result.ensembl_id}\nSequence (first 30 bp): ${result.sequence.slice(0, 30)}`);
+    angleOffset = 0;
+    animateDNA();
+
   } catch (err) {
     errorEl.textContent = `Error: ${err.message}`;
   } finally {
     loaderEl.classList.add("hidden");
   }
-
-  animateDNA(); // Start animation
 }
+
 
 // Load dropdown on page ready
 populateDropdown();
