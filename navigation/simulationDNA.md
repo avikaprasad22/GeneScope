@@ -485,7 +485,7 @@ document.getElementById("dropdownToggle").addEventListener("change", () => {
 </script>
 
 <!-- Suggestions Section -->
-<div class="absolute bottom-18 left-5 z-30 text-white ">
+<div class="absolute bottom-24 left-5 z-30 text-white ">
   <h2 class="text-xl font-bold mb-2">Suggestions For Typing</h2>
   <div class="flex gap-4 flex-wrap max-w-screen-lg">
     <!-- Box 1 -->
