@@ -122,37 +122,52 @@ show_reading_time: false
   </div>
 </div>
 
-<!-- Dropdown Gene Selection UI (Styled like Typing Box with Load Button) -->
-<div class="absolute top-20 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
-  <h2 class="text-lg font-bold mb-2 text-white">Select DNA Sequence</h2>
+<!-- Toggle Between Dropdown and Manual -->
+<div class="absolute top-24 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg w-80 max-w-full">
+  <h2 class="text-lg font-bold mb-2 text-white">Choose Input Method</h2>
+  <div class="flex flex-col sm:flex-row gap-2">
+    <label class="inline-flex items-center text-white">
+      <input type="radio" name="inputMode" value="dropdown" id="dropdownToggle"
+             class="accent-indigo-600 mr-2" checked />
+      Select from Dropdown
+    </label>
+    <label class="inline-flex items-center text-white">
+      <input type="radio" name="inputMode" value="manual" id="manualToggle"
+             class="accent-indigo-600 mr-2" />
+      Type Organism & Gene
+    </label>
+  </div>
+</div>
 
-  <!-- Dropdown Menu -->
+<!-- Dropdown Selection Box (Visible by default) -->
+<div id="dropdownBox"
+     class="absolute top-56 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg w-80 max-w-full transition-all duration-300 ease-in-out">
+  <h2 class="text-lg font-bold mb-2 text-white">Select DNA Sequence</h2>
   <select id="dropdownSelect" class="mb-2 p-2 rounded w-full text-white bg-gray-800">
     <option value="">Loading options...</option>
   </select>
-
-  <!-- Load Button -->
-  <button onclick="fetchDropdownSequence()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
+  <button onclick="fetchDropdownSequence()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Selected Gene
   </button>
-
-  <!-- Loader and Error Message -->
   <div id="loaderEl" class="mt-2 text-sm text-indigo-300 hidden">Loading...</div>
   <div id="errorEl" class="mt-2 text-sm text-red-400"></div>
 </div>
 
-
-<div class="absolute bottom-80 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg">
-  <h2 class="text-lg font-bold mb-2">Search DNA Sequence</h2>
-<input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
-       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
-<input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
-       class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+<!-- Manual Input Box (Hidden by default) -->
+<div id="manualBox"
+     class="absolute top-56 left-5 z-10 bg-gray-900 bg-opacity-80 p-4 rounded-xl shadow-lg w-80 max-w-full hidden transition-all duration-300 ease-in-out">
+  <h2 class="text-lg font-bold mb-2 text-white">Search DNA Sequence</h2>
+  <input id="organismInput" type="text" placeholder="Organism (e.g. homo sapiens)"
+         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
+  <input id="geneInput" type="text" placeholder="Gene symbol (e.g. BRCA1)"
+         class="mb-2 p-2 rounded w-full text-white bg-gray-800 placeholder-gray-400" />
   <button onclick="fetchSequence()"
-          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">Load Sequence</button>
-          <div id="loader" class="loader hidden"></div>
-
-  <p id="errorMessage" class="text-red-400 mt-2"></p>
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
+    Load Sequence
+  </button>
+  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300">Loading...</div>
+  <div id="error" class="mt-2 text-sm text-red-400"></div>
 </div>
 
 <!-- Canvas -->
@@ -415,31 +430,50 @@ async function fetchDropdownSequence() {
 
   const [organism, gene] = selected.split('|');
   loaderEl.classList.remove("hidden");
+
   try {
-    const response = await fetch(`http://127.0.0.1:8504/api/sequence?organism=${organism}&gene=${gene}`, {
-      credentials: 'include'
+    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ organism, gene })
     });
 
-    const data = await response.json();
-    loaderEl.classList.add("hidden");
+    const result = await response.json();
 
     if (!response.ok) {
-      errorEl.textContent = data.error || "An error occurred.";
-      return;
+      throw new Error(result.error || "Unknown error");
     }
 
-    // Display result
-    alert(`Gene: ${data.gene}\nOrganism: ${data.organism}\nEnsembl ID: ${data.ensembl_id}\nSequence (first 30 bp): ${data.sequence}`);
+    currentSequence = result.sequence.slice(0, 200); // Use as needed
+    angleOffset = 0; // Use as needed
+
+    // Optional display (you can replace or remove this)
+    alert(`Gene: ${result.gene}\nOrganism: ${result.organism}\nEnsembl ID: ${result.ensembl_id}\nSequence (first 30 bp): ${result.sequence.slice(0, 30)}`);
   } catch (err) {
+    errorEl.textContent = `Error: ${err.message}`;
+  } finally {
     loaderEl.classList.add("hidden");
-    errorEl.textContent = "Failed to fetch gene sequence.";
-    console.error(err);
   }
+
+  animateDNA(); // Start animation
 }
 
 // Load dropdown on page ready
 populateDropdown();
 
+const manualBox = document.getElementById("manualBox");
+const dropdownBox = document.getElementById("dropdownBox");
+
+document.getElementById("manualToggle").addEventListener("change", () => {
+  manualBox.classList.remove("hidden");
+  dropdownBox.classList.add("hidden");
+});
+
+document.getElementById("dropdownToggle").addEventListener("change", () => {
+  dropdownBox.classList.remove("hidden");
+  manualBox.classList.add("hidden");
+});
 </script>
 
 <!-- Suggestions Section -->

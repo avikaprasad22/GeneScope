@@ -9,7 +9,7 @@ menu: nav/home.html
 <div style="padding-top: 40px;"></div>
 
 <!-- Filters Section -->
-<form id="filter-form" class="max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-md space-y-4">
+<form id="filter-form" class="max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-md space-y-4 text-black">
   <h2 class="text-xl font-semibold">Filter News</h2>
 
   <!-- Endpoint Selection -->
@@ -29,13 +29,13 @@ menu: nav/home.html
     <input type="text" name="q" placeholder="Keyword (optional)" class="border p-2 rounded text-black" />
     <!-- Everything-only filters -->
     <input type="date" name="from" class="border p-2 rounded text-black everything-only hidden" />
-    <select name="sortBy" class="border p-2 rounded bg-blue-600 text-white everything-only hidden">
+    <select name="sortBy" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
       <option value="">Sort By</option>
       <option value="publishedAt">Published At (Date)</option>
       <option value="relevancy">Relevancy</option>
       <option value="popularity">Popularity</option>
     </select>
-    <select name="searchIn" class="border p-2 rounded bg-blue-600 text-white everything-only hidden">
+    <select name="searchIn" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
       <option value="">Search In</option>
       <option value="title">Title</option>
       <option value="description">Description</option>
@@ -46,7 +46,7 @@ menu: nav/home.html
 
   <!-- Buttons -->
   <div class="flex space-x-4">
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
+    <button type="submit" class="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
     <button type="button" id="clear-button" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Clear</button>
   </div>
 </form>

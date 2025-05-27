@@ -661,6 +661,7 @@ function appendMessage(sender, message) {
 
 </script>
 <!-- ANNIES CODE -->
+<!-- ANNIES CODE -->
 <script>
 function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text);
