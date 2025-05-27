@@ -116,7 +116,7 @@ show_reading_time: false
 <div id="instructionsModal" class="fixed inset-x-0 bottom-0 top-9 flex items-center justify-center bg-black bg-opacity-50 z-50">
   <div class="bg-gray-800 p-6 rounded-lg max-w-lg text-white text-center shadow-xl mt-16">
     <h2 class="text-2xl font-bold mb-4">Welcome to the DNA Simulation</h2>
-    <p class="mb-4">Use the search form to load DNA sequences by organism and gene symbol. Hover over the base pairs to explore detailed information.</p>
+    <p class="mb-4">Use the dropdown or the search form to load DNA sequences by organism and gene symbol. Hover over the base pairs to explore detailed information.</p>
     <p class="mb-6 text-sm text-gray-300">Example: <br><strong>Organism:</strong> Homo sapiens <br><strong>Gene:</strong> BRCA1</p>
     <button id="instruction-modal" onclick="closeInstructions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Start Simulation</button>
   </div>
