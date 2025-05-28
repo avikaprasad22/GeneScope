@@ -129,7 +129,6 @@ menu: nav/home.html
     renderLeaderboard('all', '');
   }
 
-  // Updated renderLeaderboard with searchTerm param
   function renderLeaderboard(filter, searchTerm) {
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
@@ -149,16 +148,17 @@ menu: nav/home.html
       tbody.appendChild(row);
     });
   }
-async function loadFlashcards() {
-  try {
-    const res = await fetch(`${pythonURI}/api/gene_resource`, fetchOptions);
-    if (!res.ok) throw new Error('Failed to load flashcards');
-    const flashcards = await res.json();
-    renderFlashcards(flashcards);
-  } catch (err) {
-    console.error(err);
+
+  async function loadFlashcards() {
+    try {
+      const res = await fetch(`${pythonURI}/api/gene_resource`, fetchOptions);
+      if (!res.ok) throw new Error('Failed to load flashcards');
+      const flashcards = await res.json();
+      renderFlashcards(flashcards);
+    } catch (err) {
+      console.error(err);
+    }
   }
-}
 
   function renderFlashcards(cards) {
     const container = document.getElementById('flashcardsContainer');
@@ -287,7 +287,10 @@ async function loadFlashcards() {
     instructionsModal.classList.add('hidden');
   });
 
-  // On load, fetch leaderboard
-  updateLeaderboard();
+  // Load flashcards on page load
   loadFlashcards();
+
+  // Initialize leaderboard on page load
+  updateLeaderboard();
+
 </script>
