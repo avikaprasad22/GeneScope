@@ -193,7 +193,7 @@ menu: nav/home.html
       <p>• Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition.</p>
       <p>• If they match, they disappear. Keep matching until all pairs are gone.</p>
       <p>• When you finish the game, you can choose to keep playing</p>
-      <p>• Once you feel confident on level "Advanced," put your knowledge to test by learning about the effects different genetic mutations have on the body with Gene Explorer!</p>
+      <p>• Once you feel confident on level <strong>"Advanced,"</strong> put your knowledge to test by learning about the effects different genetic mutations have on the body with <strong>Gene Explorer</strong>🧬!</p>
       <button onclick="closeModal()">Start Game</button>
     </div>
   </div>
@@ -205,7 +205,7 @@ menu: nav/home.html
       <p id="victory-time">You completed the game in X seconds!</p>
       <p>Beat your time by hitting "Play Again" or move on to the next activity</p>
       <button onclick="restartGame()">Play Again</button>
-      <button onclick="window.location.href='/illumina_dna/genes/'">Learn with Gene Explorer</button>
+      <button onclick="window.location.href='/illumina_dna/genes/'">Learn with <strong>Gene Explorer</strong></button>
     </div>
   </div>
 
