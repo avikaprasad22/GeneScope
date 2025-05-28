@@ -24,6 +24,12 @@ menu: nav/home.html
         <option value="hard">Hard</option>
       </select>
     </div>
+  <div id="flashcardSection" class="space-y-4">
+    <h3 class="text-xl font-semibold text-blue-800 text-center">🧬 Learn These Genetics Terms First!</h3>
+    <div id="flashcardsContainer" class="flex overflow-x-auto space-x-4 p-2 rounded-xl bg-white shadow-inner">
+    <!-- Flashcards will be injected here -->
+    </div>
+  </div>
     <button id="startGameButton"
       class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
       Start 30‑Second Challenge
@@ -80,12 +86,21 @@ menu: nav/home.html
 <div id="instructionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
   <div class="bg-white rounded-2xl p-6 max-w-xl mx-4 max-h-[80vh] overflow-y-auto shadow-2xl relative">
     <button id="closeInstructions" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
-    <h3 class="text-2xl font-bold text-blue-800 mb-4 text-center">How to Play</h3>
+    <h3 class="text-2xl font-bold text-blue-800 mb-4 text-center">How to Play & Key Terms</h3>
     <div class="space-y-4 text-blue-900 text-sm leading-relaxed">
       <p><strong>Objective:</strong> Answer as many genetics trivia questions correctly within 30 seconds to earn a high score!</p>
       <p><strong>Gameplay:</strong> Select the correct answer from multiple choices. Each correct answer increases your score by 1.</p>
       <p><strong>Difficulty Levels:</strong> Choose from Easy, Medium, or Hard questions before starting the game.</p>
       <p><strong>Timer:</strong> You have 30 seconds per challenge. Try to answer quickly and accurately!</p>
+      <hr class="my-3 border-blue-300" />
+      <h4 class="font-semibold text-blue-700">Key Terms:</h4>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Gene:</strong> A unit of heredity made up of DNA that codes for a specific trait.</li>
+        <li><strong>Chromosome:</strong> Structures in cells that contain genes.</li>
+        <li><strong>Allele:</strong> Different versions of a gene.</li>
+        <li><strong>DNA:</strong> The molecule that carries genetic information.</li>
+        <li><strong>Mutation:</strong> A change in the DNA sequence.</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -132,6 +147,30 @@ menu: nav/home.html
         <td class="border px-2 py-1 capitalize">${entry.difficulty}</td>
       `;
       tbody.appendChild(row);
+    });
+  }
+async function loadFlashcards() {
+  try {
+    const res = await fetch(`${pythonURI}/api/gene_resource`, fetchOptions);
+    if (!res.ok) throw new Error('Failed to load flashcards');
+    const flashcards = await res.json();
+    renderFlashcards(flashcards);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+  function renderFlashcards(cards) {
+    const container = document.getElementById('flashcardsContainer');
+    container.innerHTML = '';
+    cards.forEach(card => {
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'w-60 min-w-[15rem] bg-blue-200 rounded-2xl shadow-lg p-4 text-left text-blue-900 flex-shrink-0 hover:shadow-xl transition duration-300';
+      cardDiv.innerHTML = `
+        <h4 class="font-bold text-lg mb-2">${card.term}</h4>
+        <p class="text-sm">${card.definition}</p>
+      `;
+      container.appendChild(cardDiv);
     });
   }
 
@@ -250,19 +289,5 @@ menu: nav/home.html
 
   // On load, fetch leaderboard
   updateLeaderboard();
-    // Automatically show the How to Play modal on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('instructionsModal').classList.remove('hidden');
-  });
-
-  // Button behavior to close the modal
-  document.getElementById('closeInstructions').addEventListener('click', () => {
-    document.getElementById('instructionsModal').classList.add('hidden');
-  });
-
-  // Manual show/hide (still works with How to Play button)
-  document.getElementById('showInstructionsButton').addEventListener('click', () => {
-    document.getElementById('instructionsModal').classList.remove('hidden');
-  });
-
+  loadFlashcards();
 </script>
