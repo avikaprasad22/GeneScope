@@ -121,6 +121,20 @@ menu: nav/home.html
     .modal-content button:hover {
       background: #2563eb;
     }
+    {
+      background: #e5e7eb;
+      color: #374151;
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      margin: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .secondary-btn:hover {
+      background: #d1d5db;
+    }
     .timer {
       font-weight: 600;
       font-size: 1.125rem;
@@ -178,7 +192,8 @@ menu: nav/home.html
       <h2>🎮How to Play!</h2>
       <p>• Match each biotechnology term with its correct definition. Click one card to select a term, then another card to select a definition.</p>
       <p>• If they match, they disappear. Keep matching until all pairs are gone.</p>
-      <p>• When you finish the game, you can choose to keep playing or try some interesting quizzes!</p>
+      <p>• When you finish the game, you can choose to keep playing</p>
+      <p>• Once you feel confident on level <strong>"Advanced,"</strong> put your knowledge to test by learning about the effects different genetic mutations have on the body with <strong>Gene Explorer</strong>🧬!</p>
       <button onclick="closeModal()">Start Game</button>
     </div>
   </div>
@@ -188,10 +203,9 @@ menu: nav/home.html
     <div class="modal-content">
       <h2>Congratulations!🎉</h2>
       <p id="victory-time">You completed the game in X seconds!</p>
-      <p>Beat your time by hitting "Play Again" or take a Career/College Quiz</p>
+      <p>Beat your time by hitting "Play Again" or move on to the next activity</p>
       <button onclick="restartGame()">Play Again</button>
-      <button onclick="window.location.href='/illumina_dna/career/'">Take Career Quiz</button>
-      <button onclick="window.location.href='/illumina_dna/college/'">Take College Quiz</button>
+      <button onclick="window.location.href='/illumina_dna/genes/'">Learn with <strong>Gene Explorer</strong></button>
     </div>
   </div>
 

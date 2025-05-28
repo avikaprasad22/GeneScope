@@ -533,7 +533,9 @@ menu: nav/home.html
       <span class="shadow"></span>
     </div>
   </div>
-  <p id="output">Click the pyramid to speak with ANNIE</p>
+  <p>Click the pyramid to speak with ANNIE</p>
+  <button id="stopSpeakingBtn">🛑 Stop Speaking</button>
+
 </div>
 
 
@@ -660,11 +662,19 @@ function appendMessage(sender, message) {
 
 
 </script>
-<!-- ANNIES CODE -->
+
 <!-- ANNIES CODE -->
 <script>
+
+let currentUtterance = null
 function speakText(text) {
+  if (speechSynthesis.speaking){
+    speechSynthesis.cancel();
+  }
+
+
   const utterance = new SpeechSynthesisUtterance(text);
+  currentUtterance = utterance
   utterance.lang = 'en-US';
   utterance.pitch = 1;
   utterance.rate = 1;
@@ -723,6 +733,14 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
     console.error("Speech recognition not supported in this browser.");
   }
 
+document.getElementById("stopSpeakingBtn").addEventListener("click", function() {
+  if (speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+    console.log("ANNIE's current speech stopped.");
+  }
+});
+
+  
   // Click the pyramid to start/stop listening
   const pyramidWrapper = document.getElementById("pyramidWrapper");
   pyramidWrapper.addEventListener("click", function() {
