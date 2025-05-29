@@ -166,7 +166,7 @@ show_reading_time: false
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Sequence
   </button>
-  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300">Loading...</div>
+  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300"></div>
   <div id="error" class="mt-2 text-sm text-red-400"></div>
 </div>
 
