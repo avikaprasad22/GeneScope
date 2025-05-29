@@ -6,6 +6,7 @@ menu: nav/home.html
 ---
 
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8" />
   <title>Biotech Matching Game</title>
   <style>
@@ -121,20 +122,6 @@ menu: nav/home.html
     .modal-content button:hover {
       background: #2563eb;
     }
-    {
-      background: #e5e7eb;
-      color: #374151;
-      font-size: 0.875rem;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      border: none;
-      margin: 0.5rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .secondary-btn:hover {
-      background: #d1d5db;
-    }
     .timer {
       font-weight: 600;
       font-size: 1.125rem;
@@ -186,7 +173,6 @@ menu: nav/home.html
 </head>
 
 <body>
-  <!-- Instruction Modal -->
   <div id="instruction-modal" class="modal">
     <div class="modal-content">
       <h2>🎮How to Play!</h2>
@@ -198,14 +184,14 @@ menu: nav/home.html
     </div>
   </div>
 
-  <!-- Victory Modal -->
   <div id="victory-modal" class="modal" style="display: none;">
     <div class="modal-content">
-      <h2>Congratulations!🎉</h2>
+      <h2 id="victory-message">Congratulations!🎉</h2>
       <p id="victory-time">You completed the game in X seconds!</p>
-      <p>Beat your time by hitting "Play Again" or move on to the next activity</p>
-      <button onclick="restartGame()">Play Again</button>
-      <button onclick="window.location.href='/illumina_dna/genes/'">Learn with <strong>Gene Explorer</strong></button>
+      <p id="victory-extra"></p>
+      <div id="victory-buttons">
+        <button onclick="restartGame()">Play Again</button>
+      </div>
     </div>
   </div>
 
@@ -328,7 +314,52 @@ menu: nav/home.html
     }
 
     function showVictoryModal() {
+      const level = document.getElementById("difficulty").value;
+      const message = document.getElementById("victory-message");
+      const extra = document.getElementById("victory-extra");
+      const buttons = document.getElementById("victory-buttons");
+
       document.getElementById("victory-time").textContent = `You completed the game in ${secondsElapsed} seconds!`;
+
+      buttons.innerHTML = `
+        <button onclick="restartGame()">Play Again</button>
+        <button onclick="window.location.href='/career-quiz'">Take Career Quiz</button>
+      `;
+
+      if (level === "beginner") {
+        message.textContent = "Nice Work!";
+        extra.textContent = "Keep practicing until you get to Advanced level or take our Career Quiz to explore exciting paths in biotechnology!";
+      } else if (level === "intermediate") {
+        message.textContent = "Great Job!";
+        extra.textContent = "You're getting the hang of it! Keep going or consider the Career Quiz to see where your biotech journey could lead.";
+      } else if (level === "advanced") {
+        message.textContent = "You Did It!";
+        extra.textContent = "You’re ready to explore real gene mutations with Gene Explorer or take the Career Quiz to imagine your biotech future!";
+        buttons.innerHTML += `<button onclick="window.location.href='/illumina_dna/genes/'">Learn with <strong>Gene Explorer</strong></button>`;
+      } else {
+        message.textContent = "Congratulations! 🎉";
+        extra.textContent = "Great job! Try beating your time or explore biotech careers in our Career Quiz!";
+      }
+
+      // Show confetti for all levels
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        angle: 60,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        angle: 120,
+        origin: { x: 1 },
+      });
+
       document.getElementById("victory-modal").style.display = "flex";
     }
 

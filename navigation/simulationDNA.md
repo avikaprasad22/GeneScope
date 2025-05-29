@@ -21,7 +21,7 @@ show_reading_time: false
       pointer-events: none;
       z-index: 50;
       white-space: nowrap;
-      transform: translate(-50%, -120%);
+      transform: translate(-50%, -100%);
       box-shadow: 0 0 10px rgba(255,255,255,0.5);
       background-color: rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
@@ -150,7 +150,7 @@ show_reading_time: false
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Selected Gene
   </button>
-  <div id="loaderEl" class="mt-2 text-sm text-indigo-300 hidden">Loading...</div>
+  <div id="loaderEl" class="loader hidden mt-2"></div>
   <div id="errorEl" class="mt-2 text-sm text-red-400"></div>
 </div>
 
@@ -166,7 +166,7 @@ show_reading_time: false
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Sequence
   </button>
-  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300">Loading...</div>
+  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300"></div>
   <div id="error" class="mt-2 text-sm text-red-400"></div>
 </div>
 
@@ -180,7 +180,7 @@ show_reading_time: false
 
 
 <!-- Tooltip Overlay -->
-<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
+<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20 ml-[10rem]"></div>
 <div id="customTooltip" class="tooltip-box hidden"></div>
 
 <!-- Side Info Box -->
@@ -443,6 +443,12 @@ async function fetchDropdownSequence() {
   const commonNameText = document.getElementById('commonNameText');
 
   errorEl.textContent = "";
+  loader.classList.remove('hidden')
+  setTimeout(() => {
+    loader.classList.add('hidden'); // Hide loader when done
+    // Handle success or error
+  }, 2000);
+
   if (!selected) {
     errorEl.textContent = "Please select a gene.";
     return;
