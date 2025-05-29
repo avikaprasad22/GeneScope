@@ -448,6 +448,8 @@ button {
   outline: 0;
   border: 0;
   padding: 1rem;
+  margin-top: -50px;
+  margin-left: 20px;
 }
 
 button:before {
@@ -463,6 +465,10 @@ button:before {
 button:hover:before {
   width: 3rem;
 }
+button:hover {
+  background-color: transparent !important;
+}
+
 
   </style>
 </head>
@@ -554,6 +560,9 @@ button:hover:before {
 <!-- ANNIE--->
 
 <div id="pyricmind-container">
+<p id="annie-text" class="text-sm text-white mb-2 mt-16 font-medium">
+    Click the pyramid to speak with Annie
+  </p>
   <div id="loader" class="pyramid-loader">
     <div class="wrapper" id="pyramidWrapper">
       <span class="side side1"></span>
@@ -563,7 +572,6 @@ button:hover:before {
       <span class="shadow"></span>
     </div>
   </div>
-  <p>Click the pyramid to speak with ANNIE</p>
 <!-- From Uiverse.io by portseif --> 
 <button id="stopSpeakingBtn">
   Pause
