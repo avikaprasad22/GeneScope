@@ -323,7 +323,7 @@ menu: nav/home.html
 
       buttons.innerHTML = `
         <button onclick="restartGame()">Play Again</button>
-        <button onclick="window.location.href='/career-quiz'">Take Career Quiz</button>
+        <button onclick="window.location.href='/genescope/career-quiz/'">Take Career Quiz</button>
       `;
 
       if (level === "beginner") {
@@ -335,7 +335,7 @@ menu: nav/home.html
       } else if (level === "advanced") {
         message.textContent = "You Did It!";
         extra.textContent = "You’re ready to explore real gene mutations with Gene Explorer or take the Career Quiz to imagine your biotech future!";
-        buttons.innerHTML += `<button onclick="window.location.href='/Genescope/genes/'">Learn with <strong>Gene Explorer</strong></button>`;
+        buttons.innerHTML += `<button onclick="window.location.href='/genescope/genes/'">Learn with <strong>Gene Explorer</strong></button>`;
       } else {
         message.textContent = "Congratulations! 🎉";
         extra.textContent = "Great job! Try beating your time or explore biotech careers in our Career Quiz!";
