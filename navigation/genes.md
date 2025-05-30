@@ -470,11 +470,13 @@ function showTutorial() {
   overlay.id = "tutorial-overlay";
   overlay.className = "fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center";
   overlay.innerHTML = `
-    <div class="bg-white text-black p-6 rounded-lg max-w-md w-full shadow-lg relative text-center flex flex-col items-center">
+    <div class="bg-white text-black p-6 rounded-lg max-w-md w-full shadow-lg relative text-center flex flex-col items-center mt-64">
       <p id="tutorial-text" class="text-lg mb-4">${tutorialSteps[0].text}</p>
       <button id="tutorial-next" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Next</button>
       <button id="skip-tutorial" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-6 font-bold">Skip Tutorial ✖</button>
     </div>`;
+
+
   document.body.appendChild(overlay);
 
   document.getElementById("tutorial-next").onclick = () => {
