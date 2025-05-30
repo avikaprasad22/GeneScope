@@ -239,6 +239,11 @@ show_reading_time: false
     <p id="you-won-message"></p>
   </div>
 
+  <!-- Back Button -->
+  <button id="back-button" class="fixed top-[5.8rem] right-4 z-50 right-4 z-50 bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600 hidden">
+    ← Back to Mode Select
+  </button>
+
   <!-- Sandbox Mode UI -->
   <div id="sandbox-tools" class="hidden" style="margin-top: 12px;">
     <select id="mutation-action">
@@ -301,6 +306,7 @@ mode = document.getElementById("mode").value;
 mutationUsed = false;
 baseMoved = false;
 document.getElementById("mode-select").classList.add("hidden");
+document.getElementById("back-button").classList.remove("hidden");
 document.getElementById("game-ui").classList.remove("hidden");
 document.body.classList.add("no-bg");
 handleModeChange();
@@ -583,6 +589,17 @@ function endTutorial() {
 document.querySelectorAll(".highlighted, .highlighted-green").forEach(el =>
   el.classList.remove("highlighted", "highlighted-green")
 );}
+document.getElementById("back-button").onclick = () => {
+  // Hide game UI and show mode select again
+  document.getElementById("game-ui").classList.add("hidden");
+  document.getElementById("mode-select").classList.remove("hidden");
+  document.body.classList.remove("no-bg");
+  document.getElementById("back-button").classList.add("hidden");
+
+  // End tutorial if it's running
+  endTutorial();
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-button").addEventListener("click", startGame);
 });
