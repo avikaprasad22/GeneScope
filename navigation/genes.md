@@ -167,6 +167,12 @@ show_reading_time: false
   box-shadow: 0 0 0 4px limegreen !important;
 }
 
+.highlighted-green {
+  box-shadow: 0 0 0 4px limegreen !important;
+  position: relative;
+  z-index: 1001;
+}
+
 #tutorial-next:disabled {
   background-color: #b91c1c; /* Red */
   cursor: not-allowed;
@@ -513,13 +519,28 @@ function runTutorialStep() {
   const step = tutorialSteps[tutorialStep];
   document.getElementById("tutorial-text").textContent = step.text;
   tutorialLock = !!step.waitFor;
-  
+
   const nextBtn = document.getElementById("tutorial-next");
   nextBtn.disabled = tutorialLock;
-  nextBtn.classList.remove("enabled");
+  nextBtn.classList.remove("bg-green-600", "bg-red-600");
+  nextBtn.classList.add(tutorialLock ? "bg-red-600" : "bg-green-600");
 
-  highlightElement(step.selector);
+  // Clear all highlights
+  document.querySelectorAll(".highlighted, .highlighted-green").forEach(el =>
+    el.classList.remove("highlighted", "highlighted-green")
+  );
 
+  // Add green highlight for progress bar, red for everything else
+  if (step.selector) {
+    const el = document.querySelector(step.selector);
+    if (mode === "fix" && step.selector === ".progress-container") {
+      el.classList.add("highlighted-green");
+    } else {
+      el.classList.add("highlighted");
+    }
+  }
+
+  // Wait logic
   if (typeof step.waitFor === "function") {
     const interval = setInterval(() => {
       if (step.waitFor()) {
@@ -532,23 +553,36 @@ function runTutorialStep() {
     if (el) el.addEventListener("click", unlockTutorial, { once: true });
   }
 }
+
 function unlockTutorial() {
   tutorialLock = false;
   const nextBtn = document.getElementById("tutorial-next");
   nextBtn.disabled = false;
-  nextBtn.classList.add("enabled");
 
+  // Update next button color
+  nextBtn.classList.remove("bg-red-600");
+  nextBtn.classList.add("bg-green-600");
+
+  // Update highlight color to green
   const step = tutorialSteps[tutorialStep];
   const el = typeof step.selector === "string" ? document.querySelector(step.selector) : null;
+
   if (el && el.classList.contains("highlighted")) {
-    el.classList.add("done");
+    // For the progress bar step (in fix mode), stay highlighted but green
+    if (mode === "fix" && step.selector === ".progress-container") {
+      el.classList.remove("highlighted");
+      el.classList.add("highlighted-green");
+    } else {
+      el.classList.remove("highlighted");
+    }
   }
 }
 
 function endTutorial() {
   document.getElementById("tutorial-overlay")?.remove();
-  document.querySelectorAll(".highlighted").forEach(el => el.classList.remove("highlighted"));
-}
+document.querySelectorAll(".highlighted, .highlighted-green").forEach(el =>
+  el.classList.remove("highlighted", "highlighted-green")
+);}
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-button").addEventListener("click", startGame);
 });
