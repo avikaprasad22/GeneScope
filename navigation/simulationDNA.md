@@ -21,7 +21,7 @@ show_reading_time: false
       pointer-events: none;
       z-index: 50;
       white-space: nowrap;
-      transform: translate(-50%, -120%);
+      transform: translate(-50%, -100%);
       box-shadow: 0 0 10px rgba(255,255,255,0.5);
       background-color: rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
@@ -150,7 +150,7 @@ show_reading_time: false
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Selected Gene
   </button>
-  <div id="loaderEl" class="mt-2 text-sm text-indigo-300 hidden">Loading...</div>
+  <div id="loaderEl" class="loader hidden mt-2"></div>
   <div id="errorEl" class="mt-2 text-sm text-red-400"></div>
 </div>
 
@@ -166,8 +166,13 @@ show_reading_time: false
           class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded">
     Load Sequence
   </button>
-  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300">Loading...</div>
+  <div id="loader" class="loader hidden mt-2 text-sm text-indigo-300"></div>
   <div id="error" class="mt-2 text-sm text-red-400"></div>
+</div>
+
+<!-- Common Name Display -->
+<div id="commonNameDisplay" class="absolute top-10 left-50 bg-gray-900 bg-opacity-80 text-white px-4 py-2 rounded shadow-lg text-lg z-20 hidden">
+  <span class="font-semibold">Organism:</span> <span id="commonNameText"></span>
 </div>
 
 <!-- Canvas -->
@@ -175,7 +180,7 @@ show_reading_time: false
 
 
 <!-- Tooltip Overlay -->
-<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></div>
+<div id="tooltipContainer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20 ml-[10rem]"></div>
 <div id="customTooltip" class="tooltip-box hidden"></div>
 
 <!-- Side Info Box -->
@@ -343,6 +348,8 @@ async function fetchSequence() {
   const gene = document.getElementById('geneInput').value.trim();
   const errorEl = document.getElementById('error');
   const loaderEl = document.getElementById('loader');
+  const commonNameBox = document.getElementById('commonNameDisplay');
+  const commonNameText = document.getElementById('commonNameText');
   errorEl.textContent = "";
 
   if (!organism || !gene) {
@@ -373,14 +380,18 @@ async function fetchSequence() {
     angleOffset = 0;
     animateDNA();
 
+    // Display the common name
+    const commonName = result.common_name || organism;
+    commonNameText.textContent = commonName;
+    commonNameBox.classList.remove('hidden');
+
   } catch (err) {
     errorEl.textContent = `Error: ${err.message}`;
+    document.getElementById('commonNameDisplay').classList.add('hidden');
   } finally {
     loaderEl.classList.add('hidden');
   }
 }
-
-  animateDNA();
 
  function closeInstructions() {
     const modal = document.getElementById('instructionsModal');
@@ -422,24 +433,32 @@ async function populateDropdown() {
   }
 }
 
-// Called when button is clicked
+const dropdownSelect = document.getElementById('dropdownSelect');
+
 async function fetchDropdownSequence() {
-  const dropdown = document.getElementById('dropdownSelect');
+  const selected = dropdownSelect.value;
   const errorEl = document.getElementById('errorEl');
   const loaderEl = document.getElementById('loaderEl');
+  const commonNameBox = document.getElementById('commonNameDisplay');
+  const commonNameText = document.getElementById('commonNameText');
 
-  const selected = dropdown.value;
-  errorEl.textContent = '';
+  errorEl.textContent = "";
+  loader.classList.remove('hidden')
+  setTimeout(() => {
+    loader.classList.add('hidden'); // Hide loader when done
+    // Handle success or error
+  }, 2000);
 
   if (!selected) {
     errorEl.textContent = "Please select a gene.";
     return;
   }
 
-  const [organism, gene] = selected.split('|');
-  loaderEl.classList.remove("hidden");
+  loaderEl.classList.remove('hidden');
 
   try {
+    const [organism, gene] = selected.split('|'); // assuming dropdown value = "Homo sapiens|BRCA1"
+
     const response = await fetch('http://127.0.0.1:8504/api/sequence', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -459,10 +478,16 @@ async function fetchDropdownSequence() {
     angleOffset = 0;
     animateDNA();
 
+    // Display the common name
+    const commonName = result.common_name || organism;
+    commonNameText.textContent = commonName;
+    commonNameBox.classList.remove('hidden');
+
   } catch (err) {
     errorEl.textContent = `Error: ${err.message}`;
+    document.getElementById('commonNameDisplay').classList.add('hidden');
   } finally {
-    loaderEl.classList.add("hidden");
+    loaderEl.classList.add('hidden');
   }
 }
 

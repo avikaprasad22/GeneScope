@@ -167,7 +167,7 @@ menu: nav/home.html
 
   <div style="text-align:center; margin-top: 30px;">
     <a
-      href="/illumina_dna/college/"
+      href="/genescope/college/"
       class="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-semibold text-white bg-teal-500 rounded-md shadow-lg group hover:bg-teal-600 transition-all duration-300 ease-in-out"
       style="width: auto; max-width: 250px;"
     >
