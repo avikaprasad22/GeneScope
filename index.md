@@ -433,7 +433,7 @@ menu: nav/home.html
   font-size: 1.5em;
 }
 
-button {
+.button2 {
   align-items: center;
   background-color: transparent;
   color: #fff;
@@ -452,7 +452,7 @@ button {
   margin-left: 20px;
 }
 
-button:before {
+.button2:before {
   background-color: #fff;
   content: "";
   display: inline-block;
@@ -462,10 +462,10 @@ button:before {
   width: 0;
 }
 
-button:hover:before {
+.button2:hover:before {
   width: 3rem;
 }
-button:hover {
+.button2:hover {
   background-color: transparent !important;
 }
 
@@ -573,7 +573,7 @@ button:hover {
     </div>
   </div>
 <!-- From Uiverse.io by portseif --> 
-<button id="stopSpeakingBtn">
+<button  class = "button2" id="stopSpeakingBtn">
   Pause
 </button>
 </div>
