@@ -157,10 +157,25 @@ show_reading_time: false
   }
 
   .highlighted {
-  box-shadow: 0 0 0 4px yellow !important;
+  box-shadow: 0 0 0 4px red !important;
   position: relative;
   z-index: 1001;
+  transition: box-shadow 0.3s ease;
 }
+
+.highlighted.done {
+  box-shadow: 0 0 0 4px limegreen !important;
+}
+
+#tutorial-next:disabled {
+  background-color: #b91c1c; /* Red */
+  cursor: not-allowed;
+}
+
+#tutorial-next.enabled {
+  background-color: #16a34a !important; /* Green */
+}
+
 </style>
 
 <div class="genes-page">
@@ -442,7 +457,9 @@ let tutorialLock = false;
 const tutorialSteps = [];
 
 function highlightElement(selector) {
-  document.querySelectorAll(".highlighted").forEach(el => el.classList.remove("highlighted"));
+  document.querySelectorAll(".highlighted").forEach(el => {
+    el.classList.remove("highlighted", "done");
+  });
   const el = document.querySelector(selector);
   if (el) el.classList.add("highlighted");
 }
@@ -496,7 +513,10 @@ function runTutorialStep() {
   const step = tutorialSteps[tutorialStep];
   document.getElementById("tutorial-text").textContent = step.text;
   tutorialLock = !!step.waitFor;
-  document.getElementById("tutorial-next").disabled = tutorialLock;
+  
+  const nextBtn = document.getElementById("tutorial-next");
+  nextBtn.disabled = tutorialLock;
+  nextBtn.classList.remove("enabled");
 
   highlightElement(step.selector);
 
@@ -512,10 +532,17 @@ function runTutorialStep() {
     if (el) el.addEventListener("click", unlockTutorial, { once: true });
   }
 }
-
 function unlockTutorial() {
   tutorialLock = false;
-  document.getElementById("tutorial-next").disabled = false;
+  const nextBtn = document.getElementById("tutorial-next");
+  nextBtn.disabled = false;
+  nextBtn.classList.add("enabled");
+
+  const step = tutorialSteps[tutorialStep];
+  const el = typeof step.selector === "string" ? document.querySelector(step.selector) : null;
+  if (el && el.classList.contains("highlighted")) {
+    el.classList.add("done");
+  }
 }
 
 function endTutorial() {
