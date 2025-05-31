@@ -20,28 +20,27 @@ menu: nav/home.html
     </label>
     <label class="flex items-center space-x-2">
       <input type="radio" name="endpoint" value="everything-news" />
-      <span class="text-gray-700">Search All News (Everything)</span>
+      <span class="text-gray-700">Illumina News (Company + Genes, DNA, CRISPR)</span>
     </label>
   </div>
 
   <!-- Input Filters -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <input type="text" name="q" placeholder="Keyword (optional)" class="border p-2 rounded text-black" />
-    <!-- Everything-only filters -->
-    <input type="date" name="from" class="border p-2 rounded text-black everything-only hidden" />
+    <input type="text" name="q" placeholder="Keyword (for science headlines)" class="border p-2 rounded text-black science-only" />
+    <!-- <input type="date" name="from" class="border p-2 rounded text-black everything-only hidden" /> -->
     <select name="sortBy" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
       <option value="">Sort By</option>
       <option value="publishedAt">Published At (Date)</option>
       <option value="relevancy">Relevancy</option>
       <option value="popularity">Popularity</option>
     </select>
-    <select name="searchIn" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
+    <!-- <select name="searchIn" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
       <option value="">Search In</option>
       <option value="title">Title</option>
       <option value="description">Description</option>
       <option value="content">Content</option>
       <option value="title,description">Title + Description</option>
-    </select>
+    </select> -->
   </div>
 
   <!-- Buttons -->
@@ -55,7 +54,6 @@ menu: nav/home.html
 <div id="science-news" class="max-w-4xl mx-auto mt-6">
   <p>Loading news...</p>
 </div>
-
 
 <script type="module">
   import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -73,6 +71,11 @@ menu: nav/home.html
       // Always use default page size
       params.pageSize = "10";
 
+      // Expanded query for everything-news
+      if (params.endpoint === "everything-news") {
+        params.q = "Illumina Inc OR genes OR DNA OR genomics OR CRISPR OR biotech";
+      }
+
       const queryParams = new URLSearchParams();
       for (const key in params) {
         if (key !== "endpoint" && params[key]) {
@@ -80,8 +83,8 @@ menu: nav/home.html
         }
       }
 
-       const response = await fetch(pythonURI + `${endpointPath}?${queryParams.toString()}`);
-    //    const response = await fetch(`http://127.0.0.1:8504${endpointPath}?${queryParams.toString()}`);
+      const response = await fetch(pythonURI + `${endpointPath}?${queryParams.toString()}`);
+      // const response = await fetch(`http://127.0.0.1:8504${endpointPath}?${queryParams.toString()}`);
 
       if (!response.ok) {
         const errData = await response.json().catch(() => null);
@@ -135,11 +138,6 @@ menu: nav/home.html
 
     params.endpoint = form.querySelector('input[name="endpoint"]:checked').value;
 
-    // Fix "missing q" error
-    if (params.endpoint === "everything-news" && !params.q) {
-      params.q = "news";
-    }
-
     fetchNews(params);
   });
 
@@ -156,8 +154,7 @@ menu: nav/home.html
     showFields(selectedEndpoint);
 
     fetchNews({
-      endpoint: selectedEndpoint,
-      q: selectedEndpoint === "everything-news" ? "news" : ""
+      endpoint: selectedEndpoint
     });
   });
 
@@ -165,6 +162,9 @@ menu: nav/home.html
   function showFields(endpoint) {
     document.querySelectorAll(".everything-only").forEach(el => {
       el.classList.toggle("hidden", endpoint !== "everything-news");
+    });
+    document.querySelectorAll(".science-only").forEach(el => {
+      el.classList.toggle("hidden", endpoint !== "science-news");
     });
   }
 
