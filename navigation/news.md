@@ -8,39 +8,30 @@ menu: nav/home.html
 
 <div style="padding-top: 40px;"></div>
 
+<!-- Tabs -->
+<div class="max-w-4xl mx-auto px-4">
+  <div class="flex mx-auto rounded-lg overflow-hidden gap-x-14 justify-center">
+    <button id="tab-science" class="tab-btn bg-blue-800 text-white text-xl font-semibold w-[500px] py-4 rounded-lg">Top Science Headlines</button>
+    <button id="tab-illumina" class="tab-btn bg-blue-900 text-white text-xl font-semibold w-[500px] py-4 rounded-lg">Illumina & Genetics News</button>
+  </div>
+</div>
+
 <!-- Filters Section -->
 <form id="filter-form" class="max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-md space-y-4 text-black">
-  <h2 class="text-xl font-semibold">Filter News</h2>
+  <input type="hidden" name="endpoint" id="endpoint" value="science-news" />
 
-  <!-- Endpoint Selection -->
-  <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
-    <label class="flex items-center space-x-2">
-      <input type="radio" name="endpoint" value="science-news" checked />
-      <span class="text-gray-700">Top Science Headlines</span>
-    </label>
-    <label class="flex items-center space-x-2">
-      <input type="radio" name="endpoint" value="everything-news" />
-      <span class="text-gray-700">Illumina News (Company + Genes, DNA, CRISPR)</span>
-    </label>
+  <!-- Science Fields -->
+  <div id="science-fields" class="space-y-2">
+    <input type="text" name="q" placeholder="Keyword (e.g. NASA, brain, AI...)" class="border p-2 rounded w-full text-black" />
   </div>
 
-  <!-- Input Filters -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <input type="text" name="q" placeholder="Keyword (for science headlines)" class="border p-2 rounded text-black science-only" />
-    <!-- <input type="date" name="from" class="border p-2 rounded text-black everything-only hidden" /> -->
-    <select name="sortBy" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
+  <!-- Everything (Illumina) Fields -->
+  <div id="everything-fields" class="everything-only hidden space-y-2">
+    <select name="sortBy" class="border p-2 rounded bg-blue-800 text-white">
       <option value="">Sort By</option>
       <option value="publishedAt">Published At (Date)</option>
       <option value="relevancy">Relevancy</option>
-      <option value="popularity">Popularity</option>
     </select>
-    <!-- <select name="searchIn" class="border p-2 rounded bg-blue-800 text-white everything-only hidden">
-      <option value="">Search In</option>
-      <option value="title">Title</option>
-      <option value="description">Description</option>
-      <option value="content">Content</option>
-      <option value="title,description">Title + Description</option>
-    </select> -->
   </div>
 
   <!-- Buttons -->
@@ -58,6 +49,45 @@ menu: nav/home.html
 <script type="module">
   import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
+  const tabs = {
+    science: {
+      endpoint: "science-news",
+      showScienceFields: true,
+      showEverythingFields: false
+    },
+    illumina: {
+      endpoint: "everything-news",
+      showScienceFields: false,
+      showEverythingFields: true
+    }
+  };
+
+  const tabButtons = {
+    science: document.getElementById("tab-science"),
+    illumina: document.getElementById("tab-illumina")
+  };
+
+  function setTab(tabKey) {
+    const tab = tabs[tabKey];
+    document.getElementById("endpoint").value = tab.endpoint;
+
+    Object.keys(tabButtons).forEach(key => {
+      tabButtons[key].classList.remove("bg-blue-800", "bg-blue-900", "hover:bg-blue-700", "border-b-4");
+      tabButtons[key].classList.add("bg-blue-900", "hover:bg-blue-700"); // unselected = darker
+    });
+
+    tabButtons[tabKey].classList.remove("bg-blue-900");
+    tabButtons[tabKey].classList.add("bg-blue-800", "border-b-4"); // selected = lighter
+    document.getElementById("science-fields").classList.toggle("hidden", !tab.showScienceFields);
+    document.getElementById("everything-fields").classList.toggle("hidden", !tab.showEverythingFields);
+
+    fetchNews({
+      endpoint: tab.endpoint,
+      ...(tabKey === "illumina" ? {} : { q: "" }),
+      pageSize: "10"
+    });
+  }
+
   async function fetchNews(params) {
     const container = document.getElementById("science-news");
     container.innerHTML = "<p>Loading news...</p>";
@@ -66,13 +96,6 @@ menu: nav/home.html
       let endpointPath = "/api/science-news";
       if (params.endpoint === "everything-news") {
         endpointPath = "/api/everything-news";
-      }
-
-      // Always use default page size
-      params.pageSize = "10";
-
-      // Expanded query for everything-news
-      if (params.endpoint === "everything-news") {
         params.q = "Illumina Inc OR genes OR DNA OR genomics OR CRISPR OR biotech";
       }
 
@@ -84,8 +107,6 @@ menu: nav/home.html
       }
 
       const response = await fetch(pythonURI + `${endpointPath}?${queryParams.toString()}`);
-      // const response = await fetch(`http://127.0.0.1:8504${endpointPath}?${queryParams.toString()}`);
-
       if (!response.ok) {
         const errData = await response.json().catch(() => null);
         throw new Error(errData?.error || response.statusText);
@@ -123,7 +144,7 @@ menu: nav/home.html
     }
   }
 
-  // Handle form submit
+  // Form submission
   document.getElementById("filter-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const form = e.target;
@@ -136,52 +157,24 @@ menu: nav/home.html
       }
     }
 
-    params.endpoint = form.querySelector('input[name="endpoint"]:checked').value;
-
+    params.endpoint = document.getElementById("endpoint").value;
     fetchNews(params);
   });
 
-  // Clear filters but keep endpoint
+  // Clear filters
   document.getElementById("clear-button").addEventListener("click", () => {
     const form = document.getElementById("filter-form");
-    Array.from(form.elements).forEach(el => {
-      if (el.name !== "endpoint" && el.type !== "radio") {
-        el.value = "";
-      }
-    });
-
-    const selectedEndpoint = form.querySelector('input[name="endpoint"]:checked').value;
-    showFields(selectedEndpoint);
-
-    fetchNews({
-      endpoint: selectedEndpoint
-    });
+    form.q.value = "";
+    form.sortBy.value = "";
+    fetchNews({ endpoint: document.getElementById("endpoint").value, pageSize: "10" });
   });
 
-  // Toggle filter field visibility
-  function showFields(endpoint) {
-    document.querySelectorAll(".everything-only").forEach(el => {
-      el.classList.toggle("hidden", endpoint !== "everything-news");
-    });
-    document.querySelectorAll(".science-only").forEach(el => {
-      el.classList.toggle("hidden", endpoint !== "science-news");
-    });
-  }
+  // Tab listeners
+  tabButtons.science.addEventListener("click", () => setTab("science"));
+  tabButtons.illumina.addEventListener("click", () => setTab("illumina"));
 
-  // Change filters on endpoint switch
-  document.querySelectorAll('input[name="endpoint"]').forEach(radio => {
-    radio.addEventListener("change", () => {
-      showFields(radio.value);
-    });
-  });
-
-  // On page load
+  // Initial load
   window.addEventListener("DOMContentLoaded", () => {
-    const selected = document.querySelector('input[name="endpoint"]:checked').value;
-    showFields(selected);
-    fetchNews({
-      endpoint: selected,
-      pageSize: "10"
-    });
+    setTab("science");
   });
 </script>
