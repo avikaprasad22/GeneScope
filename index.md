@@ -433,42 +433,6 @@ menu: nav/home.html
   font-size: 1.5em;
 }
 
-button {
-  align-items: center;
-  background-color: transparent;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.5;
-  text-decoration: none;
-  text-transform: uppercase;
-  outline: 0;
-  border: 0;
-  padding: 1rem;
-  margin-top: -50px;
-  margin-left: 20px;
-}
-
-button:before {
-  background-color: #fff;
-  content: "";
-  display: inline-block;
-  height: 1px;
-  margin-right: 10px;
-  transition: all .42s cubic-bezier(.25,.8,.25,1);
-  width: 0;
-}
-
-button:hover:before {
-  width: 3rem;
-}
-button:hover {
-  background-color: transparent !important;
-}
-
 
   </style>
 </head>
@@ -560,9 +524,6 @@ button:hover {
 <!-- ANNIE--->
 
 <div id="pyricmind-container">
-<p id="annie-text" class="text-sm text-white mb-2 mt-16 font-medium">
-    Click the pyramid to speak with Annie
-  </p>
   <div id="loader" class="pyramid-loader">
     <div class="wrapper" id="pyramidWrapper">
       <span class="side side1"></span>
@@ -572,10 +533,9 @@ button:hover {
       <span class="shadow"></span>
     </div>
   </div>
-<!-- From Uiverse.io by portseif --> 
-<button id="stopSpeakingBtn">
-  Pause
-</button>
+  <p>Click the pyramid to speak with ANNIE</p>
+  <button id="stopSpeakingBtn">🛑 Stop Speaking</button>
+
 </div>
 
 

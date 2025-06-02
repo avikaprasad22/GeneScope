@@ -166,7 +166,7 @@ menu: nav/home.html
   <div class="section-documentation">
     <h2>Documentation</h2>
     <p class="content">
-      We document each phase thoroughly, including decisions on tech stack, UI/UX principles, and data sourcing. Planning is tracked through milestones and feedback loops with educators and students. Upcoming improvements include multiplayer functionality, adaptive question difficulty, and expanded gene datasets. For detailed behind-the-scenes updates, visit our <a href="https://avikaprasad22.github.io/illumina_dna/blogs/" target="_blank">Project Blog</a>.
+      We document each phase thoroughly, including decisions on tech stack, UI/UX principles, and data sourcing. Planning is tracked through milestones and feedback loops with educators and students. Upcoming improvements include multiplayer functionality, adaptive question difficulty, and expanded gene datasets. For detailed behind-the-scenes updates, visit our <a href="https://avikaprasad22.github.io/genescope/blogs/" target="_blank">Project Blog</a>.
     </p>
   </div>
 
