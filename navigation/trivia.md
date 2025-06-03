@@ -24,11 +24,6 @@ menu: nav/home.html
         <option value="hard">Hard</option>
       </select>
     </div>
-  <div id="flashcardSection" class="space-y-4">
-    <h3 class="text-xl font-semibold text-blue-800 text-center">🧬 Learn These Genetics Terms First!</h3>
-    <div id="flashcardsContainer" class="flex overflow-x-auto space-x-4 p-2 rounded-xl bg-white shadow-inner">
-    <!-- Flashcards will be injected here -->
-    </div>
   </div>
     <button id="startGameButton"
       class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-md transition duration-300">
