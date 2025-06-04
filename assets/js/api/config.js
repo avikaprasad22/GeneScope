@@ -1,8 +1,8 @@
 export var pythonURI;
 if (location.hostname === "localhost") {
-        pythonURI = "http://localhost:8504";
+        pythonURI = "http://localhost:5329";
 } else if (location.hostname === "127.0.0.1") {
-        pythonURI = "http://127.0.0.1:8504";
+        pythonURI = "http://127.0.0.1:5329";
 } else {
         pythonURI =  "https://genescope.stu.opencodingsociety.com";
 }

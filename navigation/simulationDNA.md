@@ -360,7 +360,7 @@ async function fetchSequence() {
   loaderEl.classList.remove('hidden');
 
   try {
-    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
+    const response = await fetch('http://127.0.0.1:5329/api/sequence', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -414,7 +414,7 @@ const errorEl = document.getElementById("errorEl");
 // Populate dropdown dynamically from backend
 async function populateDropdown() {
   try {
-    const res = await fetch("http://127.0.0.1:8504/api/genes", {
+    const res = await fetch("http://127.0.0.1:5329/api/genes", {
       credentials: 'include'
     });
     const geneList = await res.json();
@@ -459,7 +459,7 @@ async function fetchDropdownSequence() {
   try {
     const [organism, gene] = selected.split('|'); // assuming dropdown value = "Homo sapiens|BRCA1"
 
-    const response = await fetch('http://127.0.0.1:8504/api/sequence', {
+    const response = await fetch('http://127.0.0.1:5329/api/sequence', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

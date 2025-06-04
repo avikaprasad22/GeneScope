@@ -103,7 +103,7 @@ menu: nav/home.html
 </div>
 
 <script>
-  const BACKEND_URL = "http://127.0.0.1:8504";
+  const BACKEND_URL = "http://127.0.0.1:5329";
   let currentQuestionIndex = 0;
   let symptomList = [];
   const userAnswers = {};
