@@ -229,7 +229,7 @@ menu: nav/home.html
 
   async function fetchCareersByBiologyScore(score) {
     try {
-      const response = await fetch(`http://127.0.0.1:5329/api/get_careers?biology_score=${score}`);
+      const response = await fetch(`http://127.0.0.1:8504/api/get_careers?biology_score=${score}`);
       const result = await response.json();
 
       if (result && result.careers && result.careers.length > 0) {

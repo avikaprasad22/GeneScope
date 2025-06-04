@@ -278,7 +278,7 @@ show_reading_time: false
 
 <script>
 // Finalized tutorial with locked steps, button highlighting, and mode-specific logic
-const BACKEND_URL = "http://127.0.0.1:5329/api";
+const BACKEND_URL = "http://127.0.0.1:8504/api";
 let currentGene = "";
 let currentCondition = "";
 let correctSequence = "";

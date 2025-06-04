@@ -215,7 +215,7 @@ menu: nav/home.html
   <div class="grid" id="card-grid"></div>
 
   <script>
-    const API_BASE_URL = "http://127.0.0.1:5329";
+    const API_BASE_URL = "http://127.0.0.1:8504";
     let selectedCards = [];
     let matchedCount = 0;
     let totalPairs = 0;

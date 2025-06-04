@@ -212,7 +212,7 @@ async function getTopCollege() {
   const websiteButton = document.getElementById("college-website-button");
 
   try {
-    const url = `http://127.0.0.1:5329/api/get_colleges?campus_setting=${setting}&college_type=${type}&region=${region}&size=${size}&research=${research}`;
+    const url = `http://127.0.0.1:8504/api/get_colleges?campus_setting=${setting}&college_type=${type}&region=${region}&size=${size}&research=${research}`;
     const res = await fetch(url);
     const data = await res.json();
 

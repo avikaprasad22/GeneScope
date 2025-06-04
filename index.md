@@ -590,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <!-- DNABOT Script -->
 <script>
-const BACKEND_URL = "http://127.0.0.1:5329";
+const BACKEND_URL = "http://127.0.0.1:8504";
 const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const chatContainer = document.getElementById('chat-container');
