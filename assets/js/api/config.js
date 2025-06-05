@@ -4,7 +4,7 @@ if (location.hostname === "localhost") {
 } else if (location.hostname === "127.0.0.1") {
         pythonURI = "http://127.0.0.1:8504";
 } else {
-        pythonURI =  "https://genescope.stu.opencodingsociety.com";
+        pythonURI =  "https://genescope.opencodingsociety.com"; 
 }
 export var javaURI;
 if (location.hostname === "localhost") {
@@ -12,7 +12,7 @@ if (location.hostname === "localhost") {
 } else if (location.hostname === "127.0.0.1") {
         javaURI = "http://127.0.0.1:8085";
 } else {
-        javaURI = "https://spring2025.nighthawkcodingsociety.com";
+        javaURI = "https://genescope.opencodingsociety.com";
 }
 
 export const fetchOptions = {

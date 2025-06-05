@@ -583,7 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(type, speed);
     }
   }
-
+ 
   type();
 });
 </script>
